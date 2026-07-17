@@ -1,10 +1,11 @@
 import { useEffect, useState } from "react";
 import { Menu, MessageCircle, Phone, X } from "lucide-react";
-import { clinic, navLinks, whatsappUrl } from "../data/clinic";
+import { clinic, navLinks } from "../data/clinic";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
   const [open, setOpen] = useState(false);
+  const [whatsappOpen, setWhatsappOpen] = useState(false);
 
   useEffect(() => {
     const onScroll = () => setScrolled(window.scrollY > 32);
@@ -75,16 +76,46 @@ export function Header() {
               >
                 <Phone size={17} strokeWidth={1.75} />
               </a>
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="header-cta group inline-flex items-center gap-2 bg-orange px-4 py-2.5 font-display text-sm font-semibold text-white transition-all hover:bg-orange-dark hover:shadow-[0_6px_20px_rgba(250,128,23,0.35)]"
-              >
-                <MessageCircle size={16} className="transition-transform group-hover:scale-110" />
-                <span className="header-cta-label hidden sm:inline">Agendar cita</span>
-                <span className="sm:hidden">Cita</span>
-              </a>
+              <div className="relative">
+                <button
+                  type="button"
+                  onClick={() => setWhatsappOpen((current) => !current)}
+                  aria-expanded={whatsappOpen}
+                  className="header-cta group inline-flex items-center gap-2 bg-orange px-4 py-2.5 font-display text-sm font-semibold text-white transition-all hover:bg-orange-dark hover:shadow-[0_6px_20px_rgba(250,128,23,0.35)]"
+                >
+                  <MessageCircle size={16} className="transition-transform group-hover:scale-110" />
+                  <span className="header-cta-label hidden sm:inline">Agendar cita</span>
+                  <span className="sm:hidden">Cita</span>
+                </button>
+                {whatsappOpen && (
+                  <div className="absolute right-0 top-full mt-2 w-64 rounded-md border border-ink/10 bg-white p-2 shadow-[0_14px_35px_rgba(28,45,55,0.16)]">
+                    <p className="px-3 pb-2 pt-1 font-mono text-[0.6rem] uppercase tracking-wider text-muted">
+                      Elige un especialista
+                    </p>
+                    {clinic.oftalmologos.map((doctor, index) => (
+                      <a
+                        key={doctor.nombre}
+                        href={`https://wa.me/${doctor.whatsapp}?text=${encodeURIComponent(
+                          `Hola, quisiera agendar una cita con ${doctor.nombre}`,
+                        )}`}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        onClick={() => setWhatsappOpen(false)}
+                        className="flex items-center gap-3 rounded-md px-3 py-2.5 text-left transition-colors hover:bg-paper"
+                      >
+                        <span
+                          className={`h-2.5 w-2.5 rounded-full ${
+                            index === 0 ? "bg-orange" : "bg-teal"
+                          }`}
+                        />
+                        <span className="font-display text-sm font-semibold text-ink">
+                          {doctor.nombre}
+                        </span>
+                      </a>
+                    ))}
+                  </div>
+                )}
+              </div>
             </div>
 
             <button
@@ -92,7 +123,10 @@ export function Header() {
               className="header-icon-btn ml-auto md:ml-0 lg:hidden"
               aria-label={open ? "Cerrar menú" : "Abrir menú"}
               aria-expanded={open}
-              onClick={() => setOpen((v) => !v)}
+              onClick={() => {
+                setOpen((v) => !v);
+                setWhatsappOpen(false);
+              }}
             >
               {open ? <X size={20} /> : <Menu size={20} />}
             </button>
@@ -110,7 +144,7 @@ export function Header() {
       {/* Menú móvil / tablet */}
       <div
         className={`header-mobile mx-auto mt-2 max-w-6xl overflow-hidden transition-all duration-400 lg:hidden ${
-          open ? "header-mobile--open max-h-[420px] opacity-100" : "max-h-0 opacity-0"
+          open ? "header-mobile--open max-h-[560px] opacity-100" : "max-h-0 opacity-0"
         }`}
       >
         <nav
@@ -123,7 +157,10 @@ export function Header() {
                 <a
                   href={link.href}
                   className="block rounded-md border border-transparent px-4 py-3 font-display text-sm font-medium text-ink transition-colors hover:border-blue/20 hover:bg-paper hover:text-blue"
-                  onClick={() => setOpen(false)}
+                  onClick={() => {
+                    setOpen(false);
+                    setWhatsappOpen(false);
+                  }}
                 >
                   {link.label}
                 </a>
@@ -139,16 +176,44 @@ export function Header() {
               <Phone size={16} />
               Llamar
             </a>
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
+            <button
+              type="button"
               className="flex items-center justify-center gap-2 bg-orange px-4 py-3 font-display text-sm font-semibold text-white hover:bg-orange-dark"
-              onClick={() => setOpen(false)}
+              onClick={() => setWhatsappOpen((current) => !current)}
+              aria-expanded={whatsappOpen}
             >
               <MessageCircle size={16} />
               WhatsApp
-            </a>
+            </button>
+            {whatsappOpen && (
+              <div className="grid gap-2 sm:col-span-2 sm:grid-cols-2">
+                {clinic.oftalmologos.map((doctor, index) => (
+                  <a
+                    key={doctor.nombre}
+                    href={`https://wa.me/${doctor.whatsapp}?text=${encodeURIComponent(
+                      `Hola, quisiera agendar una cita con ${doctor.nombre}`,
+                    )}`}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    onClick={() => {
+                      setOpen(false);
+                      setWhatsappOpen(false);
+                    }}
+                    className={`flex items-center justify-center gap-2 border px-4 py-3 font-display text-sm font-semibold ${
+                      index === 0
+                        ? "border-orange/30 bg-orange/8 text-ink"
+                        : "border-teal/30 bg-teal/8 text-ink"
+                    }`}
+                  >
+                    <MessageCircle
+                      size={16}
+                      className={index === 0 ? "text-orange" : "text-teal"}
+                    />
+                    {doctor.nombre}
+                  </a>
+                ))}
+              </div>
+            )}
           </div>
         </nav>
       </div>

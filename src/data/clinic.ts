@@ -24,9 +24,9 @@ export const clinic = {
   whatsapp: "50370681751",
   horarios:
     "Lunes a viernes de 8:00 AM a 6:00 PM\nSábado de 8:00 AM a 2:00 PM",
-  wazeUrl: "https://waze.com/ul/hd42tfpjr3",
+  wazeUrl: "https://www.waze.com/ul?ll=13.70671%2C-89.20171&navigate=yes",
   experiencia:	
-    "Dos oftalmólogos con consultorio en Colonia Médica, San Salvador. Atención en evaluación visual, diagnóstico de catarata, enfermedades de retina y nervio óptico, cirugía refractiva, segmento anterior y procedimientos láser.",
+    "Dos oftalmólogos ubicados en Colonia Médica, San Salvador. Atención en evaluación visual, diagnóstico de catarata, enfermedades de retina y nervio óptico, cirugía refractiva, segmento anterior y procedimientos láser.",
   serviciosIntro:
     "Evaluación visual, diagnóstico especializado y cirugías oftalmológicas con enfoque en catarata, retina, córnea y segmento anterior.",
   redes: {
@@ -76,6 +76,8 @@ export const clinic = {
       redes: {
         facebook: "https://www.facebook.com/p/Dr-Andy-Alvarenga-61550500635458/",
         instagram: "https://www.instagram.com/andy.oftalmologo",
+        tiktok:
+          "https://www.tiktok.com/@oftalmologo.andyal?_r=1&_t=ZS-987Ri3C0TW0",
       },
     },
     {
@@ -119,9 +121,10 @@ export const clinic = {
       whatsapp: "50379893654",
       ubicaciones: ["Edificio Condominio Médico, Local 81, Colonia Médica"],
       redes: {
-        facebook: "https://www.facebook.com/drakarlavides",
+        facebook: "https://www.facebook.com/profile.php?id=61577085250770",
         instagram: "https://www.instagram.com/drakarlavides",
-        tiktok: "https://www.tiktok.com/@dra.karla.vides",
+        tiktok:
+          "https://www.tiktok.com/@dra.karla.vides?_r=1&_t=ZS-987Rs4dZyx2",
         web: "https://medicosdeelsalvador.com",
       },
     },

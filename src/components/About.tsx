@@ -11,6 +11,20 @@ function DoctorInitials({ name }: { name: string }) {
   return initials || "Dr";
 }
 
+function TikTokIcon({ size = 18 }: { size?: number }) {
+  return (
+    <svg
+      width={size}
+      height={size}
+      viewBox="0 0 24 24"
+      fill="currentColor"
+      aria-hidden
+    >
+      <path d="M12.525.02c1.31-.02 2.612-.01 3.912-.02.08 1.53.63 3.09 1.75 4.17 1.12 1.11 2.7 1.62 4.24 1.79v4.03c-1.44-.05-2.89-.35-4.2-.97-.57-.26-1.1-.59-1.62-.93-.01 2.92.01 5.84-.02 8.75-.08 1.4-.54 2.79-1.35 3.94-1.31 1.92-3.58 3.17-5.91 3.21-1.43.08-2.86-.31-4.08-1.03-2.02-1.19-3.44-3.37-3.65-5.72-.02-.5-.03-1-.01-1.49.18-1.9 1.12-3.72 2.58-4.96 1.66-1.44 3.98-2.13 6.15-1.72.02 1.48-.04 2.96-.04 4.44-.99-.32-2.15-.23-3.02.37-.63.41-1.11 1.04-1.36 1.75-.21.51-.15 1.07-.14 1.61.24 1.64 1.82 2.77 3.46 2.62 1.09-.01 2.14-.64 2.7-1.57.18-.32.37-.65.38-1.02.09-1.79.05-3.57.06-5.36.01-4.03-.01-8.05.02-12.07z" />
+    </svg>
+  );
+}
+
 export function About() {
   return (
     <section id="nosotros" className="border-t border-ink/8 bg-white py-16 md:py-28">
@@ -138,6 +152,18 @@ export function About() {
                         className="flex h-10 w-10 items-center justify-center rounded-full border border-orange/25 bg-white/80 text-orange transition-all hover:-translate-y-0.5 hover:border-orange hover:bg-orange hover:text-white"
                       >
                         <Instagram size={18} strokeWidth={1.8} />
+                      </a>
+                    )}
+                    {doc.redes?.tiktok && (
+                      <a
+                        href={doc.redes.tiktok}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`TikTok de ${doc.nombre}`}
+                        title={`TikTok de ${doc.nombre}`}
+                        className="flex h-10 w-10 items-center justify-center rounded-full border border-ink/20 bg-white/80 text-ink transition-all hover:-translate-y-0.5 hover:border-ink hover:bg-ink hover:text-white"
+                      >
+                        <TikTokIcon />
                       </a>
                     )}
                     {doc.whatsapp && (
