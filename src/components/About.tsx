@@ -1,4 +1,4 @@
-import { Facebook, Instagram, MessageCircle } from "lucide-react";
+import { Facebook, Instagram, MessageCircle, Phone } from "lucide-react";
 import { clinic } from "../data/clinic";
 import { Reveal, SectionLabel, SectionTitle } from "./ui/Reveal";
 
@@ -168,6 +168,33 @@ export function About() {
             ))}
           </div>
         </div>
+
+        <Reveal delay={0.12} className="mt-10 md:mt-14">
+          <aside className="relative mx-auto max-w-3xl overflow-hidden rounded-md border border-blue/25 bg-[linear-gradient(135deg,rgba(1,138,182,0.1),rgba(255,255,255,0.94),rgba(45,177,164,0.09))] px-6 py-8 text-center before:absolute before:inset-x-0 before:top-0 before:h-1 before:bg-[linear-gradient(90deg,#018AB6,#2DB1A4,#FA8017)] md:px-12 md:py-10">
+            <div className="mx-auto flex h-11 w-11 items-center justify-center rounded-full bg-blue text-white shadow-[0_6px_18px_rgba(1,138,182,0.2)]">
+              <Phone size={19} />
+            </div>
+            <div className="mx-auto mt-4 max-w-xl">
+              <p className="font-mono text-[0.65rem] uppercase tracking-[0.16em] text-blue">
+                Atención por teléfono
+              </p>
+              <h3 className="mt-2 font-display text-xl font-bold md:text-2xl">
+                Tu próxima consulta comienza con una llamada
+              </h3>
+              <p className="mt-2 text-sm leading-relaxed text-ink-soft md:text-base">
+                Nuestro equipo está listo para orientarte y encontrar el horario más
+                conveniente para tu evaluación visual.
+              </p>
+            </div>
+            <a
+              href="tel:21243333"
+              className="relative mt-5 inline-flex items-center justify-center gap-2 rounded-md border border-blue/30 bg-white/90 px-5 py-3 font-display text-sm font-semibold text-ink transition-all hover:-translate-y-0.5 hover:border-blue hover:shadow-[0_8px_24px_rgba(28,45,55,0.08)]"
+            >
+              <Phone size={17} className="text-blue" />
+              Llamar al 2124-3333
+            </a>
+          </aside>
+        </Reveal>
       </div>
     </section>
   );
