@@ -55,15 +55,28 @@ export function Footer() {
             <ul className="mt-4 space-y-2 text-sm text-ink-soft">
               <li>
                 <a href="tel:21243333" className="hover:text-blue">
-                  {clinic.telefono}
+                  Teléfono del consultorio: {clinic.telefono}
                 </a>
               </li>
               <li>
                 <a href={whatsappUrl} className="hover:text-blue">
-                  WhatsApp: 7068-1751
+                  WhatsApp Dr. Andy Alvarenga: 7068-1751
                 </a>
               </li>
-              <li>Colonia Médica, Local 81</li>
+              <li>
+                <a
+                  href="https://wa.me/50379893654?text=Hola%2C%20quisiera%20agendar%20una%20cita%20con%20la%20Dra.%20Karla%20Vides"
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="hover:text-blue"
+                >
+                  WhatsApp Dra. Karla Vides: 7989-3654
+                </a>
+              </li>
+              <li className="max-w-sm pt-1 leading-relaxed">
+                <span className="font-semibold text-ink">Dirección:</span>{" "}
+                {clinic.direccion}
+              </li>
             </ul>
           </div>
         </div>
