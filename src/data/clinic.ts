@@ -23,6 +23,7 @@ export const clinic = {
   direccionSecundaria:
     "Prolongación Boulevard Tutunichapa y 1a Diagonal, Condominio Médico, Local 22, Colonia Médica, San Salvador",
   telefono: "2124-3333",
+  telefonoAlterno: "2235-2464",
   whatsapp: "50370681751",
   horarios:
     "Lunes a viernes de 8:00 AM a 6:00 PM\nSábado de 8:00 AM a 2:00 PM",

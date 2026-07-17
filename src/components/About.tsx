@@ -28,7 +28,7 @@ export function About() {
 
         <div className="mt-10 grid gap-6 md:mt-14 md:gap-10 lg:grid-cols-[0.85fr_1.15fr]">
           <Reveal delay={0.05}>
-            <article className="h-full border-l-4 border-teal bg-paper p-6 md:p-10">
+            <article className="about-info-card about-info-card--mission h-full border-l-4 border-teal bg-paper p-6 md:p-10">
               <h3 className="font-display text-xl font-bold text-ink">
                 Nuestra misión
               </h3>
@@ -49,7 +49,13 @@ export function About() {
           <div className="grid gap-5">
             {clinic.oftalmologos.map((doc, i) => (
               <Reveal key={doc.nombre} delay={0.08 * (i + 1)}>
-                <article className="group border border-ink/8 bg-paper p-5 transition-colors hover:border-blue/30 md:p-8">
+                <article
+                  className={`about-info-card group border border-ink/8 bg-paper p-5 transition-colors hover:border-blue/30 md:p-8 ${
+                    i === 0
+                      ? "about-info-card--retina"
+                      : "about-info-card--cornea"
+                  }`}
+                >
                   <div className="flex gap-4 sm:gap-5">
                     <div
                       className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-ink font-display text-lg font-bold text-paper sm:h-16 sm:w-16 sm:text-xl"
