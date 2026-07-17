@@ -2,15 +2,6 @@ import { Facebook, Instagram, MessageCircle, Phone } from "lucide-react";
 import { clinic } from "../data/clinic";
 import { Reveal, SectionLabel, SectionTitle } from "./ui/Reveal";
 
-function DoctorInitials({ name }: { name: string }) {
-  const parts = name.replace(/^(Dr\.|Dra\.)\s*/i, "").split(" ");
-  const initials = parts
-    .slice(0, 2)
-    .map((part) => part.charAt(0))
-    .join("");
-  return initials || "Dr";
-}
-
 function TikTokIcon({ size = 18 }: { size?: number }) {
   return (
     <svg
@@ -41,53 +32,66 @@ export function About() {
           </p>
         </Reveal>
 
-        <div className="mt-10 grid gap-6 md:mt-14 md:gap-10 lg:grid-cols-[0.85fr_1.15fr]">
+        <div className="mt-10 space-y-8 md:mt-14 md:space-y-10">
           <Reveal delay={0.05}>
-            <article className="about-info-card about-info-card--mission h-full border-l-4 border-teal bg-paper p-6 md:p-10">
-              <h3 className="font-display text-xl font-bold text-ink">
-                Nuestra misión
-              </h3>
-              <p className="mt-4 text-ink-soft">
-                Preservar y mejorar la salud visual mediante diagnósticos precisos,
-                tratamientos basados en evidencia y acompañamiento en cada consulta.
-              </p>
-              <h3 className="mt-8 font-display text-xl font-bold text-ink">
-                Experiencia
-              </h3>
-              <p className="mt-4 text-ink-soft">{clinic.experiencia}</p>
-              <p className="mt-4 text-sm text-muted">
-                Consultorios en Edificio Condominio Médico, Local 81, Colonia Médica.
-              </p>
+            <article className="about-info-card about-info-card--mission grid gap-7 border-l-4 border-teal bg-paper p-6 md:grid-cols-2 md:gap-12 md:p-9">
+              <div>
+                <h3 className="font-display text-xl font-bold text-ink">
+                  Nuestra misión
+                </h3>
+                <p className="mt-3 text-ink-soft">
+                  Preservar y mejorar la salud visual mediante diagnósticos precisos,
+                  tratamientos basados en evidencia y acompañamiento en cada consulta.
+                </p>
+              </div>
+              <div>
+                <h3 className="font-display text-xl font-bold text-ink">
+                  Experiencia
+                </h3>
+                <p className="mt-3 text-ink-soft">{clinic.experiencia}</p>
+                <p className="mt-3 text-sm text-muted">
+                  Edificio Condominio Médico, Local 81, Colonia Médica.
+                </p>
+              </div>
             </article>
           </Reveal>
 
-          <div className="grid gap-5">
+          <div className="grid gap-6 lg:grid-cols-2 lg:items-start">
             {clinic.oftalmologos.map((doc, i) => (
               <Reveal key={doc.nombre} delay={0.08 * (i + 1)}>
                 <article
-                  className={`about-info-card group border border-ink/8 bg-paper p-5 transition-colors hover:border-blue/30 md:p-8 ${
+                  className={`about-info-card group border border-ink/8 bg-paper transition-colors hover:border-blue/30 ${
                     i === 0
                       ? "about-info-card--retina"
                       : "about-info-card--cornea"
                   }`}
                 >
-                  <div className="flex gap-4 sm:gap-5">
+                  <div className="relative h-[27rem] overflow-hidden bg-blue/10 sm:h-[32rem] lg:h-[34rem]">
+                    <img
+                      src={doc.foto}
+                      alt={`Retrato de ${doc.nombre}`}
+                      className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.015]"
+                      loading="lazy"
+                    />
                     <div
-                      className="flex h-14 w-14 shrink-0 items-center justify-center rounded-full bg-ink font-display text-lg font-bold text-paper sm:h-16 sm:w-16 sm:text-xl"
+                      className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-ink/25 to-transparent"
                       aria-hidden
-                    >
-                      <DoctorInitials name={doc.nombre} />
-                    </div>
-                    <div className="min-w-0 flex-1">
-                      <h4 className="font-display text-xl font-bold text-ink">
+                    />
+                    <p className="absolute bottom-4 left-5 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-white">
+                      Especialistas Novavision
+                    </p>
+                  </div>
+
+                  <div className="p-5 md:p-7">
+                    <div>
+                      <h4 className="font-display text-2xl font-bold text-ink">
                         {doc.nombre}
                       </h4>
                       <p className="mt-1 font-mono text-[0.68rem] uppercase tracking-wider text-blue">
                         {doc.especialidad}
                       </p>
-                      <p className="mt-3 text-ink-soft">{doc.descripcion}</p>
+                      <p className="mt-4 leading-relaxed text-ink-soft">{doc.descripcion}</p>
                     </div>
-                  </div>
 
                   <div className="mt-5 border-t border-ink/8 pt-5">
                     <p className="font-mono text-[0.65rem] uppercase tracking-wider text-muted">
@@ -189,6 +193,7 @@ export function About() {
                       ))}
                     </div>
                   )}
+                  </div>
                 </article>
               </Reveal>
             ))}

@@ -2,6 +2,7 @@ export type Doctor = {
   nombre: string;
   especialidad: string;
   descripcion: string;
+  foto: string;
   servicios: string[];
   serviciosGrupos?: { titulo: string; items: string[] }[];
   telefonos: string[];
@@ -37,6 +38,7 @@ export const clinic = {
     {
       nombre: "Dr. Andy Alvarenga",
       especialidad: "Oftalmólogo · Retinólogo",
+      foto: "/Andy.png",
       descripcion:
         "Oftalmólogo con consultorio en Colonia Médica, San Salvador. Especializado en cirugías de retina, catarata y procedimientos oftalmológicos, además de graduación de lentes monofocales y progresivos.",
       servicios: [
@@ -83,6 +85,7 @@ export const clinic = {
     {
       nombre: "Dra. Karla Vides",
       especialidad: "Oftalmóloga · Segmento anterior",
+      foto: "/Karla Vides.png",
       descripcion:
         "Oftalmóloga especialista en segmento anterior, con experiencia en cirugía de catarata, cirugía refractiva, tratamiento de queratocono y enfermedades de la córnea y superficie ocular. Promueve el chequeo visual anual como prevención.",
       servicios: [
