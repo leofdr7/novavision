@@ -1,3 +1,4 @@
+import { Facebook, Instagram, MessageCircle } from "lucide-react";
 import { clinic } from "../data/clinic";
 import { Reveal, SectionLabel, SectionTitle } from "./ui/Reveal";
 
@@ -114,24 +115,41 @@ export function About() {
                     )}
                   </div>
 
-                  <div className="mt-5 flex flex-wrap gap-x-4 gap-y-2 text-sm">
-                    {doc.telefonos.map((tel) => (
+                  <div className="mt-5 flex items-center gap-2 border-t border-ink/8 pt-5">
+                    {doc.redes?.facebook && (
                       <a
-                        key={tel}
-                        href={`tel:${tel.replace(/\D/g, "")}`}
-                        className="font-medium text-blue hover:text-ink"
+                        href={doc.redes.facebook}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Facebook de ${doc.nombre}`}
+                        title={`Facebook de ${doc.nombre}`}
+                        className="flex h-10 w-10 items-center justify-center rounded-full border border-blue/20 bg-white/80 text-blue transition-all hover:-translate-y-0.5 hover:border-blue hover:bg-blue hover:text-white"
                       >
-                        {tel}
+                        <Facebook size={18} strokeWidth={1.8} />
                       </a>
-                    ))}
+                    )}
+                    {doc.redes?.instagram && (
+                      <a
+                        href={doc.redes.instagram}
+                        target="_blank"
+                        rel="noopener noreferrer"
+                        aria-label={`Instagram de ${doc.nombre}`}
+                        title={`Instagram de ${doc.nombre}`}
+                        className="flex h-10 w-10 items-center justify-center rounded-full border border-orange/25 bg-white/80 text-orange transition-all hover:-translate-y-0.5 hover:border-orange hover:bg-orange hover:text-white"
+                      >
+                        <Instagram size={18} strokeWidth={1.8} />
+                      </a>
+                    )}
                     {doc.whatsapp && (
                       <a
                         href={`https://wa.me/${doc.whatsapp}?text=${encodeURIComponent("Hola, quisiera agendar una cita")}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="font-medium text-orange hover:text-orange-dark"
+                        aria-label={`Agendar cita por WhatsApp con ${doc.nombre}`}
+                        title={`WhatsApp de ${doc.nombre}`}
+                        className="flex h-10 w-10 items-center justify-center rounded-full border border-teal/25 bg-white/80 text-teal-dark transition-all hover:-translate-y-0.5 hover:border-teal hover:bg-teal hover:text-white"
                       >
-                        WhatsApp
+                        <MessageCircle size={19} strokeWidth={1.8} />
                       </a>
                     )}
                   </div>

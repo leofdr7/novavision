@@ -5,7 +5,7 @@ import {
   useScroll,
   useTransform,
 } from "framer-motion";
-import { clinic, wazeUrl, whatsappUrl } from "../data/clinic";
+import { clinic, wazeUrl } from "../data/clinic";
 import { Reveal } from "./ui/Reveal";
 
 function HeroBackground() {
@@ -118,6 +118,14 @@ function EyeChartVisual() {
 }
 
 export function Hero() {
+  const appointmentLinks = clinic.oftalmologos.map((doctor) => ({
+    name: doctor.nombre.replace(/^(Dr\.|Dra\.)\s*/i, ""),
+    title: doctor.nombre.startsWith("Dra.") ? "Dra." : "Dr.",
+    href: `https://wa.me/${doctor.whatsapp}?text=${encodeURIComponent(
+      `Hola, quisiera agendar una cita con ${doctor.nombre}`,
+    )}`,
+  }));
+
   return (
     <section
       id="inicio"
@@ -151,15 +159,41 @@ export function Hero() {
           </p>
 
           <div className="mt-8 grid gap-3 sm:flex sm:flex-wrap">
-            <a
-              href={whatsappUrl}
-              target="_blank"
-              rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-md bg-orange px-6 py-3.5 font-display text-sm font-semibold text-white transition-colors hover:bg-orange-dark"
-            >
-              <MessageCircle size={18} />
-              Agendar cita
-            </a>
+            <div className="grid grid-cols-2 gap-2">
+              {appointmentLinks.map((doctor, index) => (
+                <a
+                  key={doctor.name}
+                  href={doctor.href}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className={`group relative flex min-w-0 items-center gap-2.5 overflow-hidden rounded-md border px-3 py-3 text-left transition-all before:absolute before:inset-x-0 before:top-0 before:h-0.5 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(28,45,55,0.08)] sm:min-w-44 sm:px-4 ${
+                    index === 0
+                      ? "border-orange/30 bg-[linear-gradient(135deg,rgba(250,128,23,0.13),rgba(255,255,255,0.88))] before:bg-orange hover:border-orange/60"
+                      : "border-teal/30 bg-[linear-gradient(135deg,rgba(45,177,164,0.14),rgba(255,255,255,0.88))] before:bg-teal hover:border-teal/60"
+                  }`}
+                >
+                  <span
+                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white ${
+                      index === 0 ? "bg-orange" : "bg-teal"
+                    }`}
+                  >
+                    <MessageCircle size={16} />
+                  </span>
+                  <span className="min-w-0">
+                    <span className="block font-mono text-[0.55rem] uppercase tracking-wider text-muted">
+                      Agendar cita
+                    </span>
+                    <span className="mt-0.5 block truncate font-display text-xs font-bold text-ink sm:text-sm">
+                      {doctor.title} {doctor.name.split(" ").at(-1)}
+                    </span>
+                  </span>
+                  <ArrowUpRight
+                    size={14}
+                    className="ml-auto hidden shrink-0 text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 sm:block"
+                  />
+                </a>
+              ))}
+            </div>
             <a
               href="#servicios"
               className="inline-flex items-center justify-center gap-2 rounded-md border border-ink/15 bg-white/90 px-6 py-3.5 font-display text-sm font-semibold text-ink transition-colors hover:border-blue hover:text-blue"

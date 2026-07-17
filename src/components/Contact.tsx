@@ -26,9 +26,6 @@ export function Contact() {
                   value: clinic.direccion,
                   extra: (
                     <>
-                      <p className="mt-2 text-sm text-paper/60">
-                        También: {clinic.direccionSecundaria}
-                      </p>
                       <a
                         href={wazeUrl}
                         target="_blank"

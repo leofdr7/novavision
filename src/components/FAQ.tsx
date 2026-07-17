@@ -1,6 +1,6 @@
 import * as Accordion from "@radix-ui/react-accordion";
-import { ChevronDown, MessageCircle } from "lucide-react";
-import { faqs, whatsappUrl } from "../data/clinic";
+import { ChevronDown } from "lucide-react";
+import { faqs } from "../data/clinic";
 import { Reveal, SectionLabel, SectionTitle } from "./ui/Reveal";
 
 export function FAQ() {
@@ -15,24 +15,6 @@ export function FAQ() {
               Información útil antes de tu visita. Si tienes otra duda, escríbenos
               directamente.
             </p>
-
-            <div className="mt-7 border border-ink/10 bg-paper p-5 md:mt-8 md:p-8">
-              <p className="font-display text-lg font-bold text-ink">
-                ¿Lista tu consulta?
-              </p>
-              <p className="mt-2 text-sm text-ink-soft">
-                Agenda en minutos por WhatsApp.
-              </p>
-              <a
-                href={whatsappUrl}
-                target="_blank"
-                rel="noopener noreferrer"
-                className="mt-5 inline-flex items-center gap-2 rounded-md bg-orange px-5 py-2.5 font-display text-sm font-semibold text-white hover:bg-orange-dark"
-              >
-                <MessageCircle size={16} />
-                Escribir ahora
-              </a>
-            </div>
           </Reveal>
 
           <Reveal delay={0.1}>

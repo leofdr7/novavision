@@ -20,14 +20,11 @@ export const clinic = {
   logo: "/logo.png",
   direccion:
     "Prolongación Boulevard Tutunichapa y 1.ª Diagonal Dr. Arturo Romero, Edificio Condominio Médico #328, piso 8, local 81, Colonia Médica, San Salvador",
-  direccionSecundaria:
-    "Prolongación Boulevard Tutunichapa y 1a Diagonal, Condominio Médico, Local 22, Colonia Médica, San Salvador",
   telefono: "2124-3333",
   whatsapp: "50370681751",
   horarios:
     "Lunes a viernes de 8:00 AM a 6:00 PM\nSábado de 8:00 AM a 2:00 PM",
-  ubicacionWaze:
-    "Edificio Condominio Médico #328, 1a Diagonal Dr. Arturo Romero, San Salvador, El Salvador",
+  wazeUrl: "https://waze.com/ul/hd42tfpjr3",
   experiencia:	
     "Dos oftalmólogos con consultorio en Colonia Médica, San Salvador. Atención en evaluación visual, diagnóstico de catarata, enfermedades de retina y nervio óptico, cirugía refractiva, segmento anterior y procedimientos láser.",
   serviciosIntro:
@@ -39,7 +36,7 @@ export const clinic = {
   oftalmologos: [
     {
       nombre: "Dr. Andy Alvarenga",
-      especialidad: "Oftalmólogo",
+      especialidad: "Oftalmólogo · Retinólogo",
       descripcion:
         "Oftalmólogo con consultorio en Colonia Médica, San Salvador. Especializado en cirugías de retina, catarata y procedimientos oftalmológicos, además de graduación de lentes monofocales y progresivos.",
       servicios: [
@@ -61,6 +58,7 @@ export const clinic = {
             "Cirugía de catarata por facoemulsificación sin puntos",
             "Cirugía de pterigión (carnosidad)",
             "Cirugía de chalazión",
+            "Chequeo visual anual",
           ],
         },
         {
@@ -75,6 +73,10 @@ export const clinic = {
       ubicaciones: [
         "Edificio Condominio Médico, Local 81, Colonia Médica"
       ],
+      redes: {
+        facebook: "https://www.facebook.com/p/Dr-Andy-Alvarenga-61550500635458/",
+        instagram: "https://www.instagram.com/andy.oftalmologo",
+      },
     },
     {
       nombre: "Dra. Karla Vides",
@@ -90,11 +92,34 @@ export const clinic = {
         "Cirugía facorrefractiva",
         "Láser para glaucoma y lente intraocular",
         "Chequeo visual anual",
+        "Graduación de lentes monofocales y progresivos, con amplia variedad de aros",
+      ],
+      serviciosGrupos: [
+        {
+          titulo: "Cirugía y tratamientos",
+          items: [
+            "Cirugía de catarata",
+            "Cirugía refractiva con láser",
+            "Crosslinking para queratocono",
+            "Cirugía para miopes altos con lentes fáquicos",
+            "Cirugía de pterigión con autoinjerto",
+            "Cirugía facorrefractiva",
+            "Láser para glaucoma y lente intraocular",
+            "Chequeo visual anual",
+          ],
+        },
+        {
+          titulo: "Óptica",
+          items: [
+            "Graduación de lentes monofocales y progresivos, con amplia variedad de aros",
+          ],
+        },
       ],
       telefonos: ["2124-3333"],
       whatsapp: "50379893654",
       ubicaciones: ["Edificio Condominio Médico, Local 81, Colonia Médica"],
       redes: {
+        facebook: "https://www.facebook.com/drakarlavides",
         instagram: "https://www.instagram.com/drakarlavides",
         tiktok: "https://www.tiktok.com/@dra.karla.vides",
         web: "https://medicosdeelsalvador.com",
@@ -158,8 +183,8 @@ export const faqs = [
     respuesta: `Llama al ${clinic.telefono}, o escribe por WhatsApp al 7068-1751 (Dr. Alvarenga) o 7989-3654 (Dra. Vides).`,
   },
   {
-    pregunta: "¿Dónde están ubicados los consultorios?",
-    respuesta: `Atendemos en Colonia Médica, San Salvador: ${clinic.direccion}. El Dr. Andy Alvarenga también atiende en ${clinic.direccionSecundaria}.`,
+    pregunta: "¿Dónde está ubicado el consultorio?",
+    respuesta: `Atendemos en Colonia Médica, San Salvador: ${clinic.direccion}.`,
   },
 ];
 
@@ -172,4 +197,4 @@ export const navLinks = [
 
 export const whatsappUrl = `https://wa.me/${clinic.whatsapp}?text=${encodeURIComponent("Hola, quisiera agendar una cita")}`;
 
-export const wazeUrl = `https://waze.com/ul?q=${encodeURIComponent(clinic.ubicacionWaze)}&navigate=yes`;
+export const wazeUrl = clinic.wazeUrl;
