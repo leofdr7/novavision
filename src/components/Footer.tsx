@@ -13,24 +13,6 @@ export function Footer() {
               Dr. Andy Alvarenga y Dra. Karla Vides — oftalmología en Colonia Médica,
               San Salvador.
             </p>
-            <div className="mt-5 flex gap-3">
-              {[
-                { href: clinic.redes.facebook, label: "Facebook", letter: "f" },
-                { href: clinic.redes.instagram, label: "Instagram", letter: "ig" },
-                { href: whatsappUrl, label: "WhatsApp", letter: "wa" },
-              ].map((s) => (
-                <a
-                  key={s.label}
-                  href={s.href}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  aria-label={s.label}
-                  className="flex h-10 w-10 items-center justify-center border border-ink/10 bg-white font-mono text-xs font-medium text-ink transition-colors hover:border-blue hover:text-blue"
-                >
-                  {s.letter}
-                </a>
-              ))}
-            </div>
           </div>
 
           <div>

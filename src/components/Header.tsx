@@ -51,7 +51,7 @@ export function Header() {
       }`}
     >
       <div
-        className={`header-bar mx-auto max-w-6xl overflow-hidden ${
+        className={`header-bar mx-auto max-w-6xl ${
           scrolled
             ? "header-bar--scrolled shadow-[0_12px_40px_rgba(28,45,55,0.12)]"
             : "shadow-[0_8px_32px_rgba(28,45,55,0.08)]"
@@ -111,7 +111,7 @@ export function Header() {
                   <span className="sm:hidden">Cita</span>
                 </button>
                 {whatsappOpen && (
-                  <div className="absolute right-0 top-full mt-2 w-64 rounded-md border border-ink/10 bg-white p-2 shadow-[0_14px_35px_rgba(28,45,55,0.16)]">
+                  <div className="absolute right-0 top-full z-[80] mt-2 w-64 rounded-md border border-ink/10 bg-white p-2 shadow-[0_14px_35px_rgba(28,45,55,0.16)]">
                     <p className="px-3 pb-2 pt-1 font-mono text-[0.6rem] uppercase tracking-wider text-muted">
                       Elige un especialista
                     </p>
