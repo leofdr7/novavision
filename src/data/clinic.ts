@@ -91,7 +91,7 @@ export const clinic = {
         "Láser para glaucoma y lente intraocular",
         "Chequeo visual anual",
       ],
-      telefonos: ["2124-3333", "7989-3654"],
+      telefonos: ["2124-3333"],
       whatsapp: "50379893654",
       ubicaciones: ["Edificio Condominio Médico, Local 81, Colonia Médica"],
       redes: {

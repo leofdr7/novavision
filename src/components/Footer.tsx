@@ -59,11 +59,6 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href="tel:22352464" className="hover:text-blue">
-                  {clinic.telefonoAlterno}
-                </a>
-              </li>
-              <li>
                 <a href={whatsappUrl} className="hover:text-blue">
                   WhatsApp: 7068-1751
                 </a>

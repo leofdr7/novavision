@@ -72,14 +72,11 @@ export function Contact() {
                 },
                 {
                   icon: Phone,
-                  label: "Teléfonos",
+                  label: "Teléfono",
                   value: (
-                    <span className="space-y-1">
+                    <span>
                       <a href="tel:21243333" className="block text-paper hover:text-orange">
                         {clinic.telefono}
-                      </a>
-                      <a href="tel:22352464" className="block text-paper hover:text-orange">
-                        {clinic.telefonoAlterno}
                       </a>
                     </span>
                   ),
