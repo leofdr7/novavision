@@ -166,12 +166,13 @@ export function Header() {
 
       {/* Menú móvil / tablet */}
       <div
-        className={`header-mobile mx-auto mt-2 max-w-6xl overflow-hidden transition-all duration-400 lg:hidden ${
-          open ? "header-mobile--open max-h-[560px] opacity-100" : "max-h-0 opacity-0"
+        className={`header-mobile mx-auto mt-2 max-w-6xl overflow-hidden lg:hidden ${
+          open ? "header-mobile--open" : ""
         }`}
+        aria-hidden={!open}
       >
         <nav
-          className="border border-ink/8 bg-white/98 p-4 backdrop-blur-md"
+          className="border border-ink/8 bg-white p-4"
           aria-label="Menú móvil"
         >
           <ul className="grid gap-1 sm:grid-cols-2">

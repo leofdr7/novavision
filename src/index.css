@@ -378,14 +378,37 @@
 }
 
 .header-mobile {
-  transition: max-height 0.4s ease, opacity 0.35s ease;
+  position: absolute;
+  top: 100%;
+  right: 1rem;
+  left: 1rem;
+  visibility: hidden;
+  pointer-events: none;
+  opacity: 0;
+  transform: translate3d(0, -8px, 0) scale(0.985);
+  transform-origin: top center;
+  transition:
+    opacity 0.18s ease,
+    transform 0.22s cubic-bezier(0.22, 1, 0.36, 1),
+    visibility 0s linear 0.22s;
+  will-change: transform, opacity;
 }
 
 .header-mobile--open {
+  visibility: visible;
+  pointer-events: auto;
+  opacity: 1;
+  transform: translate3d(0, 0, 0) scale(1);
   border-radius: 12px;
+  transition-delay: 0s;
 }
 
 @media (min-width: 768px) {
+  .header-mobile {
+    right: 1.5rem;
+    left: 1.5rem;
+  }
+
   .header-layout {
     grid-template-columns: minmax(300px, 46%) auto;
   }
@@ -491,7 +514,9 @@
   .header-logo-image,
   .header-brand-name,
   .header-navigation,
-  .header-cta {
+  .header-cta,
+  .header-mobile {
     transition: none;
+    will-change: auto;
   }
 }
