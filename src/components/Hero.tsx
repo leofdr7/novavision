@@ -1,89 +1,15 @@
 import { ArrowUpRight, MessageCircle, Navigation } from "lucide-react";
 import {
   motion,
-  useMotionValue,
   useReducedMotion,
   useScroll,
-  useSpring,
   useTransform,
 } from "framer-motion";
-import { useEffect } from "react";
 import { clinic, wazeUrl, whatsappUrl } from "../data/clinic";
 import { Reveal } from "./ui/Reveal";
 
-function clamp(value: number) {
-  return Math.max(-1, Math.min(1, value));
-}
-
-function useInteractiveMotion() {
+function HeroBackground() {
   const reduce = useReducedMotion();
-  const rawX = useMotionValue(0);
-  const rawY = useMotionValue(0);
-  const x = useSpring(rawX, { stiffness: 70, damping: 20, mass: 0.35 });
-  const y = useSpring(rawY, { stiffness: 70, damping: 20, mass: 0.35 });
-
-  useEffect(() => {
-    if (reduce) return;
-
-    const update = (clientX: number, clientY: number) => {
-      rawX.set(clamp((clientX / window.innerWidth - 0.5) * 2));
-      rawY.set(clamp((clientY / window.innerHeight - 0.5) * 2));
-    };
-
-    const onPointerMove = (event: PointerEvent) => {
-      update(event.clientX, event.clientY);
-    };
-
-    const onTouchMove = (event: TouchEvent) => {
-      const touch = event.touches[0];
-      if (touch) update(touch.clientX, touch.clientY);
-    };
-
-    const onOrientation = (event: DeviceOrientationEvent) => {
-      if (event.gamma == null || event.beta == null) return;
-      rawX.set(clamp(event.gamma / 35));
-      rawY.set(clamp((event.beta - 45) / 45));
-    };
-
-    const reset = () => {
-      rawX.set(0);
-      rawY.set(0);
-    };
-
-    window.addEventListener("pointermove", onPointerMove, { passive: true });
-    window.addEventListener("touchmove", onTouchMove, { passive: true });
-    window.addEventListener("touchend", reset, { passive: true });
-    window.addEventListener("deviceorientation", onOrientation, { passive: true });
-    document.addEventListener("mouseleave", reset);
-
-    return () => {
-      window.removeEventListener("pointermove", onPointerMove);
-      window.removeEventListener("touchmove", onTouchMove);
-      window.removeEventListener("touchend", reset);
-      window.removeEventListener("deviceorientation", onOrientation);
-      document.removeEventListener("mouseleave", reset);
-    };
-  }, [rawX, rawY, reduce]);
-
-  return {
-    reduce,
-    farX: useTransform(x, [-1, 1], [-8, 8]),
-    farY: useTransform(y, [-1, 1], [-6, 6]),
-    midX: useTransform(x, [-1, 1], [-16, 16]),
-    midY: useTransform(y, [-1, 1], [-12, 12]),
-    nearX: useTransform(x, [-1, 1], [-26, 26]),
-    nearY: useTransform(y, [-1, 1], [-18, 18]),
-    cardX: useTransform(x, [-1, 1], [-5, 5]),
-    cardY: useTransform(y, [-1, 1], [-4, 4]),
-    cardRotateX: useTransform(y, [-1, 1], [2.2, -2.2]),
-    cardRotateY: useTransform(x, [-1, 1], [-2.8, 2.8]),
-  };
-}
-
-type InteractiveMotion = ReturnType<typeof useInteractiveMotion>;
-
-function HeroBackground({ interaction }: { interaction: InteractiveMotion }) {
-  const { reduce } = interaction;
   const { scrollY } = useScroll();
   const gridPosition = useTransform(scrollY, [0, 900], ["0px 0px", "0px 64px"]);
   const ringOneY = useTransform(scrollY, [0, 900], [0, 105]);
@@ -97,10 +23,7 @@ function HeroBackground({ interaction }: { interaction: InteractiveMotion }) {
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
       <div className="hero-bg-gradient" />
-      <motion.div
-        className="absolute inset-0"
-        style={reduce ? undefined : { x: interaction.farX, y: interaction.farY }}
-      >
+      <div className="absolute inset-0">
         <motion.div
           className="hero-bg-grid"
           style={reduce ? undefined : { backgroundPosition: gridPosition }}
@@ -109,12 +32,9 @@ function HeroBackground({ interaction }: { interaction: InteractiveMotion }) {
           className="hero-bg-ring hero-bg-ring--1"
           style={reduce ? undefined : { y: ringOneY }}
         />
-      </motion.div>
+      </div>
 
-      <motion.div
-        className="absolute inset-0"
-        style={reduce ? undefined : { x: interaction.midX, y: interaction.midY }}
-      >
+      <div className="absolute inset-0">
         <motion.div
           className="hero-bg-ring hero-bg-ring--2"
           style={reduce ? undefined : { y: ringTwoY }}
@@ -131,12 +51,9 @@ function HeroBackground({ interaction }: { interaction: InteractiveMotion }) {
           className="hero-bg-blob hero-bg-blob--orange"
           style={reduce ? undefined : { y: orangeY }}
         />
-      </motion.div>
+      </div>
 
-      <motion.div
-        className="absolute inset-0"
-        style={reduce ? undefined : { x: interaction.nearX, y: interaction.nearY }}
-      >
+      <div className="absolute inset-0">
         <motion.div
           className="hero-bg-ring hero-bg-ring--3"
           style={reduce ? undefined : { y: ringThreeY }}
@@ -152,12 +69,12 @@ function HeroBackground({ interaction }: { interaction: InteractiveMotion }) {
           <line x1="100" y1="20" x2="100" y2="180" stroke="#1C2D37" strokeOpacity="0.06" />
           <line x1="20" y1="100" x2="180" y2="100" stroke="#1C2D37" strokeOpacity="0.06" />
         </motion.svg>
-      </motion.div>
+      </div>
     </div>
   );
 }
 
-function EyeChartVisual({ interaction }: { interaction: InteractiveMotion }) {
+function EyeChartVisual() {
   const reduce = useReducedMotion();
   const rows = [
     { letter: "E", size: "text-6xl md:text-7xl", opacity: "opacity-90" },
@@ -170,17 +87,6 @@ function EyeChartVisual({ interaction }: { interaction: InteractiveMotion }) {
   return (
     <motion.div
       className="relative flex aspect-[5/4] w-full max-w-sm flex-col items-center justify-center border border-ink/10 bg-white/80 p-5 shadow-[0_20px_60px_rgba(28,45,55,0.08)] backdrop-blur-sm sm:aspect-[4/5] sm:max-w-xs sm:p-8 md:max-w-md md:p-10"
-      style={
-        interaction.reduce
-          ? undefined
-          : {
-              x: interaction.cardX,
-              y: interaction.cardY,
-              rotateX: interaction.cardRotateX,
-              rotateY: interaction.cardRotateY,
-              transformPerspective: 900,
-            }
-      }
     >
       <div className="absolute inset-3 border border-ink/5" aria-hidden />
       <p className="absolute left-4 top-4 font-mono text-[0.65rem] uppercase tracking-widest text-muted">
@@ -212,14 +118,12 @@ function EyeChartVisual({ interaction }: { interaction: InteractiveMotion }) {
 }
 
 export function Hero() {
-  const interaction = useInteractiveMotion();
-
   return (
     <section
       id="inicio"
       className="snellen-bg relative overflow-hidden pt-[5.5rem] md:pt-[9.5rem]"
     >
-      <HeroBackground interaction={interaction} />
+      <HeroBackground />
 
       <div className="relative z-[1] mx-auto grid max-w-6xl gap-10 px-5 py-10 sm:py-14 md:grid-cols-[1.1fr_0.9fr] md:items-center md:gap-16 md:px-8 md:py-24 lg:py-28">
         <Reveal>
@@ -311,7 +215,7 @@ export function Hero() {
         </Reveal>
 
         <Reveal delay={0.12} className="flex justify-center md:justify-end">
-          <EyeChartVisual interaction={interaction} />
+          <EyeChartVisual />
         </Reveal>
       </div>
     </section>
