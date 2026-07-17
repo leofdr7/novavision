@@ -23,7 +23,6 @@ export const clinic = {
   direccionSecundaria:
     "Prolongación Boulevard Tutunichapa y 1a Diagonal, Condominio Médico, Local 22, Colonia Médica, San Salvador",
   telefono: "2124-3333",
-  telefonoAlterno: "2235-2464",
   whatsapp: "50370681751",
   horarios:
     "Lunes a viernes de 8:00 AM a 6:00 PM\nSábado de 8:00 AM a 2:00 PM",
@@ -156,7 +155,7 @@ export const faqs = [
   },
   {
     pregunta: "¿Cómo puedo agendar una cita?",
-    respuesta: `Llama al ${clinic.telefono}, al ${clinic.telefonoAlterno} o escribe por WhatsApp al 7068-1751 (Dr. Alvarenga) o 7989-3654 (Dra. Vides).`,
+    respuesta: `Llama al ${clinic.telefono}, o escribe por WhatsApp al 7068-1751 (Dr. Alvarenga) o 7989-3654 (Dra. Vides).`,
   },
   {
     pregunta: "¿Dónde están ubicados los consultorios?",
