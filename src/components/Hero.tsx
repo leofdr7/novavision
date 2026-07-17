@@ -35,7 +35,7 @@ function EyeChartVisual() {
   ];
 
   return (
-    <div className="relative flex aspect-[4/5] w-full max-w-md flex-col items-center justify-center border border-ink/10 bg-white/80 p-8 shadow-[0_20px_60px_rgba(28,45,55,0.08)] backdrop-blur-sm md:p-10">
+    <div className="relative flex aspect-[5/4] w-full max-w-sm flex-col items-center justify-center border border-ink/10 bg-white/80 p-5 shadow-[0_20px_60px_rgba(28,45,55,0.08)] backdrop-blur-sm sm:aspect-[4/5] sm:max-w-xs sm:p-8 md:max-w-md md:p-10">
       <div className="absolute inset-3 border border-ink/5" aria-hidden />
       <p className="absolute left-4 top-4 font-mono text-[0.65rem] uppercase tracking-widest text-muted">
         Agudeza visual
@@ -69,36 +69,48 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      className="snellen-bg relative overflow-hidden pt-[8.5rem] md:pt-[9.5rem]"
+      className="snellen-bg relative overflow-hidden pt-[5.5rem] md:pt-[9.5rem]"
     >
       <HeroBackground />
 
-      <div className="relative z-[1] mx-auto grid max-w-6xl gap-12 px-5 py-16 md:grid-cols-[1.1fr_0.9fr] md:items-center md:gap-16 md:px-8 md:py-24 lg:py-28">
+      <div className="relative z-[1] mx-auto grid max-w-6xl gap-10 px-5 py-10 sm:py-14 md:grid-cols-[1.1fr_0.9fr] md:items-center md:gap-16 md:px-8 md:py-24 lg:py-28">
         <Reveal>
           <p className="mb-5 inline-block border-l-2 border-orange pl-3 font-mono text-xs uppercase tracking-[0.15em] text-blue">
             Oftalmología · Consulta privada
           </p>
-          <h1 className="font-display text-[clamp(2.5rem,6vw,4.25rem)] font-extrabold leading-[1.05] tracking-[-0.04em] text-ink text-balance">
-            Tu visión, en manos de especialistas
+          <h1 className="font-hero text-[2.55rem] font-semibold leading-[0.98] tracking-[-0.035em] text-ink sm:text-[3.35rem] lg:text-[4.35rem]">
+            <span className="block">
+              Tu{" "}
+              <span className="relative inline-block italic text-blue after:absolute after:-bottom-0.5 after:left-1/2 after:h-1 after:w-2/5 after:-translate-x-1/2 after:bg-orange after:content-['']">
+                visión
+              </span>
+              ,
+            </span>
+            <span className="my-1.5 block text-[0.72em] font-medium tracking-[-0.02em] text-ink-soft sm:my-2">
+              en manos de
+            </span>
+            <span className="relative inline-block italic text-teal after:absolute after:-bottom-1 after:left-1/2 after:h-1 after:w-2/5 after:-translate-x-1/2 after:bg-orange after:content-['']">
+              especialistas
+            </span>
           </h1>
-          <p className="mt-6 max-w-lg text-lg leading-relaxed text-ink-soft">
+          <p className="mt-5 max-w-lg text-[1.05rem] leading-relaxed text-ink-soft sm:mt-6 sm:text-lg">
             El Dr. Andy Alvarenga y la Dra. Karla Vides te atienden en Colonia Médica
             con evaluación visual, diagnóstico especializado y cirugías oftalmológicas.
           </p>
 
-          <div className="mt-9 flex flex-wrap gap-3">
+          <div className="mt-8 grid gap-3 sm:flex sm:flex-wrap">
             <a
               href={whatsappUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-md bg-orange px-6 py-3.5 font-display text-sm font-semibold text-white transition-colors hover:bg-orange-dark"
+              className="inline-flex items-center justify-center gap-2 rounded-md bg-orange px-6 py-3.5 font-display text-sm font-semibold text-white transition-colors hover:bg-orange-dark"
             >
               <MessageCircle size={18} />
               Agendar cita
             </a>
             <a
               href="#servicios"
-              className="inline-flex items-center gap-2 rounded-md border border-ink/15 bg-white/90 px-6 py-3.5 font-display text-sm font-semibold text-ink transition-colors hover:border-blue hover:text-blue"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-ink/15 bg-white/90 px-6 py-3.5 font-display text-sm font-semibold text-ink transition-colors hover:border-blue hover:text-blue"
             >
               Ver servicios
               <ArrowUpRight size={16} />
@@ -107,14 +119,14 @@ export function Hero() {
               href={wazeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center gap-2 rounded-md border border-teal/35 bg-teal/10 px-6 py-3.5 font-display text-sm font-semibold text-ink transition-colors hover:border-teal hover:bg-teal hover:text-white"
+              className="inline-flex items-center justify-center gap-2 rounded-md border border-teal/35 bg-teal/10 px-6 py-3.5 font-display text-sm font-semibold text-ink transition-colors hover:border-teal hover:bg-teal hover:text-white"
             >
               <Navigation size={17} />
               Cómo llegar
             </a>
           </div>
 
-          <dl className="mt-12 grid gap-x-8 gap-y-6 border-t border-ink/10 pt-8 sm:grid-cols-2">
+          <dl className="mt-10 grid gap-x-8 gap-y-5 border-t border-ink/10 pt-7 sm:mt-12 sm:grid-cols-2 sm:gap-y-6 sm:pt-8">
             <div className="border-l-2 border-blue pl-4">
               <dt className="font-mono text-[0.65rem] uppercase tracking-wider text-muted">
                 Especialistas

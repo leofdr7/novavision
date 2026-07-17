@@ -30,7 +30,7 @@ const accents = [
 
 export function Services() {
   return (
-    <section id="servicios" className="border-t border-ink/8 bg-paper py-20 md:py-28">
+    <section id="servicios" className="border-t border-ink/8 bg-paper py-16 md:py-28">
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <Reveal className="mx-auto max-w-2xl text-center">
           <SectionLabel>Servicios</SectionLabel>
@@ -38,13 +38,13 @@ export function Services() {
           <p className="mt-5 text-lg text-ink-soft">{clinic.serviciosIntro}</p>
         </Reveal>
 
-        <div className="mt-14 grid gap-4 sm:grid-cols-2 lg:grid-cols-3">
+        <div className="mt-10 grid gap-3 sm:mt-14 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
           {servicios.map((s, i) => {
             const Icon = iconMap[s.icon];
             return (
               <Reveal key={s.titulo} delay={0.05 * i}>
                 <article
-                  className={`group h-full border-l-4 ${accents[i]} bg-white p-7 transition-shadow hover:shadow-[0_8px_30px_rgba(28,45,55,0.06)]`}
+                  className={`group h-full border-l-4 ${accents[i]} bg-white p-6 transition-shadow hover:shadow-[0_8px_30px_rgba(28,45,55,0.06)] sm:p-7`}
                 >
                   <Icon
                     className="mb-5 text-blue transition-transform group-hover:scale-110"

@@ -4,7 +4,7 @@ import { Reveal, SectionTitle } from "./ui/Reveal";
 
 export function Contact() {
   return (
-    <section id="contacto" className="border-t border-ink/8 bg-ink py-20 text-paper md:py-28">
+    <section id="contacto" className="border-t border-ink/8 bg-ink py-16 text-paper md:py-28">
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <Reveal className="max-w-xl">
           <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-blue mb-4">
@@ -16,8 +16,8 @@ export function Contact() {
           </p>
         </Reveal>
 
-        <div className="mt-14 grid gap-8 lg:grid-cols-2">
-          <Reveal className="space-y-4">
+        <div className="mt-10 grid gap-6 md:mt-14 md:gap-8 lg:grid-cols-2">
+          <Reveal className="space-y-3 md:space-y-4">
             {(
               [
                 {
@@ -88,7 +88,7 @@ export function Contact() {
             ).map(({ icon: Icon, label, value, ...rest }) => (
               <div
                 key={label}
-                className="flex gap-4 border border-paper/10 bg-paper/5 p-5 md:p-6"
+                className="flex gap-3 border border-paper/10 bg-paper/5 p-4 sm:gap-4 md:p-6"
               >
                 <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-blue text-paper">
                   <Icon size={20} strokeWidth={1.5} />
@@ -105,7 +105,7 @@ export function Contact() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="flex h-full min-h-[360px] flex-col items-center justify-center border border-paper/10 bg-paper/5 p-8 text-center">
+            <div className="flex h-full min-h-[260px] flex-col items-center justify-center border border-paper/10 bg-paper/5 p-6 text-center md:min-h-[360px] md:p-8">
               <MapPin className="mb-4 text-teal" size={36} strokeWidth={1.5} />
               <p className="font-display text-lg font-bold text-paper">
                 Ubicación del consultorio
