@@ -40,7 +40,7 @@ export const clinic = {
       especialidad: "Oftalmólogo · Retinólogo",
       foto: "/Andy.png",
       descripcion:
-        "Oftalmólogo con consultorio en Colonia Médica, San Salvador. Especializado en cirugías de retina, catarata y procedimientos oftalmológicos, además de graduación de lentes monofocales y progresivos.",
+        "Oftalmólogo especialista en retina y catarata, con experiencia en cirugía oftalmológica y graduación de lentes monofocales y progresivos. Promueve el chequeo visual anual como prevención.",
       servicios: [
         "Cirugía para desprendimiento de retina",
         "Cirugía láser para retinopatía diabética",

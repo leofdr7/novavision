@@ -144,7 +144,6 @@ export function Hero() {
               <span className="relative inline-block italic text-blue after:absolute after:-bottom-0.5 after:left-1/2 after:h-1 after:w-2/5 after:-translate-x-1/2 after:bg-orange after:content-['']">
                 visión
               </span>
-              ,
             </span>
             <span className="my-1.5 block text-[0.72em] font-medium tracking-[-0.02em] text-ink-soft sm:my-2">
               en manos de
