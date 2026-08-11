@@ -27,8 +27,8 @@ export function About() {
           </SectionTitle>
           <p className="mt-5 text-lg text-ink-soft">
             En Colonia Médica, San Salvador, el Dr. Andy Alvarenga y la Dra. Karla
-            Vides ofrecen atención oftalmológica integral con enfoque clínico y
-            trato cercano.
+            Vides ofrecen atención oftalmológica integral en El Salvador,
+            con enfoque clínico, trato cercano y seguimiento personalizado.
           </p>
         </Reveal>
 
@@ -214,7 +214,7 @@ export function About() {
               </h3>
               <p className="mt-2 text-sm leading-relaxed text-ink-soft md:text-base">
                 Nuestro equipo está listo para orientarte y encontrar el horario más
-                conveniente para tu evaluación visual.
+                conveniente para tu consulta en San Salvador.
               </p>
             </div>
             <a

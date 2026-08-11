@@ -26,10 +26,10 @@ export const clinic = {
   horarios:
     "Lunes a viernes de 8:00 AM a 6:00 PM\nSábado de 8:00 AM a 2:00 PM",
   wazeUrl: "https://www.waze.com/ul?ll=13.70671%2C-89.20171&navigate=yes",
-  experiencia:	
-    "Dos oftalmólogos ubicados en Colonia Médica, San Salvador. Atención en evaluación visual, diagnóstico de catarata, enfermedades de retina y nervio óptico, cirugía refractiva, segmento anterior y procedimientos láser.",
+  experiencia:
+    "Dos oftalmólogos en Colonia Médica, San Salvador, El Salvador. Brindamos consulta oftalmológica privada con evaluación visual, diagnóstico de catarata, enfermedades de retina y nervio óptico, cirugía refractiva, segmento anterior y procedimientos láser.",
   serviciosIntro:
-    "Evaluación visual, diagnóstico especializado y cirugías oftalmológicas con enfoque en catarata, retina, córnea y segmento anterior.",
+    "Atención oftalmológica integral en San Salvador, El Salvador: evaluación visual, diagnóstico especializado y cirugías de catarata, retina, córnea y segmento anterior.",
   redes: {
     facebook: "https://www.facebook.com/",
     instagram: "https://www.instagram.com/drakarlavides",
@@ -40,7 +40,7 @@ export const clinic = {
       especialidad: "Oftalmólogo · Retinólogo",
       foto: "/Andy.png",
       descripcion:
-        "Oftalmólogo especialista en retina y catarata, con experiencia en cirugía oftalmológica y graduación de lentes monofocales y progresivos. Promueve el chequeo visual anual como prevención.",
+        "Oftalmólogo especialista en retina y catarata en San Salvador, con experiencia en cirugía oftalmológica y graduación de lentes monofocales y progresivos. Promueve el chequeo visual anual como prevención.",
       servicios: [
         "Cirugía para desprendimiento de retina",
         "Cirugía láser para retinopatía diabética",
@@ -87,7 +87,7 @@ export const clinic = {
       especialidad: "Oftalmóloga · Segmento anterior",
       foto: "/Karla Vides.png",
       descripcion:
-        "Oftalmóloga especialista en segmento anterior, con experiencia en cirugía de catarata, cirugía refractiva, tratamiento de queratocono y enfermedades de la córnea y superficie ocular. Promueve el chequeo visual anual como prevención.",
+        "Oftalmóloga especialista en segmento anterior en San Salvador, con experiencia en cirugía de catarata, cirugía refractiva, tratamiento de queratocono y enfermedades de la córnea y superficie ocular. Promueve el chequeo visual anual como prevención.",
       servicios: [
         "Cirugía de catarata",
         "Cirugía refractiva con láser",
@@ -138,32 +138,37 @@ export const servicios = [
   {
     titulo: "Evaluación visual",
     descripcion:
-      "Detección de cambios en la graduación y diferencias entre ambos ojos.",
+      "Consulta oftalmológica para detectar cambios de graduación, fatiga visual y diferencias entre ambos ojos.",
     icon: "glasses" as const,
   },
   {
     titulo: "Cirugía de catarata",
-    descripcion: "Diagnóstico y manejo quirúrgico con técnicas actuales.",
+    descripcion:
+      "Diagnóstico y cirugía de catarata en San Salvador con técnicas actuales y seguimiento postoperatorio.",
     icon: "droplet" as const,
   },
   {
     titulo: "Retina y nervio óptico",
-    descripcion: "Estudio de enfermedades de retina y alteraciones del nervio óptico.",
+    descripcion:
+      "Evaluación de enfermedades de retina y alteraciones del nervio óptico, incluyendo cambios súbitos de visión.",
     icon: "activity" as const,
   },
   {
     titulo: "Cirugía refractiva",
-    descripcion: "Corrección con láser para reducir o eliminar el uso de lentes.",
+    descripcion:
+      "Cirugía refractiva con láser para miopía, astigmatismo e hipermetropía, orientada a reducir el uso de lentes.",
     icon: "zap" as const,
   },
   {
     titulo: "Córnea y superficie ocular",
-    descripcion: "Queratocono, pterigión, chalazión y enfermedades del segmento anterior.",
+    descripcion:
+      "Tratamiento de queratocono, pterigión, chalazión y enfermedades de la córnea y superficie ocular.",
     icon: "circle" as const,
   },
   {
     titulo: "Chequeo visual anual",
-    descripcion: "Control preventivo para cuidar tu salud visual a largo plazo.",
+    descripcion:
+      "Control preventivo recomendado para adultos y niños, clave para cuidar la salud visual a largo plazo.",
     icon: "baby" as const,
   },
 ];

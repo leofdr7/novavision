@@ -153,8 +153,9 @@ export function Hero() {
             </span>
           </h1>
           <p className="mt-5 max-w-lg text-[1.05rem] leading-relaxed text-ink-soft sm:mt-6 sm:text-lg">
-            El Dr. Andy Alvarenga y la Dra. Karla Vides te atienden en Colonia Médica
-            con evaluación visual, diagnóstico especializado y cirugías oftalmológicas.
+            En Novavision te atienden el Dr. Andy Alvarenga y la 
+            Dra. Karla Vides con consulta oftalmológica, diagnóstico
+            especializado y cirugías de catarata, retina, córnea y segmento anterior.
           </p>
 
           <div className="mt-8 grid gap-3 sm:flex sm:flex-wrap">

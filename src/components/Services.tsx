@@ -38,6 +38,25 @@ export function Services() {
           <p className="mt-5 text-lg text-ink-soft">{clinic.serviciosIntro}</p>
         </Reveal>
 
+        <Reveal delay={0.04} className="mx-auto mt-8 max-w-4xl">
+          <article className="border border-ink/10 bg-white px-6 py-6 sm:px-8">
+            <h3 className="font-display text-xl font-bold text-ink">
+              Consulta oftalmológica y cirugía ocular en San Salvador
+            </h3>
+            <p className="mt-3 leading-relaxed text-ink-soft">
+              Atendemos pacientes que buscan oftalmólogo en San Salvador para chequeo
+              visual, cirugía de catarata, retina, córnea y cirugía refractiva. Nuestro
+              enfoque combina diagnóstico oportuno, tratamiento personalizado y seguimiento
+              para cada etapa de la salud visual.
+            </p>
+            <p className="mt-3 leading-relaxed text-ink-soft">
+              Si presentas visión borrosa, molestias o cambios repentinos, una evaluación
+              a tiempo puede prevenir complicaciones y ayudarte a mantener una mejor calidad
+              de vida.
+            </p>
+          </article>
+        </Reveal>
+
         <div className="mt-10 grid gap-3 sm:mt-14 sm:grid-cols-2 sm:gap-4 lg:grid-cols-3">
           {servicios.map((s, i) => {
             const Icon = iconMap[s.icon];
