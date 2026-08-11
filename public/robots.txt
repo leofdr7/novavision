@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://novavision-web.vercel.app/sitemap.xml
+Sitemap: https://novavision.com.sv/sitemap.xml
