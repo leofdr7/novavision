@@ -1,4 +1,4 @@
 User-agent: *
 Allow: /
 
-Sitemap: https://novavision.com.sv/sitemap.xml
+Sitemap: https://www.novavision.com.sv/sitemap.xml
