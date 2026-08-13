@@ -1,5 +1,6 @@
 import { Clock, MapPin, MessageCircle, Navigation, Phone } from "lucide-react";
 import { clinic, wazeUrl, whatsappUrl } from "../data/clinic";
+import { handleWhatsAppClick } from "../lib/gtag";
 import { Reveal, SectionTitle } from "./ui/Reveal";
 
 export function Contact() {
@@ -47,6 +48,7 @@ export function Contact() {
                         href={whatsappUrl}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={() => handleWhatsAppClick("dr_andy")}
                         className="block text-paper hover:text-orange"
                       >
                         Dr. Alvarenga: 7068-1751
@@ -55,6 +57,7 @@ export function Contact() {
                         href="https://wa.me/50379893654?text=Hola%2C%20quisiera%20agendar%20una%20cita"
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={() => handleWhatsAppClick("dra_karla")}
                         className="block text-paper hover:text-orange"
                       >
                         Dra. Vides: 7989-3654

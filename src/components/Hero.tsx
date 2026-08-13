@@ -6,6 +6,7 @@ import {
   useTransform,
 } from "framer-motion";
 import { clinic, wazeUrl } from "../data/clinic";
+import { handleWhatsAppClick, whatsAppDoctorLabel } from "../lib/gtag";
 import { Reveal } from "./ui/Reveal";
 
 function HeroBackground() {
@@ -124,6 +125,7 @@ export function Hero() {
     href: `https://wa.me/${doctor.whatsapp}?text=${encodeURIComponent(
       `Hola, quisiera agendar una cita con ${doctor.nombre}`,
     )}`,
+    conversionLabel: whatsAppDoctorLabel(doctor.nombre),
   }));
 
   return (
@@ -166,6 +168,7 @@ export function Hero() {
                   href={doctor.href}
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => handleWhatsAppClick(doctor.conversionLabel)}
                   className={`group relative flex min-w-0 items-center gap-2.5 overflow-hidden rounded-md border px-3 py-3 text-left transition-all before:absolute before:inset-x-0 before:top-0 before:h-0.5 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(28,45,55,0.08)] sm:min-w-44 sm:px-4 ${
                     index === 0
                       ? "border-orange/30 bg-[linear-gradient(135deg,rgba(250,128,23,0.13),rgba(255,255,255,0.88))] before:bg-orange hover:border-orange/60"

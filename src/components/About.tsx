@@ -1,5 +1,6 @@
 import { Facebook, Instagram, MessageCircle, Phone } from "lucide-react";
 import { clinic } from "../data/clinic";
+import { handleWhatsAppClick, whatsAppDoctorLabel } from "../lib/gtag";
 import { Reveal, SectionLabel, SectionTitle } from "./ui/Reveal";
 
 function TikTokIcon({ size = 18 }: { size?: number }) {
@@ -175,6 +176,7 @@ export function About() {
                         href={`https://wa.me/${doc.whatsapp}?text=${encodeURIComponent("Hola, quisiera agendar una cita")}`}
                         target="_blank"
                         rel="noopener noreferrer"
+                        onClick={() => handleWhatsAppClick(whatsAppDoctorLabel(doc.nombre))}
                         aria-label={`Agendar cita por WhatsApp con ${doc.nombre}`}
                         title={`WhatsApp de ${doc.nombre}`}
                         className="flex h-10 w-10 items-center justify-center rounded-full border border-teal/25 bg-white/80 text-teal-dark transition-all hover:-translate-y-0.5 hover:border-teal hover:bg-teal hover:text-white"

@@ -1,6 +1,7 @@
 import { MessageCircle, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
 import { clinic } from "../data/clinic";
+import { handleWhatsAppClick, whatsAppDoctorLabel } from "../lib/gtag";
 
 export function WhatsAppButton() {
   const [open, setOpen] = useState(false);
@@ -43,7 +44,10 @@ export function WhatsAppButton() {
                 )}`}
                 target="_blank"
                 rel="noopener noreferrer"
-                onClick={() => setOpen(false)}
+                onClick={() => {
+                  handleWhatsAppClick(whatsAppDoctorLabel(doctor.nombre));
+                  setOpen(false);
+                }}
                 className="group flex items-center gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-paper"
               >
                 <span

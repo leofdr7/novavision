@@ -1,4 +1,5 @@
 import { clinic, navLinks, whatsappUrl } from "../data/clinic";
+import { handleWhatsAppClick } from "../lib/gtag";
 
 export function Footer() {
   return (
@@ -41,7 +42,13 @@ export function Footer() {
                 </a>
               </li>
               <li>
-                <a href={whatsappUrl} className="hover:text-blue">
+                <a
+                  href={whatsappUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  onClick={() => handleWhatsAppClick("dr_andy")}
+                  className="hover:text-blue"
+                >
                   WhatsApp Dr. Andy Alvarenga: 7068-1751
                 </a>
               </li>
@@ -50,6 +57,7 @@ export function Footer() {
                   href="https://wa.me/50379893654?text=Hola%2C%20quisiera%20agendar%20una%20cita%20con%20la%20Dra.%20Karla%20Vides"
                   target="_blank"
                   rel="noopener noreferrer"
+                  onClick={() => handleWhatsAppClick("dra_karla")}
                   className="hover:text-blue"
                 >
                   WhatsApp Dra. Karla Vides: 7989-3654

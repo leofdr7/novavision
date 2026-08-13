@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { Menu, MessageCircle, Phone, X } from "lucide-react";
 import { clinic, navLinks } from "../data/clinic";
+import { handleWhatsAppClick, whatsAppDoctorLabel } from "../lib/gtag";
 
 export function Header() {
   const [scrolled, setScrolled] = useState(false);
@@ -123,7 +124,10 @@ export function Header() {
                         )}`}
                         target="_blank"
                         rel="noopener noreferrer"
-                        onClick={() => setWhatsappOpen(false)}
+                        onClick={() => {
+                          handleWhatsAppClick(whatsAppDoctorLabel(doctor.nombre));
+                          setWhatsappOpen(false);
+                        }}
                         className="flex items-center gap-3 rounded-md px-3 py-2.5 text-left transition-colors hover:bg-paper"
                       >
                         <span
@@ -220,6 +224,7 @@ export function Header() {
                     target="_blank"
                     rel="noopener noreferrer"
                     onClick={() => {
+                      handleWhatsAppClick(whatsAppDoctorLabel(doctor.nombre));
                       setOpen(false);
                       setWhatsappOpen(false);
                     }}
