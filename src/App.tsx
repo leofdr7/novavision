@@ -7,7 +7,7 @@ import { Hero } from "./components/Hero";
 import { ScrollProgress } from "./components/ScrollProgress";
 import { Services } from "./components/Services";
 import { TrustBar } from "./components/TrustBar";
-import { WhatsAppButton } from "./components/WhatsAppButton";
+import { ContactWidgets } from "./components/ContactWidgets";
 
 export default function App() {
   return (
@@ -23,7 +23,7 @@ export default function App() {
         <Contact />
       </main>
       <Footer />
-      <WhatsAppButton />
+      <ContactWidgets />
     </>
   );
 }

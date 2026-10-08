@@ -1,10 +1,9 @@
 import { MessageCircle, X } from "lucide-react";
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
 import { clinic } from "../data/clinic";
 import { handleWhatsAppClick, whatsAppDoctorLabel } from "../lib/gtag";
 
-export function WhatsAppButton() {
-  const [open, setOpen] = useState(false);
+export function WhatsAppButton({ open, onOpenChange: setOpen }: { open: boolean; onOpenChange: (open: boolean) => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
@@ -23,10 +22,10 @@ export function WhatsAppButton() {
       document.removeEventListener("pointerdown", closeOnOutsideClick);
       document.removeEventListener("keydown", closeOnEscape);
     };
-  }, []);
+  }, [setOpen]);
 
   return (
-    <div ref={containerRef} className="fixed bottom-6 right-6 z-50 flex flex-col items-end">
+    <div ref={containerRef} className="fixed bottom-[calc(1.5rem+env(safe-area-inset-bottom))] right-6 z-50 flex flex-col items-end">
       {open && (
         <div className="mb-3 w-[min(18rem,calc(100vw-3rem))] overflow-hidden rounded-lg border border-ink/10 bg-white shadow-[0_16px_45px_rgba(28,45,55,0.18)]">
           <div className="border-b border-ink/8 bg-paper px-4 py-3">
@@ -71,7 +70,7 @@ export function WhatsAppButton() {
 
       <button
         type="button"
-        onClick={() => setOpen((current) => !current)}
+        onClick={() => setOpen(!open)}
         aria-label={open ? "Cerrar opciones de WhatsApp" : "Agendar cita por WhatsApp"}
         aria-expanded={open}
         className="flex h-14 w-14 items-center justify-center rounded-full bg-[#25D366] text-white shadow-[0_8px_24px_rgba(37,211,102,0.35)] transition-transform hover:scale-105"

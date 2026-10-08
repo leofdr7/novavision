@@ -1,0 +1,34 @@
+.nv-chat {
+  display: flex;
+  box-shadow: 0 8px 32px rgb(28 45 55 / 12%), 0 2px 8px rgb(28 45 55 / 6%);
+  transform-origin: bottom right;
+  opacity: 0;
+  transform: scale(.96);
+  transition: transform 180ms ease-out, opacity 180ms ease-out;
+}
+.nv-chat[hidden] { display: none; }
+.nv-chat[data-open="true"] { opacity: 1; transform: scale(1); }
+.nv-chat[data-open="false"] { pointer-events: none; }
+@starting-style {
+  .nv-chat[data-open="true"] { opacity: 0; transform: scale(.96); }
+}
+.nv-chat-log { overflow-anchor: none; scroll-behavior: auto; }
+.nv-chat-bubble { animation: nv-chat-enter 200ms ease-out both; overflow-wrap: anywhere; }
+.nv-chat-status { width: 6px; height: 6px; flex-shrink: 0; border-radius: 50%; background: var(--color-paper); opacity: .5; }
+.nv-chat-status[data-active="true"] { background: var(--color-teal); animation: nv-chat-pulse 3s ease-in-out infinite; }
+.nv-chat-typing { display: inline-flex; align-items: center; gap: 5px; height: 26px; }
+.nv-chat-typing span { width: 6px; height: 6px; border-radius: 50%; background: var(--color-teal-dark); animation: nv-chat-dot 1.2s ease-in-out infinite; }
+.nv-chat-typing span:nth-child(2) { animation-delay: 150ms; }
+.nv-chat-typing span:nth-child(3) { animation-delay: 300ms; }
+.nv-chat-cursor { display: inline-block; width: 2px; height: 1em; margin-left: 3px; vertical-align: -.12em; background: var(--color-teal-dark); animation: nv-chat-blink 1s ease-in-out infinite; }
+.nv-chat-send, .nv-chat-suggestion { transition: transform 180ms ease-out, opacity 180ms ease-out; }
+.nv-chat-send:disabled { transform: scale(.94); }
+.nv-chat-send:not(:disabled):active, .nv-chat-suggestion:not(:disabled):active { transform: scale(.96); }
+@keyframes nv-chat-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
+@keyframes nv-chat-dot { 0%, 60%, 100% { opacity: .6; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-4px); } }
+@keyframes nv-chat-pulse { 0%, 100% { opacity: .6; transform: scale(.9); } 50% { opacity: 1; transform: scale(1); } }
+@keyframes nv-chat-blink { 0%, 100% { opacity: .25; } 50% { opacity: .8; } }
+@media (prefers-reduced-motion: reduce) {
+  .nv-chat, .nv-chat-send, .nv-chat-suggestion { transition: none; transform: none; }
+  .nv-chat-bubble, .nv-chat-status[data-active], .nv-chat-typing span, .nv-chat-cursor { animation: none; }
+}
