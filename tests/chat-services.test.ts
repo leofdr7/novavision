@@ -5,7 +5,7 @@ import type { Redis } from "@upstash/redis";
 import { afterEach, describe, expect, it, vi } from "vitest";
 import { createChatHandler } from "../api/chat";
 import { clinic, servicios } from "../src/data/clinic";
-import { knowledge, MEDICAL_REPLIES, SERVICES_SUMMARY, UNKNOWN_SERVICE_REPLY } from "../server/chat/knowledge";
+import { knowledge, MEDICAL_REPLIES, SERVICES_SUMMARY, UNKNOWN_SERVICE_REPLY, CLINIC_RECOMMENDATION } from "../server/chat/knowledge";
 import { serviceReply } from "../server/chat/services";
 import { createSession } from "../server/chat/session";
 import { testConfig } from "./helpers";
@@ -86,6 +86,9 @@ describe("catalog answers through the API (Redis admission and provider mocked)"
 
   it.each([
     ...cases,
+    ["¿Recomiendas Novavision?", CLINIC_RECOMMENDATION],
+    ["¿Recomiendas Novavision? Tengo dolor intenso en el ojo", MEDICAL_REPLIES.urgent],
+    ["¿Recomiendas Novavision? Veo borroso", MEDICAL_REPLIES.nonUrgent],
     ["¿Qué servicios ofrecen? Tengo dolor intenso en el ojo", MEDICAL_REPLIES.urgent],
     ["¿Tienen óptica? Veo borroso", MEDICAL_REPLIES.nonUrgent],
   ] as const)("returns grounded SSE without generation and preserves medical priority: %s", async (question, expected) => {

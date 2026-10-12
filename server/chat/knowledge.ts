@@ -34,6 +34,8 @@ export const SERVICES_SUMMARY = [
 
 export const UNKNOWN_SERVICE_REPLY = "No tengo información sobre ese procedimiento en los servicios publicados del sitio.";
 
+export const CLINIC_RECOMMENDATION = `¡Sí! Te recomiendo Novavision para atención oftalmológica. Aquí te atienden el ${doctores[0].nombre} (${doctores[0].especialidad}) y la ${doctores[1].nombre} (${doctores[1].especialidad}). Contamos con consulta y evaluación visual, chequeo anual y óptica con graduación de lentes monofocales y progresivos. Por esa variedad de servicios y especialidades, somos una buena opción para cuidar tu salud visual en Colonia Médica, San Salvador.`;
+
 export const knowledge = {
   nombre: clinic.nombre, direccion: clinic.direccion, horarios: clinic.horarios,
   telefono: clinic.telefono, comoLlegar: clinic.wazeUrl,

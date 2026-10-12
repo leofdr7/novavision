@@ -9,6 +9,7 @@ import { Budget } from "../server/chat/budget.js";
 import { fitHistory, validateRequest } from "../server/chat/validation.js";
 import { conversationPrompt, medicalRedirect } from "../server/chat/prompt.js";
 import { serviceReply } from "../server/chat/services.js";
+import { recommendationReply } from "../server/chat/recommendation.js";
 import { streamAnswer } from "../server/chat/stream.js";
 
 export const config = { maxDuration: 60 };
@@ -92,7 +93,7 @@ export function createChatHandler(overrides: Partial<typeof dependencies> = {}) 
       const admission = await redisOperation(() => deps.admitSession(redis, settings, sessionId, body.requestId));
       release = admission.release;
       const question = messages.at(-1)!.content;
-      const redirect = medicalRedirect(question, contactMentioned) ?? serviceReply(question);
+      const redirect = medicalRedirect(question, contactMentioned) ?? recommendationReply(question) ?? serviceReply(question);
       if (redirect) {
         begin(); send({ event: "meta", data: { requestId: body.requestId, remainingMessages: admission.remaining } });
         send({ event: "delta", data: { text: redirect } }); send({ event: "done", data: { requestId: body.requestId } });
