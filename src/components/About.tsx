@@ -73,6 +73,7 @@ export function About() {
                       alt={`Retrato de ${doc.nombre}`}
                       className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.015]"
                       loading="lazy"
+                      decoding="async"
                     />
                     <div
                       className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-ink/25 to-transparent"

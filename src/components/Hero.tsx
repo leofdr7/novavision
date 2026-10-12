@@ -1,82 +1,42 @@
 import { ArrowUpRight, MessageCircle, Navigation } from "lucide-react";
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
 import { clinic, wazeUrl } from "../data/clinic";
 import { handleWhatsAppClick, whatsAppDoctorLabel } from "../lib/gtag";
 import { Reveal } from "./ui/Reveal";
 
 function HeroBackground() {
-  const reduce = useReducedMotion();
-  const { scrollY } = useScroll();
-  const gridPosition = useTransform(scrollY, [0, 900], ["0px 0px", "0px 64px"]);
-  const ringOneY = useTransform(scrollY, [0, 900], [0, 105]);
-  const ringTwoY = useTransform(scrollY, [0, 900], [0, -70]);
-  const ringThreeY = useTransform(scrollY, [0, 900], [0, 145]);
-  const blueY = useTransform(scrollY, [0, 900], [0, 85]);
-  const tealY = useTransform(scrollY, [0, 900], [0, -55]);
-  const orangeY = useTransform(scrollY, [0, 900], [0, 65]);
-  const crosshairTop = useTransform(scrollY, [0, 900], ["50%", "62%"]);
-
   return (
     <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
       <div className="hero-bg-gradient" />
       <div className="absolute inset-0">
-        <motion.div
-          className="hero-bg-grid"
-          style={reduce ? undefined : { backgroundPosition: gridPosition }}
-        />
-        <motion.div
-          className="hero-bg-ring hero-bg-ring--1"
-          style={reduce ? undefined : { y: ringOneY }}
-        />
+        <div className="hero-bg-grid" />
+        <div className="hero-bg-ring hero-bg-ring--1" />
       </div>
 
       <div className="absolute inset-0">
-        <motion.div
-          className="hero-bg-ring hero-bg-ring--2"
-          style={reduce ? undefined : { y: ringTwoY }}
-        />
-        <motion.div
-          className="hero-bg-blob hero-bg-blob--blue"
-          style={reduce ? undefined : { y: blueY }}
-        />
-        <motion.div
-          className="hero-bg-blob hero-bg-blob--teal"
-          style={reduce ? undefined : { y: tealY }}
-        />
-        <motion.div
-          className="hero-bg-blob hero-bg-blob--orange"
-          style={reduce ? undefined : { y: orangeY }}
-        />
+        <div className="hero-bg-ring hero-bg-ring--2" />
+        <div className="hero-bg-blob hero-bg-blob--blue" />
+        <div className="hero-bg-blob hero-bg-blob--teal" />
+        <div className="hero-bg-blob hero-bg-blob--orange" />
       </div>
 
       <div className="absolute inset-0">
-        <motion.div
-          className="hero-bg-ring hero-bg-ring--3"
-          style={reduce ? undefined : { y: ringThreeY }}
-        />
-        <motion.svg
+        <div className="hero-bg-ring hero-bg-ring--3" />
+        <svg
           className="hero-bg-crosshair"
           viewBox="0 0 200 200"
           fill="none"
-          style={reduce ? undefined : { top: crosshairTop }}
         >
           <circle cx="100" cy="100" r="72" stroke="#018AB6" strokeOpacity="0.12" strokeWidth="1" />
           <circle cx="100" cy="100" r="48" stroke="#2DB1A4" strokeOpacity="0.1" strokeWidth="1" />
           <line x1="100" y1="20" x2="100" y2="180" stroke="#1C2D37" strokeOpacity="0.06" />
           <line x1="20" y1="100" x2="180" y2="100" stroke="#1C2D37" strokeOpacity="0.06" />
-        </motion.svg>
+        </svg>
       </div>
     </div>
   );
 }
 
 function EyeChartVisual() {
-  const reduce = useReducedMotion();
   const rows = [
     { letter: "E", size: "text-6xl md:text-7xl", opacity: "opacity-90" },
     { letter: "F P", size: "text-4xl md:text-5xl", opacity: "opacity-75" },
@@ -86,8 +46,8 @@ function EyeChartVisual() {
   ];
 
   return (
-    <motion.div
-      className="relative flex aspect-[5/4] w-full max-w-sm flex-col items-center justify-center border border-ink/10 bg-white/80 p-5 shadow-[0_20px_60px_rgba(28,45,55,0.08)] backdrop-blur-sm sm:aspect-[4/5] sm:max-w-xs sm:p-8 md:max-w-md md:p-10"
+    <div
+      className="relative flex aspect-[5/4] w-full max-w-sm flex-col items-center justify-center border border-ink/10 bg-white/80 p-5 shadow-[0_20px_60px_rgba(28,45,55,0.08)] sm:aspect-[4/5] sm:max-w-xs sm:p-8 md:max-w-md md:p-10"
     >
       <div className="absolute inset-3 border border-ink/5" aria-hidden />
       <p className="absolute left-4 top-4 font-mono text-[0.65rem] uppercase tracking-widest text-muted">
@@ -95,16 +55,13 @@ function EyeChartVisual() {
       </p>
 
       <div className="flex flex-col items-center gap-3 font-display font-bold text-ink">
-        {rows.map((row, i) => (
-          <motion.p
+        {rows.map((row) => (
+          <p
             key={row.letter}
             className={`${row.size} ${row.opacity} tracking-[0.35em]`}
-            initial={reduce ? false : { opacity: 0, y: 8 }}
-            animate={{ opacity: 1, y: 0 }}
-            transition={{ delay: 0.15 + i * 0.08, duration: 0.5 }}
           >
             {row.letter}
-          </motion.p>
+          </p>
         ))}
       </div>
 
@@ -114,7 +71,7 @@ function EyeChartVisual() {
           Visión clara
         </p>
       </div>
-    </motion.div>
+    </div>
   );
 }
 
@@ -136,7 +93,7 @@ export function Hero() {
       <HeroBackground />
 
       <div className="relative z-[1] mx-auto grid max-w-6xl gap-10 px-5 py-10 sm:py-14 md:grid-cols-[1.1fr_0.9fr] md:items-center md:gap-16 md:px-8 md:py-24 lg:py-28">
-        <Reveal>
+        <Reveal immediate>
           <p className="mb-5 inline-block border-l-2 border-orange pl-3 font-mono text-xs uppercase tracking-[0.15em] text-blue">
             Oftalmología · Consulta privada
           </p>
