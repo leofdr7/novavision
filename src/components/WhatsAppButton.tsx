@@ -27,7 +27,8 @@ export function WhatsAppButton({ open, onOpenChange: setOpen }: { open: boolean;
   return (
     <div ref={containerRef} className="fixed bottom-[calc(1.5rem+env(safe-area-inset-bottom))] right-6 z-50 flex flex-col items-end">
       {open && (
-        <div className="mb-3 w-[min(18rem,calc(100vw-3rem))] overflow-hidden rounded-lg border border-ink/10 bg-white shadow-[0_16px_45px_rgba(28,45,55,0.18)]">
+        // Leave room for the assistant launcher above the WhatsApp button.
+        <div className="absolute bottom-[calc(100%+4.75rem)] max-h-[calc(100dvh-11.25rem-env(safe-area-inset-bottom))] w-[min(18rem,calc(100vw-3rem))] overflow-y-auto rounded-lg border border-ink/10 bg-white shadow-[0_16px_45px_rgba(28,45,55,0.18)]">
           <div className="border-b border-ink/8 bg-paper px-4 py-3">
             <p className="font-display text-sm font-bold text-ink">
               ¿Con quién deseas agendar?
