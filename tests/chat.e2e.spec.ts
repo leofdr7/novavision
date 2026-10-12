@@ -38,10 +38,69 @@ test("keeps WhatsApp reachable during service failure with no chat Ads event", a
   const dialog = page.getByRole("dialog"); await expect(dialog.getByRole("alert")).toContainText("botón verde de WhatsApp del sitio");
   await expect(dialog.getByRole("link")).toHaveCount(0);
   expect(await page.evaluate(() => window.dataLayer)).toEqual([]);
+  if (page.viewportSize()!.width < 640) await dialog.getByLabel("Cerrar conversación").click();
   await page.getByRole("button", { name: "Agendar cita por WhatsApp", exact: true }).click();
   await expect(dialog).not.toBeVisible();
   await expect(page.getByRole("link", { name: /^Dr\. Andy Alvarenga/ })).toHaveAttribute("href", /wa.me\/50370681751/);
   await expect(page.getByRole("link", { name: /^Dra\. Karla Vides/ })).toHaveAttribute("href", /wa.me\/50379893654/);
+});
+
+test("mobile chat follows the keyboard viewport and keeps the conversation spacious", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.route("**/api/chat", route => route.request().method() === "GET"
+    ? route.fulfill({ json: init })
+    : route.fulfill({ contentType: "text/event-stream", body: 'event: delta\ndata: {"text":"Atendemos de lunes a viernes de 8:00 AM a 6:00 PM y los sábados de 8:00 AM a 2:00 PM."}\n\nevent: done\ndata: {}\n\n' }));
+  await page.goto("/");
+  await page.evaluate(() => window.scrollTo(0, 500));
+  await page.getByRole("button", { name: "Consultar al asistente" }).click();
+  const dialog = page.getByRole("dialog");
+  const input = dialog.getByLabel("Tu mensaje");
+  await expect(input).toBeEnabled();
+  await expect(dialog).toHaveAttribute("aria-modal", "true");
+  await expect.poll(() => page.evaluate(() => document.body.style.overflow)).toBe("hidden");
+  await expect(dialog.locator("#chat-notice")).not.toBeVisible();
+  await expect(dialog.getByText("0/1000", { exact: true })).toHaveCount(0);
+  await dialog.getByRole("button", { name: "Horarios", exact: true }).click();
+  await expect(dialog.getByText(/^Atendemos de lunes/).first()).toBeVisible();
+  await expect(input).toBeEnabled();
+
+  await input.focus();
+  // Simulate iOS: the keyboard changes the visual viewport, not the layout viewport.
+  await page.evaluate(() => {
+    Object.defineProperty(window.visualViewport, "height", { configurable: true, value: 360 });
+    Object.defineProperty(window.visualViewport, "offsetTop", { configurable: true, value: 44 });
+    window.visualViewport!.dispatchEvent(new Event("resize"));
+    window.visualViewport!.dispatchEvent(new Event("scroll"));
+  });
+  await expect.poll(async () => (await dialog.boundingBox())!.height).toBe(360);
+  const bounds = (await dialog.boundingBox())!;
+  expect(bounds.y).toBe(44);
+  expect(bounds.width).toBe(390);
+  const composer = (await input.boundingBox())!;
+  expect(composer.y + composer.height).toBeLessThanOrEqual(404);
+  expect((await dialog.getByLabel("Conversación", { exact: true }).boundingBox())!.height).toBeGreaterThan(180);
+  await expect(input).toBeFocused();
+  await input.fill("Texto largo\n".repeat(10));
+  expect((await input.boundingBox())!.height).toBeLessThanOrEqual(90);
+  await input.fill("x".repeat(900));
+  await expect(dialog.getByText("900/1000", { exact: true })).toBeVisible();
+  await input.fill("");
+  await expect.poll(() => dialog.getByLabel("Conversación", { exact: true }).evaluate(el => el.scrollHeight - el.clientHeight - el.scrollTop)).toBeLessThan(12);
+  await page.screenshot({ path: `test-results/chat-keyboard-${test.info().project.name}.png`, clip: bounds, animations: "disabled" });
+
+  await dialog.locator("summary").focus(); await page.keyboard.press("Tab");
+  await expect(dialog.getByLabel("Cerrar conversación")).toBeFocused();
+  await page.keyboard.press("Shift+Tab"); await expect(dialog.locator("summary")).toBeFocused();
+  await page.evaluate(() => {
+    delete (window.visualViewport as unknown as Record<string, unknown>).height;
+    delete (window.visualViewport as unknown as Record<string, unknown>).offsetTop;
+    window.visualViewport!.dispatchEvent(new Event("resize"));
+  });
+  await expect.poll(async () => (await dialog.boundingBox())!.height).toBe(844);
+  await dialog.getByLabel("Cerrar conversación").click();
+  await expect(dialog).not.toBeVisible();
+  expect(await page.evaluate(() => document.body.style.overflow)).toBe("");
+  await expect(page.getByRole("button", { name: "Consultar al asistente" })).toBeFocused();
 });
 
 test("keeps controls reachable with a short viewport and expanded privacy notice", async ({ page }) => {
@@ -92,7 +151,7 @@ test("grows the composer, preserves Shift+Enter, and respects reduced motion", a
   }
 });
 
-test("follows replies smoothly but leaves readers at their chosen scroll position", async ({ page }) => {
+test("follows replies without moving readers away from their chosen scroll position", async ({ page }) => {
   let releaseReply!: () => void;
   const pending = new Promise<void>(resolve => { releaseReply = resolve; });
   let count = 0;
@@ -110,12 +169,81 @@ test("follows replies smoothly but leaves readers at their chosen scroll positio
   await dialog.getByLabel("Tu mensaje").fill("Más información"); await dialog.getByLabel("Enviar mensaje").click();
   await expect(dialog.locator(".nv-chat-typing span")).toHaveCount(3);
   await expect.poll(() => log.evaluate(el => el.scrollHeight - el.clientHeight - el.scrollTop)).toBeLessThan(12);
+  await log.dispatchEvent("pointerdown", { pointerType: "mouse" });
   await log.evaluate(el => el.scrollTo({ top: 0, behavior: "instant" }));
   await expect.poll(() => log.evaluate(el => el.scrollTop)).toBe(0);
   releaseReply();
-  await expect(dialog.getByLabel("Tu mensaje")).toBeEnabled();
+  await expect(dialog.getByLabel("Tu mensaje")).toHaveAttribute("aria-busy", "false");
   // Let any incorrectly scheduled smooth scroll finish before checking the reader's position.
   await page.waitForTimeout(350);
   expect(await log.evaluate(el => el.scrollTop)).toBe(0);
+  await dialog.getByRole("button", { name: "Volver al último mensaje" }).click();
+  await expect.poll(() => log.evaluate(el => el.scrollHeight - el.clientHeight - el.scrollTop)).toBeLessThan(12);
   await page.screenshot({ path: `test-results/chat-reading-${page.viewportSize()!.width}.png`, animations: "disabled" });
+});
+
+test("contact dock stays separate from WhatsApp and contains its scroll", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 260 });
+  await page.goto("/");
+  await page.evaluate(() => window.scrollTo({ top: 600, behavior: "instant" }));
+  const start = await page.evaluate(() => window.scrollY);
+  const agent = page.getByRole("button", { name: "Consultar al asistente" });
+  const whatsapp = page.getByRole("button", { name: "Agendar cita por WhatsApp", exact: true });
+  const agentBox = (await agent.boundingBox())!;
+  const whatsappBox = (await whatsapp.boundingBox())!;
+  expect(agentBox.x + agentBox.width).toBeLessThan(whatsappBox.x);
+  expect(agentBox.y).toBe(whatsappBox.y);
+  await whatsapp.click();
+  const options = page.getByRole("region", { name: "Especialistas disponibles por WhatsApp" });
+  const box = (await options.boundingBox())!;
+  expect(box.y).toBeGreaterThanOrEqual(0);
+  expect(box.y + box.height).toBeLessThan(agentBox.y);
+  expect(await options.evaluate(el => el.scrollHeight > el.clientHeight)).toBe(true);
+  await options.hover();
+  await page.mouse.wheel(0, 600);
+  await expect.poll(() => options.evaluate(el => el.scrollTop)).toBeGreaterThan(0);
+  await page.mouse.wheel(0, 600);
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(start);
+  await options.getByRole("link", { name: /^Dra\. Karla Vides/ }).click({ trial: true });
+  await page.keyboard.press("Escape");
+  await expect(options).not.toBeVisible();
+  await expect(whatsapp).toBeFocused();
+  expect(await page.evaluate(() => window.scrollY)).toBe(start);
+  await page.setViewportSize({ width: 390, height: 844 });
+  await page.screenshot({ path: `test-results/contact-dock-${test.info().project.name}.png`, animations: "disabled" });
+});
+
+test("mobile chat restores page position and keeps keyboard focus during replies", async ({ page }) => {
+  await page.setViewportSize({ width: 390, height: 844 });
+  let release!: () => void;
+  const reply = new Promise<void>(resolve => { release = resolve; });
+  await page.route("**/api/chat", async route => {
+    if (route.request().method() === "GET") return route.fulfill({ json: init });
+    await reply;
+    await route.fulfill({ contentType: "text/event-stream", body: 'event: delta\ndata: {"text":"Estamos en Colonia Médica, San Salvador."}\n\nevent: done\ndata: {}\n\n' });
+  });
+  await page.goto("/");
+  await page.evaluate(() => window.scrollTo({ top: 1100, behavior: "instant" }));
+  const start = await page.evaluate(() => window.scrollY);
+  const launcher = page.getByRole("button", { name: "Consultar al asistente" });
+  await launcher.click();
+  const dialog = page.getByRole("dialog");
+  const input = dialog.getByLabel("Tu mensaje");
+  await input.fill("¿Dónde están?");
+  await dialog.getByLabel("Enviar mensaje").click();
+  await expect(input).toBeFocused();
+  await expect(input).toHaveAttribute("readonly");
+  await expect.poll(() => page.evaluate(() => document.body.style.position)).toBe("fixed");
+  release();
+  await expect(input).not.toHaveAttribute("readonly");
+  await expect(input).toBeFocused();
+  await dialog.getByLabel("Cerrar conversación").click();
+  await expect(dialog).not.toBeVisible();
+  await expect(launcher).toBeFocused();
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(start);
+  expect(await page.evaluate(() => document.body.style.position)).toBe("");
+  await launcher.click();
+  await expect(dialog.getByText("Estamos en Colonia Médica, San Salvador.", { exact: true }).first()).toBeVisible();
+  await dialog.getByLabel("Cerrar conversación").click();
+  await expect.poll(() => page.evaluate(() => window.scrollY)).toBe(start);
 });

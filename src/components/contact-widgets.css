@@ -1,0 +1,40 @@
+.nv-contact-dock {
+  position: fixed;
+  right: 1.5rem;
+  bottom: calc(1.5rem + env(safe-area-inset-bottom));
+  z-index: 60;
+  display: flex;
+  align-items: center;
+  gap: .75rem;
+}
+.nv-agent-launcher {
+  position: relative;
+  display: flex;
+  align-items: center;
+  gap: .65rem;
+  min-height: 56px;
+  padding: 7px 16px 7px 14px;
+  border: 1px solid #427782;
+  border-radius: 18px 6px 18px 6px;
+  background: #102d36;
+  color: #f8f4f0;
+  box-shadow: inset 0 1px 0 #b0eeeb26, 0 6px 18px #102d3626;
+  text-align: left;
+  cursor: pointer;
+  transition: background 180ms ease, box-shadow 180ms ease;
+}
+.nv-agent-launcher:hover, .nv-agent-launcher[aria-expanded="true"] {
+  background: #173e48;
+  box-shadow: inset 0 1px 0 #b0eeeb40, 0 6px 24px #01709930;
+}
+.nv-agent-launcher:focus-visible { outline: 2px solid var(--color-blue-dark); outline-offset: 4px; }
+.nv-agent-icon { flex: none; color: #b8d8da; }
+.nv-agent-name { display: block; font-family: var(--font-display); font-size: 14px; font-weight: 700; letter-spacing: .16em; line-height: 1.4; }
+.nv-agent-caption { display: block; font-family: system-ui, sans-serif; font-size: 10px; line-height: 1.6; color: #b8d8da; }
+.nv-whatsapp-options { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+@media (max-width: 639px) {
+  .nv-contact-dock { right: 1rem; bottom: calc(1rem + env(safe-area-inset-bottom)); gap: .625rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nv-agent-launcher { transition: none; }
+}

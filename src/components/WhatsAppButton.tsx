@@ -5,15 +5,17 @@ import { handleWhatsAppClick, whatsAppDoctorLabel } from "../lib/gtag";
 
 export function WhatsAppButton({ open, onOpenChange: setOpen }: { open: boolean; onOpenChange: (open: boolean) => void }) {
   const containerRef = useRef<HTMLDivElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
 
   useEffect(() => {
+    if (!open) return;
     const closeOnOutsideClick = (event: PointerEvent) => {
       if (!containerRef.current?.contains(event.target as Node)) {
         setOpen(false);
       }
     };
     const closeOnEscape = (event: KeyboardEvent) => {
-      if (event.key === "Escape") setOpen(false);
+      if (event.key === "Escape") { setOpen(false); triggerRef.current?.focus({ preventScroll: true }); }
     };
 
     document.addEventListener("pointerdown", closeOnOutsideClick);
@@ -22,13 +24,12 @@ export function WhatsAppButton({ open, onOpenChange: setOpen }: { open: boolean;
       document.removeEventListener("pointerdown", closeOnOutsideClick);
       document.removeEventListener("keydown", closeOnEscape);
     };
-  }, [setOpen]);
+  }, [open, setOpen]);
 
   return (
-    <div ref={containerRef} className="fixed bottom-[calc(1.5rem+env(safe-area-inset-bottom))] right-6 z-50 flex flex-col items-end">
+    <div ref={containerRef} className="relative flex flex-col items-end">
       {open && (
-        // Leave room for the assistant launcher above the WhatsApp button.
-        <div className="absolute bottom-[calc(100%+4.75rem)] max-h-[calc(100dvh-11.25rem-env(safe-area-inset-bottom))] w-[min(18rem,calc(100vw-3rem))] overflow-y-auto rounded-lg border border-ink/10 bg-white shadow-[0_16px_45px_rgba(28,45,55,0.18)]">
+        <div id="novavision-whatsapp" role="region" aria-label="Especialistas disponibles por WhatsApp" className="nv-whatsapp-options absolute right-0 bottom-[calc(100%+.75rem)] max-h-[calc(100dvh-7rem-env(safe-area-inset-bottom))] w-[min(18rem,calc(100vw-3rem))] overflow-y-auto rounded-lg border border-ink/10 bg-white shadow-[0_16px_45px_rgba(28,45,55,0.18)]">
           <div className="border-b border-ink/8 bg-paper px-4 py-3">
             <p className="font-display text-sm font-bold text-ink">
               ¿Con quién deseas agendar?
@@ -70,7 +71,9 @@ export function WhatsAppButton({ open, onOpenChange: setOpen }: { open: boolean;
       )}
 
       <button
+        ref={triggerRef}
         type="button"
+        aria-controls="novavision-whatsapp"
         onClick={() => setOpen(!open)}
         aria-label={open ? "Cerrar opciones de WhatsApp" : "Agendar cita por WhatsApp"}
         aria-expanded={open}

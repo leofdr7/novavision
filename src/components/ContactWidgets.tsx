@@ -1,6 +1,7 @@
 import { Component, lazy, Suspense, useRef, useState, type ReactNode } from "react";
 import { ChatLauncher } from "./chat/ChatLauncher";
 import { WhatsAppButton } from "./WhatsAppButton";
+import "./contact-widgets.css";
 
 const ChatPanel = lazy(() => import("./chat/ChatPanel"));
 class ChatLoadBoundary extends Component<{ children: ReactNode; open: boolean }, { failed: boolean }> {
@@ -13,10 +14,12 @@ export function ContactWidgets() {
   const [active, setActive] = useState<"chat" | "whatsapp" | null>(null);
   const [loaded, setLoaded] = useState(false);
   const launcher = useRef<HTMLButtonElement>(null);
-  const closeChat = () => { setActive(null); launcher.current?.focus(); };
+  const closeChat = () => { setActive(null); requestAnimationFrame(() => launcher.current?.focus({ preventScroll: true })); };
   return <>
-    <WhatsAppButton open={active === "whatsapp"} onOpenChange={open => setActive(current => open ? "whatsapp" : current === "whatsapp" ? null : current)} />
-    <ChatLauncher buttonRef={launcher} open={active === "chat"} onClick={() => { setLoaded(true); setActive(current => current === "chat" ? null : "chat"); }} />
+    <div className="nv-contact-dock">
+      <ChatLauncher buttonRef={launcher} open={active === "chat"} onClick={() => { setLoaded(true); setActive(current => current === "chat" ? null : "chat"); }} />
+      <WhatsAppButton open={active === "whatsapp"} onOpenChange={open => setActive(current => open ? "whatsapp" : current === "whatsapp" ? null : current)} />
+    </div>
     {loaded ? <ChatLoadBoundary open={active === "chat"}><Suspense fallback={active === "chat" ? <p role="status" className="fixed right-6 bottom-40 z-[90] rounded-lg bg-paper p-4 shadow-lg">Abriendo asistente…</p> : null}>
       <ChatPanel open={active === "chat"} onClose={closeChat} />
     </Suspense></ChatLoadBoundary> : null}
