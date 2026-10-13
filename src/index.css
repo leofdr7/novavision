@@ -669,9 +669,17 @@ body:has(#contacto:target) .header-mobile-link[href="#contacto"] {
   }
 }
 
-/* Tres acciones táctiles en una fila; el enlace del logo conserva su nombre accesible. */
+/* Marca completa en dos niveles para dejar espacio a las tres acciones táctiles. */
 @media (max-width: 639px) {
-  .header-brand-name { display: none; }
+  .header-logo-panel {
+    flex-direction: column;
+    justify-content: center;
+    gap: 0.125rem;
+    padding-inline: 0.25rem;
+  }
+  .header-logo-image { width: 1.5rem; height: 1.5rem; }
+  .header-brand-name { font-size: 0.75rem; white-space: nowrap; }
+  .header-navigation { gap: 0.375rem; padding-inline: 0.375rem; }
 }
 
 @media (prefers-reduced-motion: reduce) {
