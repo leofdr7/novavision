@@ -157,30 +157,99 @@
   transition: transform var(--surface-transition), box-shadow var(--surface-transition);
 }
 .nv-glass-card .text-muted { color: var(--text-secondary); }
+.doctor-card {
+  /* Superficie sin blur: se conservan tinte, borde y sombra. */
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
 .nv-glass-section a:focus-visible {
   outline: 3px solid var(--focus-color);
   outline-offset: 4px;
 }
 .doctor-social-link {
+  --social-brand: var(--color-blue-dark);
+  --social-icon: var(--text-brand);
+  --social-background: linear-gradient(135deg, color-mix(in srgb, var(--social-brand) 8%, transparent), color-mix(in srgb, var(--social-brand) 18%, transparent));
+  position: relative;
+  isolation: isolate;
+  overflow: hidden;
   display: grid;
   place-items: center;
-  width: 44px;
-  height: 44px;
-  border: 1px solid var(--color-blue-light);
-  border-radius: 50%;
-  background: var(--color-paper);
-  color: var(--text-brand);
-  transition: background-color var(--surface-transition), color var(--surface-transition), border-color var(--surface-transition);
+  flex: 0 0 46px;
+  width: 46px;
+  height: 46px;
+  min-width: 44px;
+  min-height: 44px;
+  border: 1px solid rgb(255 255 255 / 85%);
+  border-radius: 14px;
+  background: rgb(255 255 255 / 35%);
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+  color: var(--social-icon);
+  box-shadow:
+    inset 0 1px 0 rgb(255 255 255 / 85%),
+    inset 0 0 8px rgb(255 255 255 / 28%),
+    0 4px 10px color-mix(in srgb, var(--social-brand) 10%, transparent);
+  transition: transform var(--surface-transition), box-shadow var(--surface-transition);
 }
-.doctor-social-link:hover {
-  border-color: var(--color-blue-deep);
-  background: var(--color-blue-deep);
-  color: var(--action-text);
+/* Tinte de cada red y destello discreto, separados del icono. */
+.doctor-social-link::before,
+.doctor-social-link::after {
+  content: "";
+  position: absolute;
+  pointer-events: none;
+}
+.doctor-social-link::before {
+  inset: 0;
+  z-index: 0;
+  background: var(--social-background);
+}
+.doctor-social-link::after {
+  top: 2px;
+  left: 2px;
+  z-index: 1;
+  width: 20px;
+  height: 16px;
+  border-radius: 10px 0 0;
+  background: linear-gradient(135deg, rgb(255 255 255 / 24%), rgb(255 255 255 / 6%) 32%, transparent 62%);
+}
+.doctor-social-link svg {
+  position: relative;
+  z-index: 2;
+}
+.doctor-social-link--facebook {
+  --social-brand: #1877f2;
+  --social-icon: #1456b8;
+}
+.doctor-social-link--instagram {
+  --social-brand: #d62976;
+  --social-icon: #b3205f;
+  --social-background: linear-gradient(135deg, rgb(254 218 117 / 12%), rgb(250 126 30 / 10%) 30%, rgb(214 41 118 / 12%) 65%, rgb(150 47 191 / 14%));
+}
+.doctor-social-link--tiktok {
+  --social-brand: #25f4ee;
+  --social-icon: #1a1a1a;
+  --social-background: linear-gradient(135deg, rgb(37 244 238 / 14%), rgb(37 244 238 / 8%) 35%, rgb(254 44 85 / 8%) 65%, rgb(254 44 85 / 14%));
+}
+.doctor-social-link--whatsapp {
+  --social-brand: #25d366;
+  --social-icon: #138a47;
+}
+.doctor-social-link:focus-visible {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 4px;
 }
 @media (hover: hover) and (prefers-reduced-motion: no-preference) {
   .nv-glass-card:hover {
     transform: translateY(-3px);
     box-shadow: var(--shadow-glass-hover);
+  }
+  .doctor-social-link:hover {
+    transform: translateY(-3px);
+    box-shadow:
+      inset 0 1px 0 rgb(255 255 255 / 90%),
+      inset 0 0 8px rgb(255 255 255 / 32%),
+      0 7px 14px color-mix(in srgb, var(--social-brand) 16%, transparent);
   }
 }
 @media (prefers-reduced-motion: reduce) {

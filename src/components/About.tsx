@@ -135,7 +135,7 @@ export function About() {
                         rel="noopener noreferrer"
                         aria-label={`Facebook de ${doc.nombre}`}
                         title={`Facebook de ${doc.nombre}`}
-                        className="doctor-social-link"
+                        className="doctor-social-link doctor-social-link--facebook"
                       >
                         <Facebook size={18} strokeWidth={1.8} />
                       </a>
@@ -147,7 +147,7 @@ export function About() {
                         rel="noopener noreferrer"
                         aria-label={`Instagram de ${doc.nombre}`}
                         title={`Instagram de ${doc.nombre}`}
-                        className="doctor-social-link"
+                        className="doctor-social-link doctor-social-link--instagram"
                       >
                         <Instagram size={18} strokeWidth={1.8} />
                       </a>
@@ -159,7 +159,7 @@ export function About() {
                         rel="noopener noreferrer"
                         aria-label={`TikTok de ${doc.nombre}`}
                         title={`TikTok de ${doc.nombre}`}
-                        className="doctor-social-link"
+                        className="doctor-social-link doctor-social-link--tiktok"
                       >
                         <TikTokIcon />
                       </a>
@@ -172,7 +172,7 @@ export function About() {
                         onClick={() => handleWhatsAppClick(whatsAppDoctorLabel(doc.nombre))}
                         aria-label={`Agendar cita por WhatsApp con ${doc.nombre}`}
                         title={`WhatsApp de ${doc.nombre}`}
-                        className="doctor-social-link"
+                        className="doctor-social-link doctor-social-link--whatsapp"
                       >
                         <MessageCircle size={19} strokeWidth={1.8} />
                       </a>
