@@ -29,15 +29,15 @@ export function WhatsAppButton({ open, onOpenChange: setOpen }: { open: boolean;
   return (
     <div ref={containerRef} className="relative flex flex-col items-end">
       {open && (
-        <div id="novavision-whatsapp" role="region" aria-label="Especialistas disponibles por WhatsApp" className="nv-whatsapp-options absolute right-0 bottom-[calc(100%+.75rem)] max-h-[calc(100dvh-7rem-env(safe-area-inset-bottom))] w-[min(18rem,calc(100vw-3rem))] overflow-y-auto rounded-lg border border-ink/10 bg-white shadow-[0_16px_45px_rgba(28,45,55,0.18)]">
-          <div className="border-b border-ink/8 bg-paper px-4 py-3">
+        <div id="novavision-whatsapp" role="region" aria-label="Especialistas disponibles por WhatsApp" className="nv-glass nv-whatsapp-options absolute right-0 bottom-[calc(100%+.75rem)] max-h-[calc(100dvh-7rem-env(safe-area-inset-bottom))] w-[min(18rem,calc(100vw-3rem))] overflow-y-auto">
+          <div className="border-b border-ink/8 px-4 py-3">
             <p className="font-display text-sm font-bold text-ink">
               ¿Con quién deseas agendar?
             </p>
             <p className="mt-0.5 text-xs text-muted">Elige un especialista para continuar.</p>
           </div>
-          <div className="grid gap-1 p-2">
-            {clinic.oftalmologos.map((doctor, index) => (
+          <div className="grid gap-2 p-2">
+            {clinic.oftalmologos.map((doctor) => (
               <a
                 key={doctor.nombre}
                 href={`https://wa.me/${doctor.whatsapp}?text=${encodeURIComponent(
@@ -49,12 +49,10 @@ export function WhatsAppButton({ open, onOpenChange: setOpen }: { open: boolean;
                   handleWhatsAppClick(whatsAppDoctorLabel(doctor.nombre));
                   setOpen(false);
                 }}
-                className="group flex items-center gap-3 rounded-md px-3 py-2.5 transition-colors hover:bg-paper"
+                className="header-mobile-control menu-item-doctor flex items-center gap-3 px-3 py-2.5"
               >
                 <span
-                  className={`flex h-9 w-9 shrink-0 items-center justify-center rounded-full text-white ${
-                    index === 0 ? "bg-orange" : "bg-teal"
-                  }`}
+                  className="header-mobile-control menu-item-doctor flex h-11 w-11 shrink-0 items-center justify-center"
                 >
                   <MessageCircle size={17} />
                 </span>

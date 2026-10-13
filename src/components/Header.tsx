@@ -86,7 +86,7 @@ export function Header() {
               ))}
             </nav>
 
-            <div className="hidden items-center gap-2 md:flex">
+            <div className="flex items-center gap-2">
               <a
                 href={`tel:${clinic.telefono}`}
                 className="header-icon-btn grid"
@@ -99,14 +99,14 @@ export function Header() {
                   type="button"
                   onClick={() => setWhatsappOpen((current) => !current)}
                   aria-expanded={whatsappOpen}
-                  className="nv-action header-cta inline-flex items-center gap-2 px-4 py-2.5 font-display text-sm font-semibold"
+                  className="header-cta inline-flex items-center gap-2 px-4 py-2.5 font-display text-sm font-semibold"
                 >
                   <MessageCircle size={16} />
                   <span className="header-cta-label hidden sm:inline">Agendar cita</span>
                   <span className="sm:hidden">Cita</span>
                 </button>
                 {whatsappOpen && (
-                  <div className="absolute right-0 top-full z-[80] mt-2 w-64 rounded-md border border-ink/10 bg-white p-2 shadow-glass-hover">
+                  <div className="header-doctor-menu absolute right-0 top-full z-[80] mt-2 w-64 rounded-md border border-ink/10 bg-white p-2 shadow-glass-hover">
                     <p className="px-3 pb-2 pt-1 font-mono text-[0.6rem] uppercase tracking-wider text-muted">
                       Elige un especialista
                     </p>
@@ -163,15 +163,15 @@ export function Header() {
         aria-hidden={!open}
       >
         <nav
-          className="border border-ink/8 bg-white p-4"
+          className="p-4"
           aria-label="Menú móvil"
         >
-          <ul className="grid gap-1 sm:grid-cols-2">
+          <ul className="grid gap-2 sm:grid-cols-2">
             {navLinks.map((link) => (
               <li key={link.href}>
                 <a
                   href={link.href}
-                  className="block rounded-md border border-transparent px-4 py-3 font-display text-sm font-medium text-ink transition-colors hover:border-blue/20 hover:bg-paper hover:text-blue-deep"
+                  className="header-mobile-control header-mobile-link block px-4 py-3 font-display text-sm font-medium"
                   onClick={() => {
                     setOpen(false);
                     setWhatsappOpen(false);
@@ -185,7 +185,7 @@ export function Header() {
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
             <a
               href={`tel:${clinic.telefono}`}
-              className="flex items-center justify-center gap-2 border border-ink/10 px-4 py-3 font-display text-sm font-semibold text-ink hover:border-blue/30 hover:text-blue-deep"
+              className="header-mobile-control flex items-center justify-center gap-2 px-4 py-3 font-display text-sm font-semibold"
               onClick={() => setOpen(false)}
             >
               <Phone size={16} />
@@ -193,7 +193,7 @@ export function Header() {
             </a>
             <button
               type="button"
-              className="nv-action flex items-center justify-center gap-2 px-4 py-3 font-display text-sm font-semibold"
+              className="header-mobile-control header-mobile-control--whatsapp flex items-center justify-center gap-2 px-4 py-3 font-display text-sm font-semibold"
               onClick={() => setWhatsappOpen((current) => !current)}
               aria-expanded={whatsappOpen}
             >
@@ -202,7 +202,7 @@ export function Header() {
             </button>
             {whatsappOpen && (
               <div className="grid gap-2 sm:col-span-2 sm:grid-cols-2">
-                {clinic.oftalmologos.map((doctor, index) => (
+                {clinic.oftalmologos.map((doctor) => (
                   <a
                     key={doctor.nombre}
                     href={`https://wa.me/${doctor.whatsapp}?text=${encodeURIComponent(
@@ -215,16 +215,9 @@ export function Header() {
                       setOpen(false);
                       setWhatsappOpen(false);
                     }}
-                    className={`flex items-center justify-center gap-2 border px-4 py-3 font-display text-sm font-semibold ${
-                      index === 0
-                        ? "border-orange/30 bg-orange/8 text-ink"
-                        : "border-teal/30 bg-teal/8 text-ink"
-                    }`}
+                    className="header-mobile-control menu-item-doctor flex items-center justify-center gap-2 px-4 py-3 font-display text-sm font-semibold"
                   >
-                    <MessageCircle
-                      size={16}
-                      className={index === 0 ? "text-orange" : "text-teal"}
-                    />
+                    <MessageCircle size={16} />
                     {doctor.nombre}
                   </a>
                 ))}

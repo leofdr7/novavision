@@ -34,26 +34,21 @@ export function About() {
         </Reveal>
 
         <div className="mt-10 space-y-8 md:mt-14 md:space-y-10">
-          <Reveal delay={0.05}>
-            <article className="about-info-card about-info-card--mission grid gap-7 border-l-4 border-teal bg-paper p-6 md:grid-cols-2 md:gap-12 md:p-9">
-              <div>
-                <h3 className="font-display text-xl font-bold text-ink">
-                  Nuestra misión
-                </h3>
-                <p className="mt-3 text-ink-soft">
-                  Preservar y mejorar la salud visual mediante diagnósticos precisos,
-                  tratamientos basados en evidencia y acompañamiento en cada consulta.
-                </p>
-              </div>
-              <div>
-                <h3 className="font-display text-xl font-bold text-ink">
-                  Experiencia
-                </h3>
-                <p className="mt-3 text-ink-soft">{clinic.experiencia}</p>
-                <p className="mt-3 text-sm text-muted">
-                  Edificio Condominio Médico, Local 81, Colonia Médica.
-                </p>
-              </div>
+          <Reveal delay={0.05} className="about-info-grid grid gap-6 md:grid-cols-2">
+            <article className="nv-glass nv-glass-card nv-glass-card--reading about-info-card p-6 md:p-9">
+              <h3 className="font-display text-xl font-bold text-ink">
+                Nuestra misión
+              </h3>
+              <p className="mt-3 text-ink-soft">
+                Preservar y mejorar la salud visual mediante diagnósticos precisos,
+                tratamientos basados en evidencia y acompañamiento en cada consulta.
+              </p>
+            </article>
+            <article className="nv-glass nv-glass-card nv-glass-card--reading about-info-card p-6 md:p-9">
+              <h3 className="font-display text-xl font-bold text-ink">
+                Experiencia
+              </h3>
+              <p className="mt-3 text-ink-soft">{clinic.experiencia}</p>
             </article>
           </Reveal>
 

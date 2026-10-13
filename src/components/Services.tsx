@@ -30,7 +30,7 @@ export function Services() {
         </Reveal>
 
         <Reveal delay={0.04} className="mx-auto mt-8 max-w-4xl">
-          <article className="border border-ink/10 bg-white px-6 py-6 sm:px-8">
+          <article className="nv-glass nv-glass-card nv-glass-card--reading px-6 py-6 sm:px-8">
             <h3 className="font-display text-xl font-bold text-ink">
               Consulta oftalmológica y cirugía ocular en San Salvador
             </h3>

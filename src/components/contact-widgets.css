@@ -33,7 +33,18 @@
 .nv-agent-icon { flex: none; }
 .nv-agent-name { display: block; font-family: var(--font-display); font-size: 14px; font-weight: 700; letter-spacing: .16em; line-height: 1.4; }
 .nv-agent-caption { display: block; font-family: system-ui, sans-serif; font-size: 10px; line-height: 1.6; }
-.nv-whatsapp-options { overscroll-behavior: contain; -webkit-overflow-scrolling: touch; scrollbar-width: thin; }
+.nv-whatsapp-options {
+  --glass-background: var(--glass-panel-background);
+  --glass-blur: var(--glass-panel-blur);
+  --glass-saturation: var(--glass-panel-saturation);
+  --glass-border: var(--glass-border-luminous);
+  box-shadow: var(--shadow-glass-panel);
+  overscroll-behavior: contain;
+  -webkit-overflow-scrolling: touch;
+  scrollbar-width: thin;
+}
+.nv-whatsapp-options .text-muted { color: var(--text-primary); }
+.nv-whatsapp-options a:focus-visible { outline-offset: 0; }
 @media (max-width: 639px) {
   .nv-contact-dock { right: 1rem; bottom: calc(1rem + env(safe-area-inset-bottom)); gap: .625rem; }
   body:has(.nv-chat[data-open="true"][data-keyboard-open="true"]) .nv-contact-dock { visibility: hidden; }

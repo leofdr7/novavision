@@ -105,22 +105,22 @@ export function Hero() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => handleWhatsAppClick(doctor.conversionLabel)}
-                  className="nv-glass hero-appointment flex min-w-0 items-center gap-2 px-2 py-3 text-left sm:px-3"
+                  className="hero-appointment flex min-w-0 items-center gap-2 px-2 py-3 text-left sm:px-3"
                 >
                   <span className="shrink-0">
                     <MessageCircle size={16} />
                   </span>
                   <span className="min-w-0">
-                    <span className="block font-mono text-[0.55rem] uppercase tracking-wider text-white">
+                    <span className="block font-mono text-[0.55rem] uppercase tracking-wider">
                       Agendar cita
                     </span>
-                    <span className="mt-0.5 block font-display text-xs font-bold text-white sm:text-sm">
+                    <span className="mt-0.5 block font-display text-xs font-bold sm:text-sm">
                       {doctor.title} {doctor.name.split(" ").at(-1)}
                     </span>
                   </span>
                   <ArrowUpRight
                     size={14}
-                    className="ml-auto hidden shrink-0 text-white xl:block"
+                    className="ml-auto hidden shrink-0 xl:block"
                   />
                 </a>
               ))}
