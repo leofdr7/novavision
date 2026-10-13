@@ -44,7 +44,8 @@ test("keeps WhatsApp reachable during service failure with no chat Ads event", a
   await expect(page.getByRole("link", { name: /^Dra\. Karla Vides/ })).toHaveAttribute("href", /wa.me\/50379893654/);
 });
 
-test("mobile chat follows the keyboard viewport and keeps the conversation spacious", async ({ page }) => {
+for (const resizeLayout of [false, true]) {
+test(`mobile keyboard preserves reading space when ${resizeLayout ? "both viewports resize" : "only the visual viewport resizes"}`, async ({ page }) => {
   await page.setViewportSize({ width: 390, height: 844 });
   await page.route("**/api/chat", route => route.request().method() === "GET"
     ? route.fulfill({ json: init })
@@ -64,21 +65,28 @@ test("mobile chat follows the keyboard viewport and keeps the conversation spaci
   await expect(input).toBeEnabled();
 
   await input.focus();
-  // Simulate iOS: the keyboard changes the visual viewport, not the layout viewport.
-  await page.evaluate(() => {
-    Object.defineProperty(window.visualViewport, "height", { configurable: true, value: 360 });
-    Object.defineProperty(window.visualViewport, "offsetTop", { configurable: true, value: 44 });
-    window.visualViewport!.dispatchEvent(new Event("resize"));
-    window.visualViewport!.dispatchEvent(new Event("scroll"));
-  });
-  await expect.poll(async () => (await dialog.boundingBox())!.y).toBeGreaterThanOrEqual(44);
+  // Cover browsers that resize either the visual viewport or both viewports.
+  if (resizeLayout) await page.setViewportSize({ width: 390, height: 360 });
+  else await page.evaluate(() => {
+      Object.defineProperty(window.visualViewport, "height", { configurable: true, value: 360 });
+      Object.defineProperty(window.visualViewport, "offsetTop", { configurable: true, value: 44 });
+      window.visualViewport!.dispatchEvent(new Event("resize"));
+      window.visualViewport!.dispatchEvent(new Event("scroll"));
+    });
+  const viewportTop = resizeLayout ? 0 : 44;
+  const whatsapp = page.getByRole("button", { name: "Agendar cita por WhatsApp", exact: true, includeHidden: true });
+  const launcher = page.getByRole("button", { name: "Cerrar asistente", includeHidden: true });
+  await expect(dialog).toHaveAttribute("data-keyboard-open", "true");
+  await expect(whatsapp).toBeHidden();
+  await expect(launcher).toBeHidden();
   const bounds = (await dialog.boundingBox())!;
-  expect(bounds.y + bounds.height).toBeLessThanOrEqual(404);
-  expect(bounds.x).toBeGreaterThan(0);
-  expect(bounds.x + bounds.width).toBeLessThan(390);
+  expect(bounds.y).toBe(viewportTop);
+  expect(bounds.height).toBe(360);
+  expect(bounds.x).toBe(0);
+  expect(bounds.width).toBe(390);
   const composer = (await input.boundingBox())!;
-  expect(composer.y + composer.height).toBeLessThanOrEqual(404);
-  expect((await dialog.getByLabel("Conversación", { exact: true }).boundingBox())!.height).toBeGreaterThan(180);
+  expect(composer.y + composer.height).toBeLessThanOrEqual(viewportTop + 360);
+  expect((await dialog.getByLabel("Conversación", { exact: true }).boundingBox())!.height).toBeGreaterThan(195);
   await expect(input).toBeFocused();
   await input.fill("Texto largo\n".repeat(10));
   expect((await input.boundingBox())!.height).toBeLessThanOrEqual(90);
@@ -86,17 +94,21 @@ test("mobile chat follows the keyboard viewport and keeps the conversation spaci
   await expect(dialog.getByText("900/1000", { exact: true })).toBeVisible();
   await input.fill("");
   await expect.poll(() => dialog.getByLabel("Conversación", { exact: true }).evaluate(el => el.scrollHeight - el.clientHeight - el.scrollTop)).toBeLessThan(12);
-  await page.screenshot({ path: `test-results/chat-keyboard-${test.info().project.name}.png`, clip: bounds, animations: "disabled" });
+  await expect(dialog.getByRole("button", { name: "Volver al último mensaje" })).toBeHidden();
+  await page.screenshot({ path: `test-results/chat-keyboard-${resizeLayout ? "both" : "visual"}-${test.info().project.name}.png`, clip: bounds, animations: "disabled" });
 
   await dialog.locator("summary").focus(); await page.keyboard.press("Tab");
   await expect(dialog.getByLabel("Cerrar conversación")).toBeFocused();
   await page.keyboard.press("Shift+Tab"); await expect(dialog.locator("summary")).toBeFocused();
-  await page.evaluate(() => {
+  if (resizeLayout) await page.setViewportSize({ width: 390, height: 844 });
+  else await page.evaluate(() => {
     delete (window.visualViewport as unknown as Record<string, unknown>).height;
     delete (window.visualViewport as unknown as Record<string, unknown>).offsetTop;
     window.visualViewport!.dispatchEvent(new Event("resize"));
   });
-  const whatsapp = page.getByRole("button", { name: "Agendar cita por WhatsApp", exact: true });
+  await expect(dialog).toHaveAttribute("data-keyboard-open", "false");
+  await expect(whatsapp).toBeVisible();
+  await expect(launcher).toBeVisible();
   await expect.poll(async () => (await dialog.boundingBox())!.height).toBeGreaterThan(bounds.height);
   const restored = (await dialog.boundingBox())!;
   expect(restored.y + restored.height).toBeLessThan((await whatsapp.boundingBox())!.y);
@@ -105,6 +117,7 @@ test("mobile chat follows the keyboard viewport and keeps the conversation spaci
   expect(await page.evaluate(() => document.body.style.overflow)).toBe("");
   await expect(page.getByRole("button", { name: "Consultar al asistente" })).toBeFocused();
 });
+}
 
 for (const width of [360, 768, 1280]) {
   test(`glass chat keeps WhatsApp and the composer reachable at ${width}px`, async ({ page }) => {

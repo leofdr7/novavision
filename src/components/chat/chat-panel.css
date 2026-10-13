@@ -95,6 +95,17 @@
     transform: none;
     transition: opacity 180ms ease-out;
   }
+  .nv-chat[data-keyboard-open="true"] {
+    top: var(--chat-viewport-top, 0px);
+    left: 0;
+    right: 0;
+    width: 100%;
+    height: var(--chat-viewport-height, 100dvh);
+    max-height: var(--chat-viewport-height, 100dvh);
+    border: 0;
+    border-radius: 0;
+    box-shadow: none;
+  }
   @starting-style {
     .nv-chat[data-open="true"] { transform: none; }
   }

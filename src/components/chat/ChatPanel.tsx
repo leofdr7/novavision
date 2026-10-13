@@ -17,7 +17,7 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
   const chat = useChat();
   const [draft, setDraft] = useState("");
   const [present, setPresent] = useState(open);
-  const [viewport, setViewport] = useState({ height: window.innerHeight, offset: 0, top: 0, mobile: window.innerWidth < 640 });
+  const [viewport, setViewport] = useState({ height: window.innerHeight, offset: 0, top: 0, mobile: window.innerWidth < 640, keyboardOpen: false });
   const panel = useRef<HTMLElement>(null);
   const input = useRef<HTMLTextAreaElement>(null);
   const close = useRef<HTMLButtonElement>(null);
@@ -48,9 +48,23 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
 
   useEffect(() => {
     if (!open) return;
+    let restingHeight = window.visualViewport?.height ?? window.innerHeight;
+    let restingWidth = window.innerWidth;
+    let keyboardOpen = false;
     const update = () => {
       const vv = window.visualViewport;
-      setViewport({ height: vv?.height ?? window.innerHeight, offset: vv ? Math.max(0, window.innerHeight - vv.height - vv.offsetTop) : 0, top: vv?.offsetTop ?? 0, mobile: window.innerWidth < 640 });
+      const height = vv?.height ?? window.innerHeight;
+      const mobile = window.innerWidth < 640;
+      const typing = document.activeElement === input.current;
+      // Compare with the space before typing, even when both viewports shrink.
+      // Rotation and pinch zoom must not be mistaken for the keyboard.
+      if (restingWidth !== window.innerWidth) {
+        restingWidth = window.innerWidth;
+        restingHeight = height;
+      }
+      keyboardOpen = mobile && (vv?.scale ?? 1) === 1 && (typing || keyboardOpen) && restingHeight - height > 120;
+      if (!keyboardOpen && (!typing || height > restingHeight)) restingHeight = height;
+      setViewport({ height, offset: vv ? Math.max(0, window.innerHeight - height - vv.offsetTop) : 0, top: vv?.offsetTop ?? 0, mobile, keyboardOpen });
     };
     update(); window.addEventListener("resize", update); window.visualViewport?.addEventListener("resize", update); window.visualViewport?.addEventListener("scroll", update);
     close.current?.focus({ preventScroll: true });
@@ -86,7 +100,7 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
     follow.current = true; void chat.send(text); setDraft("");
   }
 
-  return <section ref={panel} id="novavision-chat" hidden={!open && !present} inert={!open} aria-hidden={!open} data-open={open} role="dialog" aria-modal={viewport.mobile || undefined} aria-labelledby="chat-title"
+  return <section ref={panel} id="novavision-chat" hidden={!open && !present} inert={!open} aria-hidden={!open} data-open={open} data-keyboard-open={viewport.keyboardOpen} role="dialog" aria-modal={viewport.mobile || undefined} aria-labelledby="chat-title"
     onKeyDown={event => {
       if (event.key === "Escape") { event.stopPropagation(); onClose(); }
       if (event.key === "Tab" && viewport.mobile) {
