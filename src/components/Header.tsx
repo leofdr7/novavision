@@ -86,7 +86,7 @@ export function Header() {
               ))}
             </nav>
 
-            <div className="flex items-center gap-2">
+            <div className="header-contact-actions flex items-center gap-2">
               <a
                 href={`tel:${clinic.telefono}`}
                 className="header-icon-btn grid"
