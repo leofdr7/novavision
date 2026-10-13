@@ -5,32 +5,11 @@ import { Reveal } from "./ui/Reveal";
 
 function HeroBackground() {
   return (
-    <div className="pointer-events-none absolute inset-0 overflow-hidden" aria-hidden>
-      <div className="hero-bg-gradient" />
-      <div className="absolute inset-0">
-        <div className="hero-bg-grid" />
-        <div className="hero-bg-ring hero-bg-ring--1" />
-      </div>
-
-      <div className="absolute inset-0">
-        <div className="hero-bg-ring hero-bg-ring--2" />
-        <div className="hero-bg-blob hero-bg-blob--blue" />
-        <div className="hero-bg-blob hero-bg-blob--teal" />
-        <div className="hero-bg-blob hero-bg-blob--orange" />
-      </div>
-
-      <div className="absolute inset-0">
-        <div className="hero-bg-ring hero-bg-ring--3" />
-        <svg
-          className="hero-bg-crosshair"
-          viewBox="0 0 200 200"
-          fill="none"
-        >
-          <circle cx="100" cy="100" r="72" stroke="#018AB6" strokeOpacity="0.12" strokeWidth="1" />
-          <circle cx="100" cy="100" r="48" stroke="#2DB1A4" strokeOpacity="0.1" strokeWidth="1" />
-          <line x1="100" y1="20" x2="100" y2="180" stroke="#1C2D37" strokeOpacity="0.06" />
-          <line x1="20" y1="100" x2="180" y2="100" stroke="#1C2D37" strokeOpacity="0.06" />
-        </svg>
+    <div className="hero-bg-gradient pointer-events-none" aria-hidden>
+      <div className="hero-portraits">
+        {clinic.oftalmologos.map((doctor) => (
+          <img key={doctor.nombre} src={doctor.foto} alt="" decoding="async" />
+        ))}
       </div>
     </div>
   );
@@ -38,16 +17,16 @@ function HeroBackground() {
 
 function EyeChartVisual() {
   const rows = [
-    { letter: "E", size: "text-6xl md:text-7xl", opacity: "opacity-90" },
-    { letter: "F P", size: "text-4xl md:text-5xl", opacity: "opacity-75" },
-    { letter: "T O Z", size: "text-2xl md:text-3xl", opacity: "opacity-60" },
-    { letter: "L P E D", size: "text-lg md:text-xl", opacity: "opacity-45" },
-    { letter: "P E C F D", size: "text-sm md:text-base", opacity: "opacity-30" },
+    { letter: "E", size: "text-5xl" },
+    { letter: "F P", size: "text-3xl" },
+    { letter: "T O Z", size: "text-xl" },
+    { letter: "L P E D", size: "text-lg" },
+    { letter: "P E C F D", size: "text-sm" },
   ];
 
   return (
     <div
-      className="relative flex aspect-[5/4] w-full max-w-sm flex-col items-center justify-center border border-ink/10 bg-white/80 p-5 shadow-[0_20px_60px_rgba(28,45,55,0.08)] sm:aspect-[4/5] sm:max-w-xs sm:p-8 md:max-w-md md:p-10"
+      className="hero-eye-chart relative flex w-full max-w-xs flex-col items-center justify-center rounded-md border border-ink/10 bg-white p-8"
     >
       <div className="absolute inset-3 border border-ink/5" aria-hidden />
       <p className="absolute left-4 top-4 font-mono text-[0.65rem] uppercase tracking-widest text-muted">
@@ -58,16 +37,16 @@ function EyeChartVisual() {
         {rows.map((row) => (
           <p
             key={row.letter}
-            className={`${row.size} ${row.opacity} tracking-[0.35em]`}
+            className={`${row.size} tracking-[0.35em]`}
           >
             {row.letter}
           </p>
         ))}
       </div>
 
-      <div className="absolute -bottom-4 -right-4 hidden border border-ink/10 bg-orange px-4 py-3 text-white md:block">
+      <div className="absolute -bottom-4 -right-4 hidden border border-ink/10 bg-blue-deep px-4 py-3 text-white md:block">
         <p className="font-display text-2xl font-bold leading-none">20/20</p>
-        <p className="mt-1 font-mono text-[0.6rem] uppercase tracking-wider opacity-80">
+        <p className="mt-1 font-mono text-[0.6rem] uppercase tracking-wider">
           Visión clara
         </p>
       </div>
@@ -88,26 +67,26 @@ export function Hero() {
   return (
     <section
       id="inicio"
-      className="snellen-bg relative overflow-hidden pt-[5.5rem] md:pt-[9.5rem]"
+      className="hero-section relative overflow-hidden"
     >
       <HeroBackground />
 
-      <div className="relative z-[1] mx-auto grid max-w-6xl gap-10 px-5 py-10 sm:py-14 md:grid-cols-[1.1fr_0.9fr] md:items-center md:gap-16 md:px-8 md:py-24 lg:py-28">
-        <Reveal immediate>
-          <p className="mb-5 inline-block border-l-2 border-orange pl-3 font-mono text-xs uppercase tracking-[0.15em] text-blue">
+      <div className="hero-layout relative z-[1] mx-auto grid max-w-6xl gap-8 px-4 pb-12 md:px-8 md:pb-20">
+        <Reveal immediate className="hero-card nv-glass">
+          <p className="mb-5 inline-block border-l-2 border-teal pl-3 font-mono text-[0.65rem] uppercase tracking-[0.12em] text-blue-deep">
             Oftalmología · Consulta privada
           </p>
-          <h1 className="font-hero text-[2.55rem] font-semibold leading-[0.98] tracking-[-0.035em] text-ink sm:text-[3.35rem] lg:text-[4.35rem]">
+          <h1 className="font-hero text-[2.2rem] font-semibold leading-[0.98] tracking-[-0.035em] text-ink sm:text-[3.35rem] lg:text-[3.75rem]">
             <span className="block">
               Tu{" "}
-              <span className="relative inline-block italic text-blue after:absolute after:-bottom-0.5 after:left-1/2 after:h-1 after:w-2/5 after:-translate-x-1/2 after:bg-orange after:content-['']">
+              <span className="relative inline-block italic text-blue-deep after:absolute after:-bottom-0.5 after:left-1/2 after:h-1 after:w-2/5 after:-translate-x-1/2 after:bg-teal after:content-['']">
                 visión
               </span>
             </span>
             <span className="my-1.5 block text-[0.72em] font-medium tracking-[-0.02em] text-ink-soft sm:my-2">
               en manos de
             </span>
-            <span className="relative inline-block italic text-teal after:absolute after:-bottom-1 after:left-1/2 after:h-1 after:w-2/5 after:-translate-x-1/2 after:bg-orange after:content-['']">
+            <span className="relative inline-block italic text-blue-deep after:absolute after:-bottom-1 after:left-1/2 after:h-1 after:w-2/5 after:-translate-x-1/2 after:bg-teal after:content-['']">
               especialistas
             </span>
           </h1>
@@ -117,46 +96,38 @@ export function Hero() {
             especializado y cirugías de catarata, retina, córnea y segmento anterior.
           </p>
 
-          <div className="mt-8 grid gap-3 sm:flex sm:flex-wrap">
-            <div className="grid grid-cols-2 gap-2">
-              {appointmentLinks.map((doctor, index) => (
+          <div className="hero-actions mt-7 grid grid-cols-2 gap-3">
+            <div className="col-span-2 grid grid-cols-2 gap-3">
+              {appointmentLinks.map((doctor) => (
                 <a
                   key={doctor.name}
                   href={doctor.href}
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => handleWhatsAppClick(doctor.conversionLabel)}
-                  className={`group relative flex min-w-0 items-center gap-2.5 overflow-hidden rounded-md border px-3 py-3 text-left transition-all before:absolute before:inset-x-0 before:top-0 before:h-0.5 hover:-translate-y-0.5 hover:shadow-[0_8px_24px_rgba(28,45,55,0.08)] sm:min-w-44 sm:px-4 ${
-                    index === 0
-                      ? "border-orange/30 bg-[linear-gradient(135deg,rgba(250,128,23,0.13),rgba(255,255,255,0.88))] before:bg-orange hover:border-orange/60"
-                      : "border-teal/30 bg-[linear-gradient(135deg,rgba(45,177,164,0.14),rgba(255,255,255,0.88))] before:bg-teal hover:border-teal/60"
-                  }`}
+                  className="nv-glass hero-appointment flex min-w-0 items-center gap-2 px-2 py-3 text-left sm:px-3"
                 >
-                  <span
-                    className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-full text-white ${
-                      index === 0 ? "bg-orange" : "bg-teal"
-                    }`}
-                  >
+                  <span className="shrink-0">
                     <MessageCircle size={16} />
                   </span>
                   <span className="min-w-0">
-                    <span className="block font-mono text-[0.55rem] uppercase tracking-wider text-muted">
+                    <span className="block font-mono text-[0.55rem] uppercase tracking-wider text-white">
                       Agendar cita
                     </span>
-                    <span className="mt-0.5 block truncate font-display text-xs font-bold text-ink sm:text-sm">
+                    <span className="mt-0.5 block font-display text-xs font-bold text-white sm:text-sm">
                       {doctor.title} {doctor.name.split(" ").at(-1)}
                     </span>
                   </span>
                   <ArrowUpRight
                     size={14}
-                    className="ml-auto hidden shrink-0 text-muted transition-transform group-hover:-translate-y-0.5 group-hover:translate-x-0.5 sm:block"
+                    className="ml-auto hidden shrink-0 text-white xl:block"
                   />
                 </a>
               ))}
             </div>
             <a
               href="#servicios"
-              className="inline-flex items-center justify-center gap-2 rounded-md border border-ink/15 bg-white/90 px-6 py-3.5 font-display text-sm font-semibold text-ink transition-colors hover:border-blue hover:text-blue"
+              className="nv-glass hero-secondary inline-flex items-center justify-center gap-2 px-3 py-3.5 font-display text-xs font-semibold sm:text-sm"
             >
               Ver servicios
               <ArrowUpRight size={16} />
@@ -165,14 +136,14 @@ export function Hero() {
               href={wazeUrl}
               target="_blank"
               rel="noopener noreferrer"
-              className="inline-flex items-center justify-center gap-2 rounded-md border border-teal/35 bg-teal/10 px-6 py-3.5 font-display text-sm font-semibold text-ink transition-colors hover:border-teal hover:bg-teal hover:text-white"
+              className="nv-glass hero-secondary inline-flex items-center justify-center gap-2 px-3 py-3.5 font-display text-xs font-semibold sm:text-sm"
             >
               <Navigation size={17} />
               Cómo llegar
             </a>
           </div>
 
-          <dl className="mt-10 grid gap-x-8 gap-y-5 border-t border-ink/10 pt-7 sm:mt-12 sm:grid-cols-2 sm:gap-y-6 sm:pt-8">
+          <dl className="mt-7 grid gap-x-6 gap-y-5 border-t border-ink/10 pt-6 sm:grid-cols-2">
             <div className="border-l-2 border-blue pl-4">
               <dt className="font-mono text-[0.65rem] uppercase tracking-wider text-muted">
                 Especialistas
@@ -189,7 +160,7 @@ export function Hero() {
                 {clinic.horarios}
               </dd>
             </div>
-            <div className="border-l-2 border-orange pl-4">
+            <div className="border-l-2 border-blue-light pl-4">
               <dt className="font-mono text-[0.65rem] uppercase tracking-wider text-muted">
                 Teléfono
               </dt>
@@ -208,7 +179,7 @@ export function Hero() {
           </dl>
         </Reveal>
 
-        <Reveal delay={0.12} className="flex justify-center md:justify-end">
+        <Reveal immediate className="hero-chart-wrap flex justify-center">
           <EyeChartVisual />
         </Reveal>
       </div>

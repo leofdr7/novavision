@@ -1,7 +1,7 @@
 /*
  * Paleta de marca:
- * - Crema #F8F4F0 (fondo) · Tinta #1C2D37 (texto)
- * - Azul #018AB6 · Teal #2DB1A4 · Naranja #FA8017 (acentos)
+ * - Blanco frío #F6FBFD (fondo) · Tinta #1C2D37 (texto)
+ * - Azul #018AB6 · Turquesa #2DB1A4 · Vidrio claro selectivo
  * Tipografía: Syne + Newsreader. Firma: cartilla Snellen.
  */
 
@@ -13,17 +13,21 @@
   --font-body: "Newsreader", Georgia, serif;
   --font-mono: "DM Mono", monospace;
 
-  --color-paper: #f8f4f0;
-  --color-paper-dark: #efeae4;
+  --color-paper: #f6fbfd;
+  --color-paper-dark: #e8f3f7;
   --color-ink: #1c2d37;
   --color-ink-soft: #4a5e6a;
   --color-blue: #018ab6;
   --color-blue-dark: #017099;
+  --color-blue-deep: #00536f;
+  --color-blue-light: #bfe5f1;
+  --color-blue-pale: #edf8fc;
   --color-teal: #2db1a4;
   --color-teal-dark: #249a8f;
+  --color-teal-light-surface: #d9f3ee;
   --color-orange: #fa8017;
   --color-orange-dark: #e06d10;
-  --color-muted: #6b7d87;
+  --color-muted: #526873;
 
   /* Alias semánticos usados en componentes */
   --color-coral: #fa8017;
@@ -33,6 +37,55 @@
 
   --radius-sm: 4px;
   --radius-md: 8px;
+  --radius-glass: 22px;
+  --radius-glass-lg: 24px;
+  --radius-glass-control: 12px;
+  --shadow-glass: 0 8px 28px rgb(0 83 111 / 8%);
+  --shadow-glass-hover: 0 12px 32px rgb(0 83 111 / 13%);
+  --shadow-glass-control: inset 0 1px 0 rgb(255 255 255 / 55%), inset 0 -1px 0 rgb(0 83 111 / 12%), 0 6px 18px rgb(0 83 111 / 18%);
+  --shadow-glass-control-hover: inset 0 1px 0 rgb(255 255 255 / 70%), inset 0 -1px 0 rgb(0 83 111 / 12%), 0 10px 24px rgb(0 83 111 / 24%);
+}
+
+:root {
+  --glass-blur: 10px;
+  --glass-saturation: 140%;
+  --glass-opacity: 0.22;
+  --glass-strong-opacity: 0.82;
+  --glass-background: rgb(255 255 255 / var(--glass-opacity));
+  --glass-background-strong: rgb(255 255 255 / var(--glass-strong-opacity));
+  --glass-background-fallback: rgb(255 255 255 / 92%);
+  --glass-border: rgb(255 255 255 / 35%);
+  --glass-nav-background: rgb(255 255 255 / 70%);
+  --glass-nav-background-scrolled: rgb(255 255 255 / 82%);
+  --glass-control-blur: 12px;
+  /* Variante oscura de marca: blanco AA incluso sobre un fondo blanco al 80%. */
+  --glass-action-background: color-mix(in srgb, var(--color-blue-deep) 80%, transparent);
+  --glass-action-background-hover: color-mix(in srgb, var(--color-blue-deep) 88%, transparent);
+  --glass-secondary-background: rgb(255 255 255 / 28%);
+  --glass-control-border: rgb(255 255 255 / 65%);
+  --glass-control-atmosphere:
+    radial-gradient(ellipse at 18% 40%, rgb(1 138 182 / 38%), transparent 72%),
+    radial-gradient(ellipse at 85% 65%, rgb(45 177 164 / 38%), transparent 72%);
+  --text-primary: var(--color-ink);
+  --text-secondary: var(--color-ink-soft);
+  --text-brand: var(--color-blue-deep);
+  --action-background: var(--color-blue-dark);
+  --action-background-hover: var(--color-blue-deep);
+  --action-text: #ffffff;
+  --focus-color: var(--color-blue-deep);
+  --surface-transition: 220ms ease;
+  --page-background: linear-gradient(135deg, #ffffff 0%, var(--color-paper) 55%, #f1faf8 100%);
+  /* Tres manchas estáticas; el degradado difumina sin filter: blur(). */
+  --surface-atmosphere:
+    radial-gradient(ellipse 65% 60% at 95% 12%, rgb(1 138 182 / 15%), transparent 75%),
+    radial-gradient(ellipse 55% 55% at 0% 80%, rgb(45 177 164 / 13%), transparent 75%),
+    radial-gradient(ellipse 45% 45% at 65% 90%, rgb(191 229 241 / 36%), transparent 75%);
+}
+
+@media (min-width: 768px) {
+  :root {
+    --glass-blur: 14px;
+  }
 }
 
 @layer base {
@@ -45,10 +98,34 @@
     @apply bg-paper text-ink font-body antialiased;
     font-size: 1.0625rem;
     line-height: 1.75;
+    background-image: var(--page-background);
   }
 
   ::selection {
     background: color-mix(in srgb, var(--color-teal) 30%, transparent);
+  }
+}
+
+/* Aplicar solo al contenedor exterior de cada zona, sin anidar vidrio. */
+@layer components {
+  .nv-glass {
+    background: var(--glass-background);
+    -webkit-backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+    backdrop-filter: blur(var(--glass-blur)) saturate(var(--glass-saturation));
+    border: 1px solid var(--glass-border);
+    border-radius: var(--radius-glass);
+    box-shadow: var(--shadow-glass);
+    color: var(--text-primary);
+  }
+
+  .nv-glass--strong {
+    background: var(--glass-background-strong);
+  }
+
+  @supports not (backdrop-filter: blur(1px)) {
+    .nv-glass {
+      background: var(--glass-surface-fallback, var(--glass-background-fallback));
+    }
   }
 }
 
@@ -65,89 +142,7 @@
   .hero-bg-gradient {
     position: absolute;
     inset: 0;
-    background:
-      radial-gradient(ellipse 70% 55% at 85% 15%, rgba(1, 138, 182, 0.14) 0%, transparent 55%),
-      radial-gradient(ellipse 50% 45% at 10% 85%, rgba(45, 177, 164, 0.12) 0%, transparent 50%),
-      radial-gradient(ellipse 40% 35% at 60% 70%, rgba(250, 128, 23, 0.08) 0%, transparent 45%);
-  }
-
-  .hero-bg-grid {
-    position: absolute;
-    inset: 0;
-    background-image:
-      linear-gradient(rgba(28, 45, 55, 0.04) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(28, 45, 55, 0.04) 1px, transparent 1px);
-    background-size: 48px 48px;
-    mask-image: radial-gradient(ellipse 80% 70% at 50% 40%, black 20%, transparent 75%);
-  }
-
-  .hero-bg-ring {
-    position: absolute;
-    border-radius: 50%;
-    border: 1px solid rgba(1, 138, 182, 0.12);
-  }
-
-  .hero-bg-ring--1 {
-    width: 420px;
-    height: 420px;
-    top: -80px;
-    right: -100px;
-  }
-
-  .hero-bg-ring--2 {
-    width: 280px;
-    height: 280px;
-    bottom: 10%;
-    left: -60px;
-    border-color: rgba(45, 177, 164, 0.15);
-  }
-
-  .hero-bg-ring--3 {
-    width: 160px;
-    height: 160px;
-    top: 35%;
-    right: 28%;
-    border-color: rgba(250, 128, 23, 0.18);
-  }
-
-  .hero-bg-blob {
-    position: absolute;
-    border-radius: 50%;
-    filter: blur(60px);
-  }
-
-  .hero-bg-blob--blue {
-    width: 320px;
-    height: 320px;
-    top: 5%;
-    left: 45%;
-    background: rgba(1, 138, 182, 0.1);
-  }
-
-  .hero-bg-blob--teal {
-    width: 240px;
-    height: 240px;
-    bottom: 8%;
-    right: 15%;
-    background: rgba(45, 177, 164, 0.12);
-  }
-
-  .hero-bg-blob--orange {
-    width: 180px;
-    height: 180px;
-    top: 55%;
-    left: 5%;
-    background: rgba(250, 128, 23, 0.09);
-  }
-
-  .hero-bg-crosshair {
-    position: absolute;
-    width: 360px;
-    height: 360px;
-    top: 50%;
-    left: 55%;
-    transform: translate(-50%, -50%);
-    opacity: 0.7;
+    background: var(--surface-atmosphere);
   }
 }
 
@@ -239,25 +234,14 @@
 }
 
 /* ── Header flotante ── */
-.header-shell {
-  transition: transform 0.55s cubic-bezier(0.22, 1, 0.36, 1);
-}
-
 .header-bar {
-  border-radius: 14px;
-  border: 1px solid rgba(28, 45, 55, 0.08);
-  transition:
-    border-radius 0.4s ease,
-    box-shadow 0.4s ease;
+  --glass-background: var(--glass-nav-background);
+  transition: background-color var(--surface-transition), box-shadow var(--surface-transition);
 }
 
 .header-bar--scrolled {
-  border-radius: 12px;
-  background: rgba(248, 244, 240, 0.92);
-}
-
-.header-shell--scrolled {
-  transform: translateY(6px);
+  --glass-background: var(--glass-nav-background-scrolled);
+  box-shadow: var(--shadow-glass-hover);
 }
 
 .header-layout {
@@ -267,13 +251,11 @@
 .header-logo-panel {
   position: relative;
   overflow: hidden;
-  border-radius: 13px 0 0;
+  border-radius: var(--radius-glass) 0 0 var(--radius-glass);
   min-height: 4rem;
   justify-content: flex-start;
   gap: 0.65rem;
   padding: 0.5rem 0.85rem;
-  border-left: 4px solid transparent;
-  border-image: linear-gradient(180deg, #018ab6, #2db1a4, #fa8017) 1;
   transition: opacity 0.25s ease;
 }
 
@@ -290,7 +272,7 @@
 .header-navigation {
   gap: 0.5rem;
   padding: 0.5rem 0.65rem;
-  border-radius: 0 13px 0 0;
+  border-radius: 0 var(--radius-glass) var(--radius-glass) 0;
   transition: background 0.25s ease;
 }
 
@@ -314,7 +296,7 @@
   width: 0;
   height: 2px;
   background: linear-gradient(90deg, #018ab6, #2db1a4);
-  transition: width 0.3s ease, left 0.3s ease;
+  transition: width var(--surface-transition), left var(--surface-transition);
 }
 
 .header-nav-link:hover::after {
@@ -323,10 +305,10 @@
 }
 
 .header-icon-btn {
-  display: grid;
+  border-radius: var(--radius-md);
   place-items: center;
-  width: 40px;
-  height: 40px;
+  width: 44px;
+  height: 44px;
   border: 1px solid rgba(28, 45, 55, 0.1);
   color: var(--color-ink);
   transition: border-color 0.25s ease, color 0.25s ease, background 0.25s ease;
@@ -334,37 +316,8 @@
 
 .header-icon-btn:hover {
   border-color: rgba(1, 138, 182, 0.35);
-  color: var(--color-blue);
-  background: rgba(1, 138, 182, 0.06);
-}
-
-.header-cta {
-  clip-path: polygon(0 0, 100% 0, 100% calc(100% - 6px), calc(100% - 6px) 100%, 0 100%);
-  transition:
-    background 0.25s ease,
-    box-shadow 0.25s ease;
-}
-
-.header-accent {
-  display: flex;
-  height: 3px;
-  overflow: hidden;
-  border-radius: 0 0 13px 13px;
-}
-
-.header-accent__blue {
-  flex: 1;
-  background: #018ab6;
-}
-
-.header-accent__teal {
-  flex: 1;
-  background: #2db1a4;
-}
-
-.header-accent__orange {
-  flex: 0.6;
-  background: #fa8017;
+  color: var(--text-brand);
+  background: var(--color-blue-pale);
 }
 
 .header-mobile {
@@ -389,11 +342,12 @@
   pointer-events: auto;
   opacity: 1;
   transform: translate3d(0, 0, 0) scale(1);
-  border-radius: 12px;
+  border-radius: var(--radius-glass);
+  box-shadow: var(--shadow-glass-hover);
   transition-delay: 0s;
 }
 
-/* Keep navigation geometry stable; scrolling only changes its surface and position. */
+/* La geometría del navbar se conserva al hacer scroll. */
 @media (min-width: 768px) {
   .header-mobile { right: 1.5rem; left: 1.5rem; }
   .header-layout { grid-template-columns: minmax(250px, 34%) auto; }
@@ -423,26 +377,6 @@
   .header-brand-name {
     font-size: 1.05rem;
   }
-
-  .hero-bg-crosshair {
-    width: 250px;
-    height: 250px;
-    top: 28%;
-    left: 78%;
-    opacity: 0.45;
-  }
-
-  .hero-bg-ring--1 {
-    width: 260px;
-    height: 260px;
-    top: 3rem;
-    right: -8rem;
-  }
-
-  .hero-bg-grid {
-    background-size: 36px 36px;
-  }
-
 }
 
 @media (prefers-reduced-motion: reduce) {
@@ -458,6 +392,120 @@
     transition: none;
     will-change: auto;
   }
+}
+
+/* Superficies y acciones de la cabecera y el hero. */
+.nv-action {
+  border-radius: var(--radius-md);
+  background: var(--action-background);
+  color: var(--action-text);
+  transition: background-color var(--surface-transition), box-shadow var(--surface-transition);
+}
+.nv-action:hover {
+  background: var(--action-background-hover);
+  box-shadow: var(--shadow-glass);
+}
+.header-shell :is(a, button):focus-visible,
+.hero-section a:focus-visible {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 4px;
+}
+.header-logo-panel:focus-visible { outline-offset: -4px; }
+
+.hero-section { padding-top: 18.5rem; }
+.hero-portraits {
+  position: absolute;
+  top: 6.5rem;
+  right: 1rem;
+  left: 1rem;
+  height: 16rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  overflow: hidden;
+  border-radius: var(--radius-glass-lg);
+}
+.hero-portraits img {
+  width: 100%;
+  height: 100%;
+  min-height: 0;
+  object-fit: cover;
+  object-position: center top;
+}
+/* Velo estático: mantiene los detalles de las fotos fuera de la zona de lectura. */
+.hero-portraits::after {
+  content: "";
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(0deg, var(--color-paper), transparent 45%);
+}
+.hero-card {
+  min-width: 0;
+  padding: 1.5rem 1.25rem;
+  border-radius: var(--radius-glass-lg);
+  /* El blur se concentra en los botones, sin filtros anidados en esta tarjeta. */
+  -webkit-backdrop-filter: none;
+  backdrop-filter: none;
+}
+.hero-actions { position: relative; }
+.hero-actions::before {
+  content: "";
+  position: absolute;
+  inset: -1.5rem -1.25rem;
+  pointer-events: none;
+  background: var(--glass-control-atmosphere);
+  mask-image: radial-gradient(ellipse 50% 50% at center, black 45%, transparent 100%);
+}
+.hero-actions > * { position: relative; }
+.hero-actions a {
+  --glass-blur: var(--glass-control-blur);
+  --glass-border: var(--glass-control-border);
+  --radius-glass: var(--radius-glass-control);
+  --shadow-glass: var(--shadow-glass-control);
+  transition: transform var(--surface-transition), background-color var(--surface-transition), box-shadow var(--surface-transition);
+}
+.hero-appointment {
+  --glass-background: var(--glass-action-background);
+  --glass-surface-fallback: var(--color-blue-deep);
+  --text-primary: var(--action-text);
+}
+.hero-appointment:hover { --glass-background: var(--glass-action-background-hover); }
+.hero-secondary {
+  --glass-background: var(--glass-secondary-background);
+  --text-primary: var(--text-brand);
+}
+.hero-eye-chart { min-height: 22rem; }
+
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .hero-actions a:hover { transform: translateY(-2px); box-shadow: var(--shadow-glass-control-hover); }
+}
+@media (min-width: 640px) {
+  .hero-card { padding: 2rem; }
+}
+@media (min-width: 1024px) {
+  .hero-section { padding-top: 8.5rem; }
+  .hero-layout { grid-template-columns: minmax(0, 1.25fr) minmax(0, .85fr); }
+  .hero-portraits {
+    top: 10rem;
+    left: calc(50% + 2rem);
+    right: max(2rem, calc((100% - 72rem) / 2));
+    height: 35rem;
+  }
+  .hero-portraits::after {
+    background:
+      linear-gradient(90deg, var(--color-paper), rgb(246 251 253 / 92%) 12%, transparent 24%),
+      linear-gradient(0deg, var(--color-paper), transparent 40%);
+  }
+  .hero-chart-wrap { align-self: end; justify-content: flex-end; padding-right: 1rem; }
+  .hero-eye-chart { max-width: 15rem; min-height: 21rem; }
+}
+@media (prefers-reduced-motion: reduce) {
+  .header-shell *, .header-shell *::after,
+  .hero-section *, .hero-section *::after,
+  .hero-actions a {
+    transition: none;
+    animation: none;
+  }
+  .header-logo-image, .hero-actions a { transform: none; }
 }
 
 /* Entradas breves; el contenido inicial nunca queda oculto por una animación. */
@@ -476,7 +524,6 @@
 .nv-reveal:focus-within { opacity: 1; transform: none; transition: none; }
 @media (max-width: 767px) {
   .nv-reveal[data-reveal] { transition-duration: 240ms, 300ms; transition-delay: 0s; }
-  .hero-bg-blob { display: none; }
 }
 @media (prefers-reduced-motion: reduce) {
   .nv-reveal[data-reveal] { opacity: 1; transform: none; transition: none; }

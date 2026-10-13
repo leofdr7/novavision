@@ -47,21 +47,15 @@ export function Header() {
   return (
     <header
       ref={headerRef}
-      className={`header-shell fixed inset-x-0 top-0 z-50 px-4 pt-4 md:px-6 md:pt-5 ${
-        scrolled ? "header-shell--scrolled" : ""
-      }`}
+      className="header-shell fixed inset-x-0 top-0 z-50 px-4 pt-4 md:px-6 md:pt-5"
     >
       <div
-        className={`header-bar mx-auto max-w-6xl ${
-          scrolled
-            ? "header-bar--scrolled shadow-[0_12px_40px_rgba(28,45,55,0.12)]"
-            : "shadow-[0_8px_32px_rgba(28,45,55,0.08)]"
-        }`}
+        className={`header-bar nv-glass mx-auto max-w-6xl ${scrolled ? "header-bar--scrolled" : ""}`}
       >
         <div className="header-layout grid md:items-stretch">
           <a
             href="#inicio"
-            className="header-logo-panel group flex items-center justify-center border-r border-ink/8 bg-paper"
+            className="header-logo-panel group flex items-center justify-center border-r border-ink/8"
             aria-label={`${clinic.nombre} — Inicio`}
           >
             <img
@@ -76,7 +70,7 @@ export function Header() {
           </a>
 
           {/* Panel navegación */}
-          <div className="header-navigation flex items-center justify-between bg-white/95 backdrop-blur-md md:justify-end">
+          <div className="header-navigation flex items-center justify-between md:justify-end">
             <nav
               className="hidden items-center gap-1 lg:flex"
               aria-label="Principal"
@@ -95,7 +89,7 @@ export function Header() {
             <div className="hidden items-center gap-2 md:flex">
               <a
                 href={`tel:${clinic.telefono}`}
-                className="header-icon-btn"
+                className="header-icon-btn grid"
                 aria-label="Llamar"
               >
                 <Phone size={17} strokeWidth={1.75} />
@@ -105,14 +99,14 @@ export function Header() {
                   type="button"
                   onClick={() => setWhatsappOpen((current) => !current)}
                   aria-expanded={whatsappOpen}
-                  className="header-cta group inline-flex items-center gap-2 bg-orange px-4 py-2.5 font-display text-sm font-semibold text-white transition-all hover:bg-orange-dark hover:shadow-[0_6px_20px_rgba(250,128,23,0.35)]"
+                  className="nv-action header-cta inline-flex items-center gap-2 px-4 py-2.5 font-display text-sm font-semibold"
                 >
-                  <MessageCircle size={16} className="transition-transform group-hover:scale-110" />
+                  <MessageCircle size={16} />
                   <span className="header-cta-label hidden sm:inline">Agendar cita</span>
                   <span className="sm:hidden">Cita</span>
                 </button>
                 {whatsappOpen && (
-                  <div className="absolute right-0 top-full z-[80] mt-2 w-64 rounded-md border border-ink/10 bg-white p-2 shadow-[0_14px_35px_rgba(28,45,55,0.16)]">
+                  <div className="absolute right-0 top-full z-[80] mt-2 w-64 rounded-md border border-ink/10 bg-white p-2 shadow-glass-hover">
                     <p className="px-3 pb-2 pt-1 font-mono text-[0.6rem] uppercase tracking-wider text-muted">
                       Elige un especialista
                     </p>
@@ -147,7 +141,7 @@ export function Header() {
 
             <button
               type="button"
-              className="header-icon-btn ml-auto md:ml-0 lg:hidden"
+              className="header-icon-btn grid ml-auto md:ml-0 lg:hidden"
               aria-label={open ? "Cerrar menú" : "Abrir menú"}
               aria-expanded={open}
               onClick={() => {
@@ -158,13 +152,6 @@ export function Header() {
               {open ? <X size={20} /> : <Menu size={20} />}
             </button>
           </div>
-        </div>
-
-        {/* Barra de acento inferior */}
-        <div className="header-accent" aria-hidden>
-          <span className="header-accent__blue" />
-          <span className="header-accent__teal" />
-          <span className="header-accent__orange" />
         </div>
       </div>
 
@@ -184,7 +171,7 @@ export function Header() {
               <li key={link.href}>
                 <a
                   href={link.href}
-                  className="block rounded-md border border-transparent px-4 py-3 font-display text-sm font-medium text-ink transition-colors hover:border-blue/20 hover:bg-paper hover:text-blue"
+                  className="block rounded-md border border-transparent px-4 py-3 font-display text-sm font-medium text-ink transition-colors hover:border-blue/20 hover:bg-paper hover:text-blue-deep"
                   onClick={() => {
                     setOpen(false);
                     setWhatsappOpen(false);
@@ -198,7 +185,7 @@ export function Header() {
           <div className="mt-3 grid gap-2 sm:grid-cols-2">
             <a
               href={`tel:${clinic.telefono}`}
-              className="flex items-center justify-center gap-2 border border-ink/10 px-4 py-3 font-display text-sm font-semibold text-ink hover:border-blue/30 hover:text-blue"
+              className="flex items-center justify-center gap-2 border border-ink/10 px-4 py-3 font-display text-sm font-semibold text-ink hover:border-blue/30 hover:text-blue-deep"
               onClick={() => setOpen(false)}
             >
               <Phone size={16} />
@@ -206,7 +193,7 @@ export function Header() {
             </a>
             <button
               type="button"
-              className="flex items-center justify-center gap-2 bg-orange px-4 py-3 font-display text-sm font-semibold text-white hover:bg-orange-dark"
+              className="nv-action flex items-center justify-center gap-2 px-4 py-3 font-display text-sm font-semibold"
               onClick={() => setWhatsappOpen((current) => !current)}
               aria-expanded={whatsappOpen}
             >
