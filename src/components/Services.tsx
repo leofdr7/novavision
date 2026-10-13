@@ -19,18 +19,9 @@ const iconMap: Record<(typeof servicios)[number]["icon"], LucideIcon> = {
   baby: Baby,
 };
 
-const accents = [
-  "border-blue",
-  "border-orange",
-  "border-teal",
-  "border-ink/30",
-  "border-blue",
-  "border-orange",
-];
-
 export function Services() {
   return (
-    <section id="servicios" className="border-t border-ink/8 bg-paper py-16 md:py-28">
+    <section id="servicios" className="nv-glass-section border-t border-ink/8 py-16 md:py-28">
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <Reveal className="mx-auto max-w-2xl text-center">
           <SectionLabel>Servicios</SectionLabel>
@@ -63,10 +54,10 @@ export function Services() {
             return (
               <Reveal key={s.titulo} delay={0.05 * i}>
                 <article
-                  className={`group h-full border-l-4 ${accents[i]} bg-white p-6 transition-shadow hover:shadow-[0_8px_30px_rgba(28,45,55,0.06)] sm:p-7`}
+                  className="nv-glass nv-glass-card service-card h-full p-6 sm:p-7"
                 >
                   <Icon
-                    className="mb-5 text-blue transition-transform group-hover:scale-110"
+                    className="mb-5 text-blue-deep"
                     size={28}
                     strokeWidth={1.5}
                   />

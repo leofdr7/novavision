@@ -80,6 +80,10 @@
     radial-gradient(ellipse 65% 60% at 95% 12%, rgb(1 138 182 / 15%), transparent 75%),
     radial-gradient(ellipse 55% 55% at 0% 80%, rgb(45 177 164 / 13%), transparent 75%),
     radial-gradient(ellipse 45% 45% at 65% 90%, rgb(191 229 241 / 36%), transparent 75%);
+  --section-atmosphere:
+    radial-gradient(ellipse 80% 50% at 100% 70%, rgb(1 138 182 / 18%), transparent 80%),
+    radial-gradient(ellipse 80% 55% at 0% 45%, rgb(45 177 164 / 18%), transparent 80%),
+    linear-gradient(180deg, var(--color-paper), var(--color-blue-pale));
 }
 
 @media (min-width: 768px) {
@@ -146,6 +150,47 @@
   }
 }
 
+/* Color de fondo sin filtros: solo las tarjetas aplican backdrop-filter. */
+.nv-glass-section { background: var(--section-atmosphere); }
+.nv-glass-section .text-blue { color: var(--text-brand); }
+.nv-glass-card {
+  transition: transform var(--surface-transition), box-shadow var(--surface-transition);
+}
+.nv-glass-card .text-muted { color: var(--text-secondary); }
+.nv-glass-section a:focus-visible {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 4px;
+}
+.doctor-social-link {
+  display: grid;
+  place-items: center;
+  width: 44px;
+  height: 44px;
+  border: 1px solid var(--color-blue-light);
+  border-radius: 50%;
+  background: var(--color-paper);
+  color: var(--text-brand);
+  transition: background-color var(--surface-transition), color var(--surface-transition), border-color var(--surface-transition);
+}
+.doctor-social-link:hover {
+  border-color: var(--color-blue-deep);
+  background: var(--color-blue-deep);
+  color: var(--action-text);
+}
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .nv-glass-card:hover {
+    transform: translateY(-3px);
+    box-shadow: var(--shadow-glass-hover);
+  }
+}
+@media (prefers-reduced-motion: reduce) {
+  .nv-glass-card, .nv-glass-section a {
+    transition: none;
+    transform: none;
+    translate: none;
+  }
+}
+
 /* Fondos clínicos para las viñetas de información */
 .about-info-card {
   position: relative;
@@ -183,28 +228,6 @@
   background-size: cover, 11rem auto;
 }
 
-.about-info-card--retina::before {
-  background:
-    linear-gradient(90deg, rgba(248, 244, 240, 0) 0%, rgba(248, 244, 240, 0.2) 100%),
-    radial-gradient(circle at 78% 24%, rgba(250, 128, 23, 0.16) 0 13px, transparent 14px),
-    repeating-radial-gradient(
-      circle at 78% 24%,
-      transparent 0 27px,
-      rgba(1, 138, 182, 0.12) 28px 29px,
-      transparent 30px 49px
-    ),
-    linear-gradient(90deg, transparent 77.5%, rgba(28, 45, 55, 0.06) 78%, transparent 78.5%),
-    linear-gradient(transparent 23.5%, rgba(28, 45, 55, 0.06) 24%, transparent 24.5%);
-}
-
-.about-info-card--cornea::before {
-  background:
-    linear-gradient(90deg, rgba(248, 244, 240, 0) 0%, rgba(248, 244, 240, 0.18) 100%),
-    radial-gradient(ellipse 72% 40% at 85% 25%, transparent 0 54%, rgba(45, 177, 164, 0.14) 55% 57%, transparent 58%),
-    radial-gradient(ellipse 56% 29% at 85% 25%, transparent 0 54%, rgba(1, 138, 182, 0.12) 55% 57%, transparent 58%),
-    radial-gradient(circle at 85% 25%, rgba(250, 128, 23, 0.13) 0 12px, transparent 13px);
-}
-
 @media (prefers-reduced-motion: reduce) {
   html {
     scroll-behavior: auto;
@@ -212,6 +235,7 @@
 
   .about-info-card::before {
     transition: none;
+    transform: none;
   }
 }
 

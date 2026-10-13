@@ -19,7 +19,7 @@ function TikTokIcon({ size = 18 }: { size?: number }) {
 
 export function About() {
   return (
-    <section id="nosotros" className="border-t border-ink/8 bg-white py-16 md:py-28">
+    <section id="nosotros" className="nv-glass-section border-t border-ink/8 py-16 md:py-28">
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <Reveal className="max-w-2xl">
           <SectionLabel>Quiénes somos</SectionLabel>
@@ -61,25 +61,17 @@ export function About() {
             {clinic.oftalmologos.map((doc, i) => (
               <Reveal key={doc.nombre} delay={0.08 * (i + 1)}>
                 <article
-                  className={`about-info-card group border border-ink/8 bg-paper transition-colors hover:border-blue/30 ${
-                    i === 0
-                      ? "about-info-card--retina"
-                      : "about-info-card--cornea"
-                  }`}
+                  className="nv-glass nv-glass-card doctor-card overflow-hidden"
                 >
                   <div className="relative h-[27rem] overflow-hidden bg-blue/10 sm:h-[32rem] lg:h-[34rem]">
                     <img
                       src={doc.foto}
                       alt={`Retrato de ${doc.nombre}`}
-                      className="h-full w-full object-cover object-top transition-transform duration-700 group-hover:scale-[1.015]"
+                      className="h-full w-full object-cover object-top"
                       loading="lazy"
                       decoding="async"
                     />
-                    <div
-                      className="pointer-events-none absolute inset-x-0 bottom-0 h-24 bg-gradient-to-t from-ink/25 to-transparent"
-                      aria-hidden
-                    />
-                    <p className="absolute bottom-4 left-5 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-white">
+                    <p className="absolute bottom-4 left-5 rounded-md bg-paper px-3 py-2 font-mono text-[0.62rem] uppercase tracking-[0.16em] text-blue-deep">
                       Especialistas Novavision
                     </p>
                   </div>
@@ -89,7 +81,7 @@ export function About() {
                       <h4 className="font-display text-2xl font-bold text-ink">
                         {doc.nombre}
                       </h4>
-                      <p className="mt-1 font-mono text-[0.68rem] uppercase tracking-wider text-blue">
+                      <p className="mt-1 font-mono text-[0.68rem] uppercase tracking-wider text-blue-deep">
                         {doc.especialidad}
                       </p>
                       <p className="mt-4 leading-relaxed text-ink-soft">{doc.descripcion}</p>
@@ -143,7 +135,7 @@ export function About() {
                         rel="noopener noreferrer"
                         aria-label={`Facebook de ${doc.nombre}`}
                         title={`Facebook de ${doc.nombre}`}
-                        className="flex h-10 w-10 items-center justify-center rounded-full border border-blue/20 bg-white/80 text-blue transition-all hover:-translate-y-0.5 hover:border-blue hover:bg-blue hover:text-white"
+                        className="doctor-social-link"
                       >
                         <Facebook size={18} strokeWidth={1.8} />
                       </a>
@@ -155,7 +147,7 @@ export function About() {
                         rel="noopener noreferrer"
                         aria-label={`Instagram de ${doc.nombre}`}
                         title={`Instagram de ${doc.nombre}`}
-                        className="flex h-10 w-10 items-center justify-center rounded-full border border-orange/25 bg-white/80 text-orange transition-all hover:-translate-y-0.5 hover:border-orange hover:bg-orange hover:text-white"
+                        className="doctor-social-link"
                       >
                         <Instagram size={18} strokeWidth={1.8} />
                       </a>
@@ -167,7 +159,7 @@ export function About() {
                         rel="noopener noreferrer"
                         aria-label={`TikTok de ${doc.nombre}`}
                         title={`TikTok de ${doc.nombre}`}
-                        className="flex h-10 w-10 items-center justify-center rounded-full border border-ink/20 bg-white/80 text-ink transition-all hover:-translate-y-0.5 hover:border-ink hover:bg-ink hover:text-white"
+                        className="doctor-social-link"
                       >
                         <TikTokIcon />
                       </a>
@@ -180,7 +172,7 @@ export function About() {
                         onClick={() => handleWhatsAppClick(whatsAppDoctorLabel(doc.nombre))}
                         aria-label={`Agendar cita por WhatsApp con ${doc.nombre}`}
                         title={`WhatsApp de ${doc.nombre}`}
-                        className="flex h-10 w-10 items-center justify-center rounded-full border border-teal/25 bg-white/80 text-teal-dark transition-all hover:-translate-y-0.5 hover:border-teal hover:bg-teal hover:text-white"
+                        className="doctor-social-link"
                       >
                         <MessageCircle size={19} strokeWidth={1.8} />
                       </a>
