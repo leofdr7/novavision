@@ -58,12 +58,14 @@ export function Header() {
             className="header-logo-panel group flex items-center justify-center border-r border-ink/8"
             aria-label={`${clinic.nombre} — Inicio`}
           >
-            <img
-              src={clinic.logo}
-              alt=""
-              aria-hidden
-              className="header-logo-image shrink-0 object-contain group-hover:scale-[1.05]"
-            />
+            <span className="header-logo-mark">
+              <img
+                src={clinic.logo}
+                alt=""
+                aria-hidden
+                className="header-logo-image shrink-0 object-contain group-hover:scale-[1.05]"
+              />
+            </span>
             <span className="header-brand-name font-display font-bold leading-none tracking-tight text-ink">
               Novavision
             </span>
