@@ -23,7 +23,7 @@ export function Footer() {
             <ul className="mt-4 space-y-2">
               {navLinks.map((l) => (
                 <li key={l.href}>
-                  <a href={l.href} className="text-sm text-ink-soft hover:text-blue">
+                  <a href={l.href} className="text-sm text-ink-soft hover:text-blue-deep">
                     {l.label}
                   </a>
                 </li>
@@ -37,7 +37,7 @@ export function Footer() {
             </p>
             <ul className="mt-4 space-y-2 text-sm text-ink-soft">
               <li>
-                <a href="tel:21243333" className="hover:text-blue">
+                <a href="tel:21243333" className="hover:text-blue-deep">
                   Teléfono del consultorio: {clinic.telefono}
                 </a>
               </li>
@@ -47,7 +47,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => handleWhatsAppClick("dr_andy")}
-                  className="hover:text-blue"
+                  className="hover:text-blue-deep"
                 >
                   WhatsApp Dr. Andy Alvarenga: 7068-1751
                 </a>
@@ -58,7 +58,7 @@ export function Footer() {
                   target="_blank"
                   rel="noopener noreferrer"
                   onClick={() => handleWhatsAppClick("dra_karla")}
-                  className="hover:text-blue"
+                  className="hover:text-blue-deep"
                 >
                   WhatsApp Dra. Karla Vides: 7989-3654
                 </a>

@@ -5,7 +5,7 @@ import { Reveal, SectionLabel, SectionTitle } from "./ui/Reveal";
 
 export function FAQ() {
   return (
-    <section id="faq" className="border-t border-ink/8 bg-white py-16 md:py-28">
+    <section id="faq" className="faq-section border-t border-ink/8 py-16 md:py-28">
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <div className="grid gap-9 md:gap-12 lg:grid-cols-[0.9fr_1.1fr] lg:gap-20">
           <Reveal>
@@ -18,15 +18,15 @@ export function FAQ() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <Accordion.Root type="single" collapsible className="space-y-2">
+            <Accordion.Root type="single" collapsible className="space-y-3">
               {faqs.map((item, i) => (
                 <Accordion.Item
                   key={item.pregunta}
                   value={`item-${i}`}
-                  className="border border-ink/8 bg-paper data-[state=open]:border-blue/30 data-[state=open]:shadow-[0_4px_20px_rgba(28,45,55,0.05)]"
+                  className="faq-card nv-glass"
                 >
                   <Accordion.Header>
-                    <Accordion.Trigger className="group flex w-full items-center justify-between gap-3 px-4 py-4 text-left font-display text-[0.95rem] font-semibold leading-snug text-ink transition-colors hover:text-blue md:gap-4 md:px-6 md:py-5 md:text-base">
+                    <Accordion.Trigger className="faq-trigger group flex w-full items-center justify-between gap-3 px-4 py-4 text-left font-display text-[0.95rem] font-semibold leading-snug text-ink transition-colors hover:text-blue-deep md:gap-4 md:px-6 md:py-5 md:text-base">
                       {item.pregunta}
                       <ChevronDown
                         size={18}
@@ -35,7 +35,7 @@ export function FAQ() {
                     </Accordion.Trigger>
                   </Accordion.Header>
                   <Accordion.Content className="overflow-hidden data-[state=closed]:animate-accordion-up data-[state=open]:animate-accordion-down">
-                    <p className="mx-4 mb-0 border-l-[3px] border-orange py-4 pl-4 text-[0.95rem] text-ink-soft md:mx-6 md:py-5 md:pl-5">
+                    <p className="mx-4 mb-0 border-l-[3px] border-teal/60 py-4 pl-4 text-[0.95rem] text-ink md:mx-6 md:py-5 md:pl-5">
                       {item.respuesta}
                     </p>
                   </Accordion.Content>

@@ -1,7 +1,14 @@
 .nv-chat {
+  --chat-dock-space: calc(92px + env(safe-area-inset-bottom));
+  --chat-top-gap: max(8px, env(safe-area-inset-top));
+  /* El teclado ya ocupa el espacio del dock: no descontarlo dos veces. */
+  --chat-bottom-gap: max(8px, calc(var(--chat-dock-space) - var(--chat-viewport-offset, 0px)));
+  --glass-border: var(--glass-control-border);
   display: flex;
+  bottom: calc(var(--chat-viewport-offset, 0px) + var(--chat-bottom-gap));
+  max-height: calc(var(--chat-viewport-height, 100dvh) - var(--chat-top-gap) - var(--chat-bottom-gap));
   font-family: system-ui, -apple-system, BlinkMacSystemFont, "Segoe UI", sans-serif;
-  box-shadow: 0 8px 32px rgb(28 45 55 / 12%), 0 2px 8px rgb(28 45 55 / 6%);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 85%), var(--shadow-glass-hover);
   transform-origin: bottom right;
   opacity: 0;
   transform: scale(.96);
@@ -10,6 +17,31 @@
 .nv-chat[hidden] { display: none; }
 .nv-chat[data-open="true"] { opacity: 1; transform: scale(1); }
 .nv-chat[data-open="false"] { pointer-events: none; }
+.nv-chat-header { background: linear-gradient(120deg, rgb(1 138 182 / 10%), rgb(45 177 164 / 5%)); }
+.nv-chat-footer { background: rgb(255 255 255 / 35%); }
+/* El panel aporta el único blur; sus controles y burbujas solo pintan capas. */
+.nv-chat-bubble, .nv-chat-suggestion, #chat-message {
+  border: 1px solid var(--glass-control-border);
+  background: rgb(255 255 255 / 48%);
+  color: var(--text-primary);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 85%), 0 2px 8px rgb(0 83 111 / 4%);
+}
+.nv-chat-bubble--user {
+  background: var(--glass-message-background);
+  color: var(--action-text);
+  box-shadow: inset 0 1px 0 rgb(255 255 255 / 25%), 0 3px 10px rgb(0 83 111 / 10%);
+}
+.nv-chat-suggestion { color: var(--text-brand); }
+#chat-message { border-color: rgb(0 83 111 / 60%); }
+.nv-chat-send {
+  border: 1px solid var(--glass-control-border);
+  box-shadow: var(--shadow-glass-control);
+}
+.nv-chat :is(button, textarea, summary):focus-visible {
+  outline: 3px solid var(--focus-color);
+  outline-offset: 2px;
+}
+.nv-chat summary:hover { color: var(--text-brand); }
 @starting-style {
   .nv-chat[data-open="true"] { opacity: 0; transform: scale(.96); }
 }
@@ -21,7 +53,7 @@
   justify-content: center;
   gap: 6px;
   flex-shrink: 0;
-  min-height: 36px;
+  min-height: 44px;
   border-top: 1px solid #1c2d3714;
   background: var(--color-paper);
   color: var(--color-blue-dark);
@@ -37,31 +69,38 @@
 .nv-chat-typing span:nth-child(2) { animation-delay: 150ms; }
 .nv-chat-typing span:nth-child(3) { animation-delay: 300ms; }
 .nv-chat-cursor { display: inline-block; width: 2px; height: 1em; margin-left: 3px; vertical-align: -.12em; background: var(--color-teal-dark); animation: nv-chat-blink 1s ease-in-out infinite; }
-.nv-chat-send, .nv-chat-suggestion { transition: transform 180ms ease-out, opacity 180ms ease-out; }
+.nv-chat-send, .nv-chat-suggestion { transition: transform var(--surface-transition), background-color var(--surface-transition), box-shadow var(--surface-transition), opacity var(--surface-transition); }
+.nv-chat-suggestion:not(:disabled):hover { background: var(--color-blue-pale); }
+.nv-chat-send:not(:disabled):hover { background: var(--action-background-hover); box-shadow: var(--shadow-glass-control-hover); }
+.nv-chat-latest:hover { background: var(--color-blue-light); }
 .nv-chat-send:disabled { transform: scale(.94); }
 .nv-chat-send:not(:disabled):active, .nv-chat-suggestion:not(:disabled):active { transform: scale(.96); }
 @keyframes nv-chat-enter { from { opacity: 0; transform: translateY(8px); } to { opacity: 1; transform: translateY(0); } }
 @keyframes nv-chat-dot { 0%, 60%, 100% { opacity: .6; transform: translateY(0); } 30% { opacity: 1; transform: translateY(-4px); } }
 @keyframes nv-chat-pulse { 0%, 100% { opacity: .6; transform: scale(.9); } 50% { opacity: 1; transform: scale(1); } }
 @keyframes nv-chat-blink { 0%, 100% { opacity: .25; } 50% { opacity: .8; } }
+@media (hover: hover) and (prefers-reduced-motion: no-preference) {
+  .nv-chat-send:not(:disabled):hover, .nv-chat-suggestion:not(:disabled):hover { transform: translateY(-2px); }
+}
+@supports not (backdrop-filter: blur(1px)) {
+  .nv-chat-bubble, .nv-chat-suggestion, #chat-message { background: var(--glass-background-fallback); }
+  .nv-chat-bubble--user { background: var(--color-blue-deep); }
+}
 @media (max-width: 639px) {
   .nv-chat {
-    left: 0;
-    right: 0;
-    width: 100%;
-    border: 0;
-    border-radius: 0;
-    box-shadow: none;
+    --chat-dock-space: calc(88px + env(safe-area-inset-bottom));
+    top: calc(var(--chat-viewport-top, 0px) + var(--chat-top-gap));
+    bottom: auto;
+    height: calc(var(--chat-viewport-height, 100dvh) - var(--chat-top-gap) - var(--chat-bottom-gap));
     transform: none;
     transition: opacity 180ms ease-out;
   }
   @starting-style {
     .nv-chat[data-open="true"] { transform: none; }
   }
-  .nv-chat-header { padding-top: max(.5rem, env(safe-area-inset-top)); }
-  .nv-chat-footer { padding-bottom: max(.75rem, env(safe-area-inset-bottom)); }
 }
 @media (prefers-reduced-motion: reduce) {
-  .nv-chat, .nv-chat-send, .nv-chat-suggestion { transition: none; transform: none; }
+  .nv-chat, .nv-chat[data-open], .nv-chat-send, .nv-chat-send:disabled,
+  .nv-chat-send:not(:disabled):active, .nv-chat-suggestion:not(:disabled):active { transform: none; }
   .nv-chat-bubble, .nv-chat-status[data-active], .nv-chat-typing span, .nv-chat-cursor { animation: none; }
 }

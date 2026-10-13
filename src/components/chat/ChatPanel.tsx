@@ -1,4 +1,4 @@
-import { useEffect, useLayoutEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState, type CSSProperties } from "react";
 import { ArrowDown, ArrowUp, Eye, Square, X } from "lucide-react";
 import { CHAT_CONTACT_HELP, CHAT_WELCOME } from "../../../shared/chat";
 import { useChat } from "../../hooks/useChat";
@@ -96,11 +96,11 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
         else if (!event.shiftKey && document.activeElement === last) { event.preventDefault(); first?.focus(); }
       }
     }}
-    style={viewport.mobile ? { top: viewport.top, height: viewport.height, maxHeight: viewport.height } : { bottom: `calc(${viewport.offset + (viewport.height < 500 ? 12 : 92)}px + env(safe-area-inset-bottom))`, maxHeight: `calc(${Math.max(180, viewport.height - (viewport.height < 500 ? 24 : 108))}px - env(safe-area-inset-bottom))` }}
-    className="nv-chat fixed right-3 z-[90] h-[560px] w-[calc(100vw-1.5rem)] flex-col overflow-hidden rounded-2xl border border-ink/15 bg-paper text-ink sm:right-6 sm:w-[380px]">
-    <header className="nv-chat-header flex shrink-0 items-center gap-3 border-b border-ink/10 bg-white px-4 py-2 text-ink">
+    style={{ "--chat-viewport-height": `${viewport.height}px`, "--chat-viewport-top": `${viewport.top}px`, "--chat-viewport-offset": `${viewport.offset}px` } as CSSProperties}
+    className="nv-chat nv-glass nv-glass--strong fixed right-3 z-[90] h-[560px] w-[calc(100vw-1.5rem)] flex-col overflow-hidden text-ink sm:right-6 sm:w-[380px]">
+    <header className="nv-chat-header flex shrink-0 items-center gap-3 border-b border-ink/10 px-4 py-2 text-ink">
       <span aria-hidden="true" className="flex h-8 w-8 shrink-0 items-center justify-center text-teal-dark"><Eye size={23} /></span>
-      <div className="min-w-0 flex-1"><h2 id="chat-title" className="font-display text-sm font-bold tracking-[.16em]">NOVA</h2><p className="flex items-center gap-1.5 text-xs text-ink-soft"><span aria-hidden="true" data-active={available} className="nv-chat-status" />Asistente de Novavision</p></div>
+      <div className="min-w-0 flex-1"><h2 id="chat-title" className="font-display text-sm font-bold tracking-[.16em]">NOVA</h2><p className="flex items-center gap-1.5 text-xs"><span aria-hidden="true" data-active={available} className="nv-chat-status" />Asistente de Novavision</p></div>
       <button ref={close} type="button" onClick={onClose} aria-label="Cerrar conversación" className="flex h-11 w-11 shrink-0 items-center justify-center rounded-full hover:bg-paper focus-visible:outline-2 focus-visible:outline-blue-dark"><X size={18} /></button>
     </header>
     <div ref={log} tabIndex={0} onWheel={event => { if (event.deltaY < 0) pauseFollow(); }} onPointerDown={event => { if (event.pointerType === "mouse") pauseFollow(); }}
@@ -119,14 +119,14 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
         if (atBottom) follow.current = true;
       }}
       aria-label="Conversación" className="nv-chat-log min-h-12 flex-1 space-y-3 overflow-y-auto overscroll-contain px-4 py-4 text-[15px] leading-relaxed focus-visible:outline-2 focus-visible:-outline-offset-2 focus-visible:outline-blue-dark">
-      <p className="nv-chat-bubble mr-3 rounded-2xl rounded-bl-sm bg-white p-3.5">{CHAT_WELCOME}</p>
+      <p className="nv-chat-bubble mr-3 rounded-2xl rounded-bl-sm p-3.5">{CHAT_WELCOME}</p>
       {chat.messages.length === 0 ? <div aria-label="Preguntas sugeridas" className="grid grid-cols-2 gap-2">
         {suggestions.map(([label, question]) => <button key={label} type="button" disabled={!available || chat.initializing} onClick={() => submit(question)}
-          className="nv-chat-suggestion min-h-10 rounded-full border border-blue-dark/25 bg-white px-3 py-2 font-display text-xs font-semibold text-blue-dark hover:bg-paper-dark focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-dark disabled:cursor-not-allowed disabled:opacity-45">{label}</button>)}
+          className="nv-chat-suggestion min-h-11 rounded-full px-3 py-2 font-display text-xs font-semibold focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-dark disabled:cursor-not-allowed disabled:opacity-45">{label}</button>)}
       </div> : null}
       {chat.messages.map((m, index) => {
         const streaming = chat.busy && m.role === "assistant" && !m.complete && index === chat.messages.length - 1;
-        return <div key={m.id} className={`nv-chat-bubble whitespace-pre-wrap break-words rounded-2xl p-3.5 ${m.role === "user" ? "ml-7 rounded-br-sm bg-ink text-paper" : "mr-3 rounded-bl-sm bg-white"}`}>
+        return <div key={m.id} className={`nv-chat-bubble whitespace-pre-wrap break-words rounded-2xl p-3.5 ${m.role === "user" ? "nv-chat-bubble--user ml-7 rounded-br-sm" : "mr-3 rounded-bl-sm"}`}>
         <span className="sr-only">{m.role === "user" ? "Tú" : "Asistente"}</span>
         {streaming && !m.content ? <span className="nv-chat-typing" aria-hidden="true"><span /><span /><span /></span>
           : <p>{m.content || "Respuesta no completada."}{streaming ? <span aria-hidden="true" className="nv-chat-cursor" /> : null}</p>}
@@ -140,15 +140,15 @@ export default function ChatPanel({ open, onClose }: { open: boolean; onClose: (
       <ArrowDown size={14} aria-hidden="true" /> Volver al último mensaje
     </button> : null}
     <div aria-live={open ? "polite" : "off"} aria-atomic="true" className="sr-only">{chat.busy ? "El asistente está escribiendo" : latest}</div>
-    <footer className="nv-chat-footer min-h-0 max-h-[50%] shrink-0 overflow-y-auto overscroll-contain border-t border-ink/10 bg-white px-4 py-3">
+    <footer className="nv-chat-footer min-h-0 max-h-[50%] shrink-0 overflow-y-auto overscroll-contain border-t border-ink/10 px-4 py-3">
       <form onSubmit={event => { event.preventDefault(); submit(); }}>
         <div className="flex items-end gap-2">
           <label className="sr-only" htmlFor="chat-message">Tu mensaje</label>
           <textarea ref={input} id="chat-message" rows={1} value={draft} maxLength={maxLength} disabled={!available || chat.initializing} readOnly={chat.busy} aria-busy={chat.busy}
             onChange={event => setDraft(event.target.value)} onKeyDown={event => { if (event.key === "Enter" && !event.shiftKey && !event.nativeEvent.isComposing) { event.preventDefault(); submit(); } }}
-            placeholder="Escribe tu pregunta…" className="min-h-11 max-h-[136px] min-w-0 flex-1 resize-none rounded-xl border border-ink/25 bg-paper px-3 py-2.5 text-base leading-snug placeholder:text-ink-soft focus-visible:outline-2 focus-visible:outline-blue-dark disabled:opacity-60" />
+            placeholder="Escribe tu pregunta…" className="min-h-11 max-h-[136px] min-w-0 flex-1 resize-none rounded-xl px-3 py-2.5 text-base leading-snug placeholder:text-ink-soft focus-visible:outline-2 focus-visible:outline-blue-dark disabled:opacity-60" />
           <button onPointerDown={event => { if (document.activeElement === input.current) event.preventDefault(); }} type={chat.busy ? "button" : "submit"} onClick={chat.busy ? chat.stop : undefined} disabled={!chat.busy && (!available || !draft.trim() || chat.initializing)} aria-label={chat.busy ? "Detener respuesta" : "Enviar mensaje"}
-            className={`nv-chat-send flex h-11 w-11 shrink-0 items-center justify-center rounded-full text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-dark disabled:cursor-not-allowed disabled:bg-ink-soft disabled:opacity-35 ${chat.busy ? "bg-ink" : "bg-blue-dark"}`}>
+            className={`nv-chat-send flex h-11 w-11 shrink-0 items-center justify-center rounded-xl text-white focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-blue-dark disabled:cursor-not-allowed disabled:bg-ink-soft disabled:opacity-35 ${chat.busy ? "bg-ink" : "bg-blue-dark"}`}>
             {chat.busy ? <Square size={16} aria-hidden="true" /> : <ArrowUp size={20} aria-hidden="true" />}
           </button>
         </div>

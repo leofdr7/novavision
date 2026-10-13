@@ -38,7 +38,6 @@ test("keeps WhatsApp reachable during service failure with no chat Ads event", a
   const dialog = page.getByRole("dialog"); await expect(dialog.getByRole("alert")).toContainText("botón verde de WhatsApp del sitio");
   await expect(dialog.getByRole("link")).toHaveCount(0);
   expect(await page.evaluate(() => window.dataLayer)).toEqual([]);
-  if (page.viewportSize()!.width < 640) await dialog.getByLabel("Cerrar conversación").click();
   await page.getByRole("button", { name: "Agendar cita por WhatsApp", exact: true }).click();
   await expect(dialog).not.toBeVisible();
   await expect(page.getByRole("link", { name: /^Dr\. Andy Alvarenga/ })).toHaveAttribute("href", /wa.me\/50370681751/);
@@ -72,10 +71,11 @@ test("mobile chat follows the keyboard viewport and keeps the conversation spaci
     window.visualViewport!.dispatchEvent(new Event("resize"));
     window.visualViewport!.dispatchEvent(new Event("scroll"));
   });
-  await expect.poll(async () => (await dialog.boundingBox())!.height).toBe(360);
+  await expect.poll(async () => (await dialog.boundingBox())!.y).toBeGreaterThanOrEqual(44);
   const bounds = (await dialog.boundingBox())!;
-  expect(bounds.y).toBe(44);
-  expect(bounds.width).toBe(390);
+  expect(bounds.y + bounds.height).toBeLessThanOrEqual(404);
+  expect(bounds.x).toBeGreaterThan(0);
+  expect(bounds.x + bounds.width).toBeLessThan(390);
   const composer = (await input.boundingBox())!;
   expect(composer.y + composer.height).toBeLessThanOrEqual(404);
   expect((await dialog.getByLabel("Conversación", { exact: true }).boundingBox())!.height).toBeGreaterThan(180);
@@ -96,12 +96,45 @@ test("mobile chat follows the keyboard viewport and keeps the conversation spaci
     delete (window.visualViewport as unknown as Record<string, unknown>).offsetTop;
     window.visualViewport!.dispatchEvent(new Event("resize"));
   });
-  await expect.poll(async () => (await dialog.boundingBox())!.height).toBe(844);
+  const whatsapp = page.getByRole("button", { name: "Agendar cita por WhatsApp", exact: true });
+  await expect.poll(async () => (await dialog.boundingBox())!.height).toBeGreaterThan(bounds.height);
+  const restored = (await dialog.boundingBox())!;
+  expect(restored.y + restored.height).toBeLessThan((await whatsapp.boundingBox())!.y);
   await dialog.getByLabel("Cerrar conversación").click();
   await expect(dialog).not.toBeVisible();
   expect(await page.evaluate(() => document.body.style.overflow)).toBe("");
   await expect(page.getByRole("button", { name: "Consultar al asistente" })).toBeFocused();
 });
+
+for (const width of [360, 768, 1280]) {
+  test(`glass chat keeps WhatsApp and the composer reachable at ${width}px`, async ({ page }) => {
+    await page.setViewportSize({ width, height: 800 });
+    await page.route("**/api/chat", route => route.fulfill({ json: init }));
+    await page.goto("/");
+    await page.getByRole("button", { name: "Consultar al asistente" }).click();
+    const dialog = page.getByRole("dialog");
+    const input = dialog.getByLabel("Tu mensaje");
+    await expect(input).toBeEnabled();
+    const whatsapp = page.getByRole("button", { name: "Agendar cita por WhatsApp", exact: true });
+    await expect.poll(async () => {
+      const panel = (await dialog.boundingBox())!;
+      return panel.y + panel.height < (await whatsapp.boundingBox())!.y;
+    }).toBe(true);
+    const panel = (await dialog.boundingBox())!;
+    expect(panel.x).toBeGreaterThanOrEqual(0);
+    expect(panel.x + panel.width).toBeLessThanOrEqual(width);
+    expect(await page.evaluate(() => document.documentElement.scrollWidth <= innerWidth)).toBe(true);
+    await input.fill("Horarios");
+    await expect(input).toBeInViewport();
+    await expect(dialog.getByLabel("Enviar mensaje")).toBeInViewport();
+    expect(await dialog.evaluate(el => getComputedStyle(el).backdropFilter)).toContain("blur(");
+    expect(await dialog.locator("*").evaluateAll(elements => elements.every(el => getComputedStyle(el).backdropFilter === "none"))).toBe(true);
+    await expect(whatsapp).toHaveCSS("background-color", "rgb(37, 211, 102)");
+    await page.screenshot({ path: `test-results/glass-chat-${width}-${test.info().project.name}.png`, animations: "disabled" });
+    await whatsapp.click();
+    await expect(dialog).not.toBeVisible();
+  });
+}
 
 test("keeps controls reachable with a short viewport and expanded privacy notice", async ({ page }) => {
   await page.setViewportSize({ width: 320, height: 350 });

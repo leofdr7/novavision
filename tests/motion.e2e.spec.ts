@@ -53,6 +53,7 @@ test("keeps progress synchronized when page height changes", async ({ page }) =>
   await page.evaluate(() => window.scrollTo({ top: 0, behavior: "instant" }));
   await expect.poll(() => progress.evaluate(el => new DOMMatrix(getComputedStyle(el).transform).a)).toBe(0);
   await page.getByRole("button", { name: "¿Qué debo llevar a mi primera consulta?" }).click();
+  await page.locator('#faq [data-state="open"]').first().evaluate(el => Promise.all(el.getAnimations({ subtree: true }).map(animation => animation.finished)));
   await page.evaluate(() => window.scrollTo({ top: document.documentElement.scrollHeight, behavior: "instant" }));
   await expect.poll(() => progress.evaluate(el => new DOMMatrix(getComputedStyle(el).transform).a)).toBeCloseTo(1, 2);
 });

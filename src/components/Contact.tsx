@@ -5,14 +5,14 @@ import { Reveal, SectionTitle } from "./ui/Reveal";
 
 export function Contact() {
   return (
-    <section id="contacto" className="border-t border-ink/8 bg-ink py-16 text-paper md:py-28">
+    <section id="contacto" className="contact-section border-t border-ink/8 py-16 text-paper md:py-28">
       <div className="mx-auto max-w-6xl px-5 md:px-8">
         <Reveal className="max-w-xl">
-          <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-blue mb-4">
+          <p className="font-mono text-[0.7rem] uppercase tracking-[0.18em] text-blue-light mb-4">
             Contacto y ubicación
           </p>
           <SectionTitle className="!text-paper">Visítanos o escríbenos</SectionTitle>
-          <p className="mt-5 text-lg text-paper/70">
+          <p className="mt-5 text-lg text-paper/90">
             Estamos listos para atenderte. Agenda tu cita o consulta cómo llegar.
           </p>
         </Reveal>
@@ -31,7 +31,7 @@ export function Contact() {
                         href={wazeUrl}
                         target="_blank"
                         rel="noopener noreferrer"
-                        className="mt-3 inline-flex items-center gap-2 rounded-md bg-[#33CCFF] px-4 py-2 font-display text-sm font-semibold text-ink transition-opacity hover:opacity-90"
+                        className="contact-waze mt-3 inline-flex min-h-11 items-center gap-2 px-4 py-2 font-display text-sm font-semibold"
                       >
                         <Navigation size={15} />
                         Cómo llegar (Waze)
@@ -49,7 +49,7 @@ export function Contact() {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={() => handleWhatsAppClick("dr_andy")}
-                        className="block text-paper hover:text-orange"
+                        className="block text-paper hover:underline underline-offset-4"
                       >
                         Dr. Alvarenga: 7068-1751
                       </a>
@@ -58,7 +58,7 @@ export function Contact() {
                         target="_blank"
                         rel="noopener noreferrer"
                         onClick={() => handleWhatsAppClick("dra_karla")}
-                        className="block text-paper hover:text-orange"
+                        className="block text-paper hover:underline underline-offset-4"
                       >
                         Dra. Vides: 7989-3654
                       </a>
@@ -75,7 +75,7 @@ export function Contact() {
                   label: "Teléfono",
                   value: (
                     <span>
-                      <a href="tel:21243333" className="block text-paper hover:text-orange">
+                      <a href="tel:21243333" className="block text-paper hover:underline underline-offset-4">
                         {clinic.telefono}
                       </a>
                     </span>
@@ -85,13 +85,13 @@ export function Contact() {
             ).map(({ icon: Icon, label, value, ...rest }) => (
               <div
                 key={label}
-                className="flex gap-3 border border-paper/10 bg-paper/5 p-4 sm:gap-4 md:p-6"
+                className="contact-card nv-glass flex gap-3 p-4 sm:gap-4 md:p-6"
               >
-                <div className="flex h-11 w-11 shrink-0 items-center justify-center bg-blue text-paper">
+                <div className="contact-icon flex h-11 w-11 shrink-0 items-center justify-center">
                   <Icon size={20} strokeWidth={1.5} />
                 </div>
-                <div>
-                  <p className="font-mono text-[0.65rem] uppercase tracking-wider text-paper/50">
+                <div className="min-w-0">
+                  <p className="font-mono text-[0.65rem] uppercase tracking-wider text-paper/90">
                     {label}
                   </p>
                   <div className="mt-1 whitespace-pre-line font-medium text-paper">{value}</div>
@@ -102,12 +102,12 @@ export function Contact() {
           </Reveal>
 
           <Reveal delay={0.1}>
-            <div className="flex h-full min-h-[260px] flex-col items-center justify-center border border-paper/10 bg-paper/5 p-6 text-center md:min-h-[360px] md:p-8">
-              <MapPin className="mb-4 text-teal" size={36} strokeWidth={1.5} />
+            <div className="contact-card nv-glass flex h-full min-h-[260px] flex-col items-center justify-center p-6 text-center md:min-h-[360px] md:p-8">
+              <MapPin className="contact-icon mb-4 h-14 w-14 p-3" size={36} strokeWidth={1.5} />
               <p className="font-display text-lg font-bold text-paper">
                 Ubicación del consultorio
               </p>
-              <p className="mt-2 max-w-xs text-sm text-paper/60">
+              <p className="mt-2 max-w-xs text-sm text-paper/90">
                 {clinic.direccion}
               </p>
             </div>
